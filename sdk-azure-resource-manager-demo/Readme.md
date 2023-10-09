@@ -75,3 +75,7 @@ You can also run encoding using Azure Media Services:
 ```
 dotnet run ams <path to video file>
 ```
+
+The output of the programm will look like this:
+
+![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/516d3b7f-6c89-4f38-a16e-0c8566ab3e6a)
