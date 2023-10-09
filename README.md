@@ -40,8 +40,8 @@ We also have a shared demo RMS instance. Just contact us and we will provide you
 
 ### Go to the app
 
-If you use Azure.ResourceManager.Media SDK please go to [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo)
-If you use Microsoft.Azure.Management.Media SDK please navigate to [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo)
+If you use Azure.ResourceManager.Media SDK please go to [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo).
+If you use Microsoft.Azure.Management.Media SDK please navigate to [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo).
 
 ## Roadmap
 
