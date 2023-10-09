@@ -3,7 +3,7 @@
 
 To repoint AMS SDK to RMS instance, you need to create custome implementation of ServiceClientCredentials class (see [RmsApiKeyCredentials.cs](RmsApiKeyTokenCredentials.cs)).
 
-This is code which connects SDK to AMS:
+This is a code you needed to connect SDK to AMS::
 
 ```csharp
 ClientCredential clientCredential = new ClientCredential(_azureOptions.ClientId, _azureOptions.ClientSecret);
@@ -21,7 +21,7 @@ return new AzureMediaServicesClient(serviceClientCredentials, client, true)
 };
 ```
 
-This is code which points SDK to RMS instance:
+This is a code you need to point SDK to RMS instance:
 
 ```csharp
 private AzureMediaServicesClient CreateRmsClient()

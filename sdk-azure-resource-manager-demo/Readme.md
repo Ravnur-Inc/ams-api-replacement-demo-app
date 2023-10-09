@@ -3,7 +3,7 @@
 
 To repoint AMS SDK to RMS instance, you need to create custome implementation of TokenCredentials class (see [RmsApiKeyCredentials.cs](RmsApiKeyTokenCredentials.cs)).
 
-This is code which connects SDK to AMS:
+This is code which you needed to connect SDK to AMS:
 
 ```csharp
 private MediaServicesAccountResource CreateAmsClient()
@@ -19,7 +19,7 @@ private MediaServicesAccountResource CreateAmsClient()
 }
 ```
 
-This is code which points SDK to RMS instance:
+This is code you need to point SDK to RMS instance:
 
 ```csharp
 private MediaServicesAccountResource CreateRmsClient()
