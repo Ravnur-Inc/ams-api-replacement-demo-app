@@ -1,7 +1,7 @@
 
 ### AMS to RMS code changes explanation
 
-To repoint AMS SDK to RMS instance, you need to create custome implementation of TokenCredentials class (see [RmsApiKeyTokenCredentials.cs](RmsApiKeyTokenCredentials.cs)).
+To repoint AMS SDK to RMS instance, you need to create custome implementation of ServiceClientCredentials class (see [RmsApiKeyTokenCredentials.cs](RmsApiKeyTokenCredentials.cs)).
 
 This is code which connects SDK to AMS:
 
