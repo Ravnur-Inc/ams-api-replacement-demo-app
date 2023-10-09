@@ -13,6 +13,10 @@ In general RMS implements latest version of Azure Media Services V3 API so you c
 TBD: At the moment RMS marketplace package is not available yet. Instructions of RMS deployment will be here as soon as Azure Marketplace package passes verification.
 Meanwhile you can contact us and we provide you with access to shared demo RMS instance.
 
+## Migration of existing AMS assets to RMS
+
+TBD: Instructions will be added together with RMS deploymnet instructions. Though automatic migration feature is still in development.
+
 ## Demo app for Ravnur Media Services API
 
 This is a sample application that demonstrates how you can replace Azure Media Services with the Ravnur Media Services API and create VOD.
@@ -52,9 +56,61 @@ If you use Microsoft.Azure.Management.Media SDK please navigate to [sdk-ms-azure
 | Streaming Locators API | Implemented | |
 | Custom Transforms | In development | Approximately will be available in the middle of October. There is only one predefined transform which you can use. It is a ladder of 5 video qualities, audio and thumbnails. |
 | Event Grid Support | In development | |
-| Automatic AMS assets/locators migration | In development | |
+| Automatic migration of AMS assets/locators to RMS | In development | |
 | Custom Streaming Policy | Planned | There is only one predefined screaming policy which you can use: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. And you cannot update it. Create and update API will be added in later versions. |
 | AES stream encoding | Planned | |
 | DRM stream encoding | Planned | |
 | Custom Streaming Endpoints | Not supported | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. Implementation of this feature is not planned. |
+
+## QnA
+
+#### How closely does your API's architecture mirror that of AMS in terms of request/response patterns, URL structures, and data models?
+It is 100% mirror of the AMS API. 
+
+##### Do I need to re-encode all my videos?
+No, you do not need to re-encode all video, RMS can work with AMS assets without an issue.
+
+##### Do I need to change streaming/locator URL?
+Yes, but you need to change only host. For example, you have URL like this https://ams1.streaming.media.azure.net/5197ca71-3edc-42b0-adff-12570b48b4e4/video_3500000.ism/manifest(format=m3u8-cmaf) you would need to change ams1.streaming.media.azure.net to RMS host.
+
+#### Do I need to change streaming/locator URL if I’m using CDN?
+No, all you need to change is your CDN origin from AMS to RMS.
+
+#### Do I need to make code changes in my side to use RMS API?
+Just a little bit. If you are using Microsoft SDK, you just need to tell SDK to connect to RMS instead of AMS. Code sample we will provide later. If you have your own implementation, all you need is to change host of the AMS to RMS and change credential types for more details about code changes read this article How to use RMS API? 
+
+#### What streaming protocols do you support?
+RMS supports HLS, DASH and Smoot Streaming.
+
+#### What encoding formats and codecs do you support?
+Big variety of the codecs and formats for the input assets. Because we are using FFMPEG for encoding, all codecs and formats that FFMPEG supports we are supporting too.
+Output is mp4 container with video encoded using x264 code and aac codec for audio.
+
+#### Can I use custom encoding presets similar to what I had in AMS?
+For MVP we do not support this, we have predefined transform, that produces multiple qualities based on the input video quality. 
+After MVP, yes, full AMS transform support.
+
+#### How would you migrate streaming for my current AMS assets?
+We have a migration options, where you are providing existing AMS and storage information, and we will import all assets.
+
+#### Do you provide any migration tools or guides for transitioning from AMS to your platform?
+Yes, this would be an automatic migration process, you need to provide existing AMS information and we will import all of the assets.
+
+#### Where is the media content stored, and can it integrate seamlessly with my current storage solutions?
+Media content stored in the Azure Storage Account. Your current storage account can be used in RMS, no data copy required.
+
+#### How does your platform handle API authentication? Is it similar to the way AMS handles it?
+We provide JWT bearer token authentication, similar to the AMS, but it will not require Azure Active Directory service principal or Managed Identity.
+
+#### How does your platform scale with increased demand?
+Our platform designed with scale in mind and can support high demand. 
+
+#### How is pricing structured for encoding, streaming, storage, and any additional features?
+The cost is variable and mostly depends on the usage, the more you encode and watch, the more it costs.
+There are some expenses on the infrastructure, but overall system is designed the way that you do not spend money when its idle.
+
+#### Do you support Encryption and DRM?
+Coming soon…  We do support AES-128 encryption natively, we use third party vendor for DRM support. 
+
+
 
