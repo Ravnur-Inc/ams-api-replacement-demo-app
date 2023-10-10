@@ -22,7 +22,7 @@ This sample application showcases the process of replacing Azure Media Services 
 3. Generate output asset
 4. Initiate encoding job
 5. Await completion of the encoding job
-6. Establish streaming locator
+6. Create streaming locator
 7. Retrieve streaming and download URLs
 
 ### Prerequisites
