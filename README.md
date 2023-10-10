@@ -8,11 +8,11 @@ Broadly speaking, RMS supports the most recent version of the Azure Media Servic
 
 ## RMS Deployment Instructions
 
-**To Be Determined (TBD)**: The RMS marketplace package is not currently available. Deployment instructions for RMS will be provided once the Azure Marketplace package clears verification. In the interim, you may reach out to us, and we'll grant you access to a shared demo RMS instance.
+The RMS marketplace package is in the process of being certified for publication in the Azure Marketplace. Deployment instructions for RMS will be provided once the Azure Marketplace package clears certification. In the interim, you may reach out to us, and we'll grant you access to a shared demo RMS instance.
 
 ## Migration of Existing AMS Assets to RMS
 
-**TBD**: Migration guidelines will be presented alongside the RMS deployment instructions. For any migration-related queries, please refer to the Roadmap and Q&A sections.
+A migration guide will be delivered together with the RMS deployment instructions. For any migration-related queries, please refer to the Roadmap and Q&A sections.
 
 ## Demo App for Ravnur Media Services API
 
