@@ -49,7 +49,7 @@ For those using the Microsoft.Azure.Management.Media SDK, proceed to [sdk-ms-azu
 | Assets API | Implemented | |
 | Jobs API | Implemented | Supported job inputs: JobInputAsset, JobInputHttp. Does not support  processing multiple media files in one job |
 | Streaming Locators API | Implemented | |
-| Custom Transforms | In development | Currently there is only one predefined transform, and adaptive bitrate streaming set of 5 (max) video qualities with audio and thumbnails. |
+| Custom Transforms | In development | Currently there is only one predefined transform, an adaptive bitrate streaming set of 5 (max) video qualities with audio and thumbnails. |
 | Event Grid Support | In development | |
 | Automatic migration of AMS assets/locators to RMS | In development | |
 | Custom Streaming Policy | Planned | Currently there is only one predefined streaming policy: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. Create and update API will be added in later RMS versions. |
