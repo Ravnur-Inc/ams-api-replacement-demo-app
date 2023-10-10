@@ -42,17 +42,17 @@ Items (2) and (3) will be provided post-RMS instance deployment, while (4) is de
 If you're utilizing the Azure.ResourceManager.Media SDK, please visit [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo). 
 For those using the Microsoft.Azure.Management.Media SDK, proceed to [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo).
 
-## Roadmap
+## RMS Feature Roadmap
 
 | Feature | State | Comments |
 |---------|-------|----------|
 | Assets API | Implemented | |
 | Jobs API | Implemented | Supported job inputs: JobInputAsset, JobInputHttp. Does not support  processing multiple media files in one job |
 | Streaming Locators API | Implemented | |
-| Custom Transforms | In development | Meanwhile there is only one predefined transform which you can use. It is a ladder of 5 video qualities, audio and thumbnails. |
+| Custom Transforms | In development | Currently there is only one predefined transform, and adaptive bitrate streaming set of 5 (max) video qualities with audio and thumbnails. |
 | Event Grid Support | In development | |
 | Automatic migration of AMS assets/locators to RMS | In development | |
-| Custom Streaming Policy | Planned | There is only one predefined screaming policy which you can use: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. And you cannot update it. Create and update API will be added in later versions. |
+| Custom Streaming Policy | Planned | Currently there is only one predefined streaming policy: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. Create and update API will be added in later RMS versions. |
 | AES stream encoding | Planned | |
 | DRM stream encoding | Planned | |
 | Smooth streaming | Planned | |
