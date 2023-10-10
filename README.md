@@ -1,51 +1,46 @@
 ## Introduction
 
-This repository was created for people who are looking for Azure Media Services (further AMS) replacement and do not want to spend a lot of resources on changing existing code of their applications.
-It demonstrates how Ravnur Media Services (further RMS) allows you replace AMS instance with minimal effort for code changes.
-The repository contains instructions how to migrate existing AMS instance to RMS, what code changes you need to perform after this, the list of currently supported AMS features and roadmap of other features implementations.
+This repository is designed for individuals seeking to transition from Azure Media Services (AMS) without significant modifications to their existing application code. It illustrates how Ravnur Media Services (RMS) can be a seamless replacement for AMS, requiring minimal code adjustments. Within, you'll find guidelines on migrating your current AMS implementation to RMS, the necessary post-migration code alterations, a list of presently supported AMS features, and a roadmap for upcoming features.
 
-## Solution overview
+## Solution Overview
 
-In general RMS implements latest version of Azure Media Services V3 API so you can continue using existing Azure SDK without changing your existing code in most of cases. That’s why if you need detailed REST API description and documentation you can still use existing [Microsoft documentation Azure Media Services (v3) documentation](https://learn.microsoft.com/en-us/azure/media-services/latest/). However you need to take into account that current version of RMS is an MVP version and does not support some AMS features. At the moment it can be used for vanilla VOD scenario: upload->encode->stream without ability of advanced streaming or custom encoding configuration. The list of features which are not present in MVP you will see later in the article.
+Broadly speaking, RMS supports the most recent version of the Azure Media Services V3 API. This means users can largely retain their existing Azure SDK without making extensive code alterations. For a comprehensive REST API description and documentation, you can refer to the existing [Microsoft Azure Media Services (v3) documentation](https://learn.microsoft.com/en-us/azure/media-services/latest/). However, please note that the current iteration of RMS is a Minimum Viable Product (MVP) and lacks some AMS features. Presently, its use is ideal for a basic VOD scenario: upload -> encode -> stream, without the capability for advanced streaming or custom encoding configurations. A list of the unsupported MVP features will be detailed later in this document.
 
-## RMS deployment instructions
+## RMS Deployment Instructions
 
-TBD: At the moment RMS marketplace package is not available yet. Instructions of RMS deployment will be here as soon as Azure Marketplace package passes verification.
-Meanwhile you can contact us and we provide you with access to shared demo RMS instance.
+**To Be Determined (TBD)**: The RMS marketplace package is not currently available. Deployment instructions for RMS will be provided once the Azure Marketplace package clears verification. In the interim, you may reach out to us, and we'll grant you access to a shared demo RMS instance.
 
-## Migration of existing AMS assets to RMS
+## Migration of Existing AMS Assets to RMS
 
-TBD: Instructions will be added together with RMS deploymnet instructions. You can find some answers to your question about migration in Roadmap and QnA chapters.
+**TBD**: Migration guidelines will be presented alongside the RMS deployment instructions. For any migration-related queries, please refer to the Roadmap and Q&A sections.
 
-## Demo app for Ravnur Media Services API
+## Demo App for Ravnur Media Services API
 
-This is a sample application that demonstrates how you can replace Azure Media Services with the Ravnur Media Services API and create VOD.
-Application implements simple VOD workflow:
-1. Create input assset
+This sample application showcases the process of replacing Azure Media Services with the Ravnur Media Services API to establish Video On Demand (VOD). The application follows a straightforward VOD workflow:
+1. Create input asset
 2. Upload video to the input asset
-3. Create output asset
-4. Create encoding job
-5. Wait for encoding job to complete
-6. Create streaming locator
-7. Get streaming and download URLs
+3. Generate output asset
+4. Initiate encoding job
+5. Await completion of the encoding job
+6. Establish streaming locator
+7. Retrieve streaming and download URLs
 
 ### Prerequisites
 
-You shoud have:
-1. RMS instance deployed.
-2. Its API endpoint
-3. API secret key
-4. Registered Media Services Account there: subscription ID, resouce group name, and account name. 
+Ensure you have:
+1. A deployed RMS instance, or access to a Ravnur-hosted POC environment.
+2. The corresponding API endpoint.
+3. The API secret key.
+4. A registered Media Services Account with the following: subscription ID, resource group name, and account name.
 
-If you don't have existing AMS account now worries you can specify any unique (in scope of single RMS instance) combination of subscription ID, resource group and account name which shouldn't even exist in Azure.
+If you lack an existing AMS account, don't fret. You can input any unique combination (specific to a single RMS instance) of subscription ID, resource group, and account name—even if they aren't present in Azure.
 
-(2) and (3) are given after RMS instance deployment. (4) - are specified by you during the RMS deployment.
-We also have a shared demo RMS instance. Just contact us and we will provide you with all necessary credentials and register there your Media Services account there.
+Items (2) and (3) will be provided post-RMS instance deployment, while (4) is determined by you during the deployment phase. We also offer access to a shared demo RMS instance. Contact us, and we'll furnish you with all necessary credentials and register your Media Services account.
 
-### Go to the app
+### Accessing the App
 
-If you use Azure.ResourceManager.Media SDK please go to [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo).
-If you use Microsoft.Azure.Management.Media SDK please navigate to [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo).
+If you're utilizing the Azure.ResourceManager.Media SDK, please visit [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo). 
+For those using the Microsoft.Azure.Management.Media SDK, proceed to [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo).
 
 ## Roadmap
 
