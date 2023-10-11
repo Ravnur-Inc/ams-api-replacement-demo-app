@@ -8,6 +8,16 @@ We’ve created this console application to give you a quick and simple way to t
 
 After selecting one of the links above, you’ll find instructions on installing and running the demo application and SDK specific code samples that highlight the code changes required for authentication and redirecting to RMS.
 
+## Prerequisites for using the RMS API demo application
+
+To run the RMS demo application, you will need:
+
+1.	A deployed RMS instance, or access to a Ravnur-hosted POC environment. Contact Ravnur to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment.
+2.	The corresponding API endpoint. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
+3.	The API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
+4.	A registered Media Services Account with the following: subscription ID, resource group name, and account name. If you don’t have an existing AMS account, no worries. You can input any unique combination (specific to a single RMS instance) of subscription ID, resource group, and account name—even if they aren't present in Azure.
+
+
 ## Solution Overview
 
 Broadly speaking, RMS replaces the most recent version of the Azure Media Services V3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing Microsoft Azure Media Services (v3) documentation for the comprehensive REST API description and documentation. 
