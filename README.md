@@ -42,22 +42,7 @@ This sample application showcases the process of replacing Azure Media Services 
 6. Create streaming locator
 7. Retrieve streaming and download URLs
 
-### Prerequisites
 
-Ensure you have:
-1. A deployed RMS instance, or access to a Ravnur-hosted POC environment.
-2. The corresponding API endpoint.
-3. The API secret key.
-4. A registered Media Services Account with the following: subscription ID, resource group name, and account name.
-
-If you lack an existing AMS account, don't fret. You can input any unique combination (specific to a single RMS instance) of subscription ID, resource group, and account name—even if they aren't present in Azure.
-
-Items (2) and (3) will be provided post-RMS instance deployment, while (4) is determined by you during the deployment phase. We also offer access to a shared demo RMS instance. Contact us, and we'll furnish you with all necessary credentials and register your Media Services account.
-
-### Accessing the App
-
-If you're utilizing the Azure.ResourceManager.Media SDK, please visit [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo). 
-For those using the Microsoft.Azure.Management.Media SDK, proceed to [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo).
 
 ## RMS Feature Roadmap
 
