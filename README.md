@@ -19,9 +19,9 @@ To run the RMS demo application, you will need:
 
 ## What can you test using the RMS Demo Application
 
-The demo application will connect to the RMS API v0.5 and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
+The demo application will connect to the RMS v0.5 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
 
-Specifically, RMS v0.5 will enable you to:
+Specifically, the RMS v0.5 API will enable you to:
 1.	Create input asset
 2.	Upload video to the input asset
 3.	Generate output asset
