@@ -30,6 +30,7 @@ Specifically, the RMS v0.5 API will enable you to:
 6.	Create streaming locator
 7.	Retrieve streaming and download URLs
 
+On the respective pages for the SDK version demo application you can see a screenshot of the API responses.
 
 ## Solution Overview
 
