@@ -1,6 +1,10 @@
-## Introduction
+## Overview of the Ravnur Media Services API Demo Application
 
-This repository is designed for Azure Media Services (AMS) customers seeking to transition away from AMS without significant modifications to their existing application code. It illustrates how Ravnur Media Services (RMS) can be a seamless replacement for AMS, requiring minimal code adjustments. Within, you'll find guidelines on migrating your current AMS implementation to RMS, the necessary post-migration code alterations, a list of presently supported AMS features, and a roadmap for upcoming features.
+Ravnur Media Services (RMS) and its API have been engineered for Azure Media Services (AMS) customers seeking to transition away from AMS without significant modifications to their existing application code. The demo application in this repository will help you understand how RMS can seamlessly replace AMS with minimal changes to your existing code.
+We’ve created this console application to give you a quick and simple way to test and explore the Ravnur Media Services API. There are two versions of the demo application. Please select the version that corresponds to the way you use the Azure Media Services (AMS) v3 API:
+1.	If you're using the Azure.ResourceManager.Media SDK, please use this application: sdk-azure-resource-manager-demo. 
+2.	For those using the Microsoft.Azure.Management.Media SDK, please use this application: sdk-ms-azure-management-demo.
+After selecting one of the links above, you’ll find instructions on installing and running the demo application and SDK specific code samples that highlight the code changes required for authentication and redirecting to RMS.
 
 ## Solution Overview
 
