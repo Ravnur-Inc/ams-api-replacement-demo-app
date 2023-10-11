@@ -8,7 +8,7 @@ We’ve created this console application to give you a quick and simple way to t
 
 After selecting one of the links above, you’ll find instructions on installing and running the demo application and SDK specific code samples that highlight the code changes required for authentication and redirecting to RMS.
 
-## Prerequisites for using the RMS API demo application
+## Prerequisites for Using the RMS API Demo Application
 
 To run the RMS demo application, you will need:
 
