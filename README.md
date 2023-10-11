@@ -1,6 +1,6 @@
 ## Introduction
 
-This repository is designed for individuals seeking to transition from Azure Media Services (AMS) without significant modifications to their existing application code. It illustrates how Ravnur Media Services (RMS) can be a seamless replacement for AMS, requiring minimal code adjustments. Within, you'll find guidelines on migrating your current AMS implementation to RMS, the necessary post-migration code alterations, a list of presently supported AMS features, and a roadmap for upcoming features.
+This repository is designed for Azure Media Services (AMS) customers seeking to transition away from AMS without significant modifications to their existing application code. It illustrates how Ravnur Media Services (RMS) can be a seamless replacement for AMS, requiring minimal code adjustments. Within, you'll find guidelines on migrating your current AMS implementation to RMS, the necessary post-migration code alterations, a list of presently supported AMS features, and a roadmap for upcoming features.
 
 ## Solution Overview
 
