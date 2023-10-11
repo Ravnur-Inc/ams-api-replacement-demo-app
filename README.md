@@ -12,9 +12,9 @@ After selecting one of the links above, you’ll find instructions on installing
 
 To run the RMS demo application, you will need:
 
-1.	A deployed RMS instance, or access to a Ravnur-hosted POC environment. Contact Ravnur to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment.
-2.	The corresponding API endpoint. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
-3.	The API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
+1.	A deployed instance of RMS. You can deploy one fromm the Azure marketplace or use a Ravnur-hosted POC environment. Contact Ravnur to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment.
+2.	The corresponding RMS API endpoint. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
+3.	The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 4.	A registered Media Services Account with the following: subscription ID, resource group name, and account name. If you don’t have an existing AMS account, no worries. You can input any unique combination (specific to a single RMS instance) of subscription ID, resource group, and account name—even if they aren't present in Azure.
 
 ## What can you test using the RMS Demo Application
