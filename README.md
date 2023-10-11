@@ -4,7 +4,8 @@ This repository is designed for individuals seeking to transition from Azure Med
 
 ## Solution Overview
 
-Broadly speaking, RMS supports the most recent version of the Azure Media Services V3 API. This means users can largely retain their existing Azure SDK without making extensive code alterations. For a comprehensive REST API description and documentation, you can refer to the existing [Microsoft Azure Media Services (v3) documentation](https://learn.microsoft.com/en-us/azure/media-services/latest/). However, please note that the current iteration of RMS is a Minimum Viable Product (MVP) and lacks some AMS features. Presently, its use is ideal for a basic VOD scenario: upload -> encode -> stream, without the capability for advanced streaming or custom encoding configurations. A list of the unsupported MVP features will be detailed later in this document.
+Broadly speaking, RMS replaces the most recent version of the Azure Media Services V3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing Microsoft Azure Media Services (v3) documentation for the comprehensive REST API description and documentation. 
+Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.5, implements the core AMS functionality for VOD encoding and streaming. All subsequent functionality, such as support for custom transforms, requires these endpoints. 
 
 ## RMS Deployment Instructions
 
