@@ -81,4 +81,4 @@ The output of the program will look like this:
 Then you can play streaming URLs in player:
 https://hlsjs.video-dev.org/demo/ - for HLS
 https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH
-
+NOTE! At the moment it doesn't work for Azure Media Player but we are working to fix it ASAP
