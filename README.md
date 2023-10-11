@@ -17,6 +17,19 @@ To run the RMS demo application, you will need:
 3.	The API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 4.	A registered Media Services Account with the following: subscription ID, resource group name, and account name. If you don’t have an existing AMS account, no worries. You can input any unique combination (specific to a single RMS instance) of subscription ID, resource group, and account name—even if they aren't present in Azure.
 
+## What can you test using the RMS Demo Application
+
+The demo application will connect to the RMS API v0.5 and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
+
+Specifically, RMS v0.5 will enable you to:
+1.	Create input asset
+2.	Upload video to the input asset
+3.	Generate output asset
+4.	Initiate encoding job
+5.	Await completion of the encoding job
+6.	Create streaming locator
+7.	Retrieve streaming and download URLs
+
 
 ## Solution Overview
 
