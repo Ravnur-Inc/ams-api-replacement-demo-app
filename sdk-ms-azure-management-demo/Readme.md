@@ -33,7 +33,7 @@ private AzureMediaServicesClient CreateRmsClient()
 
     return new AzureMediaServicesClient(serviceClientCredentials, new HttpClient(), true)
     {
-        SubscriptionId = _azureOptions!.SubscriptionId
+        SubscriptionId = _rmsOptions!.SubscriptionId
     };
 }
 ```
@@ -77,3 +77,8 @@ dotnet run ams <path to video file>
 The output of the program will look like this:
 
 ![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/516d3b7f-6c89-4f38-a16e-0c8566ab3e6a)
+
+Then you can play streaming URLs in player:
+https://hlsjs.video-dev.org/demo/ - for HLS
+https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH
+

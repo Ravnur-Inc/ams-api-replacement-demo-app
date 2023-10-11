@@ -158,7 +158,7 @@ namespace VodCreatorApp
 
             return new AzureMediaServicesClient(serviceClientCredentials, new HttpClient(), true)
             {
-                SubscriptionId = _azureOptions!.SubscriptionId
+                SubscriptionId = _rmsOptions!.SubscriptionId
             };
         }
 
