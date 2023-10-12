@@ -26,7 +26,7 @@ If for some reason you need test videos, this link has several: https://gist.git
 6. The output of the program will look like this:
 ![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/b60d6263-3571-43d1-8d53-ffc23212309d)
 
-8. Grab a streaming URL and test the playback a in player:
+8. Grab a streaming URL and test the playback in a player:
 https://hlsjs.video-dev.org/demo/ - for HLS
 https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
 
