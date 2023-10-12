@@ -59,9 +59,9 @@ Ravnur includes a migration tool as part of the RMS manage application. It copie
 
 | Feature | State | Comments |
 |---------|-------|----------|
-| Assets API | Implemented | |
-| Jobs API | Implemented | Supported job inputs: JobInputAsset, JobInputHttp. Does not support  processing multiple media files in one job |
-| Streaming Locators API | Implemented | |
+| Assets  | Implemented | |
+| Jobs  | Implemented | Supported job inputs: JobInputAsset, JobInputHttp. Does not support  processing multiple media files in one job |
+| Streaming Locators  | Implemented | |
 | Custom Transforms | In development | Currently there is only one predefined transform, an adaptive bitrate streaming set of 5 (max) video qualities with audio and thumbnails. |
 | Event Grid Support | In development | |
 | Automatic migration of AMS assets/locators to RMS | In development | |
