@@ -19,7 +19,7 @@ To run the RMS demo application, you will need:
 2.	The corresponding RMS API endpoint. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 3.	The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 
-## What can you test using the RMS Demo Application
+## What can you test using the RMS Demo Application?
 
 The demo application will connect to the RMS v0.5 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
 
