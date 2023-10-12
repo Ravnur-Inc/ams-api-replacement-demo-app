@@ -15,8 +15,10 @@ After selecting one of the links above, you’ll find instructions on installing
 
 To run the RMS demo application, you will need:
 
-✅ A deployed instance of RMS. You can deploy one fromm the Azure marketplace or use a Ravnur-hosted POC environment. Contact Ravnur to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment.
+✅ A deployed instance of RMS. You can deploy one from the Azure marketplace or use a Ravnur-hosted POC environment. Contact Ravnur to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment.
+
 ✅ The corresponding RMS API endpoint. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
+
 ✅ The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 
 ## What can you test using the RMS Demo Application?
