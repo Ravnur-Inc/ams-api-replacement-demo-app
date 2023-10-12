@@ -1,6 +1,6 @@
 ### Configure and run application
 
-1. Open command prompt
+1. Open command prompt in your working directory
 2. Clone the repo: ```git clone git@github.com:Ravnur-Inc/ams-migration-demo.git```
 3. Go to app folder ```cd sdk-azure-resource-manager-demo```
 4. To configure RMS connection set the following environment variables (if you use test RMS instance contact us to get those credentials): 
