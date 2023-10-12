@@ -3,7 +3,7 @@
 1. Open a command prompt in your working directory
 2. Clone the repo: ```git clone git@github.com:Ravnur-Inc/ams-migration-demo.git```
 3. Go to app folder ```cd sdk-azure-resource-manager-demo```
-4. To configure the RMS connection set the following environment variables (if you use the Ravnur RMS POC instance, contact us to get those credentials): 
+4. To configure the RMS connection, set the following environment variables (if you use the Ravnur RMS POC instance, contact us to get those credentials): 
 ```
 set Ravnur__SubscriptionId=<RMS account subscription ID>
 set Ravnur__ResourceGroupName=<RMS account resource group name>
@@ -26,10 +26,12 @@ If for some reason you need test videos, this link has several: https://gist.git
 6. The output of the program will look like this:
 ![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/b60d6263-3571-43d1-8d53-ffc23212309d)
 
-8. Grab streaming URL and play in player:
+8. Grab a streaming URL and test the playback a in player:
 https://hlsjs.video-dev.org/demo/ - for HLS
 https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
-NOTE! At the moment it doesn't work for Azure Media Player
+
+> [!NOTE]
+> The RMS streaming URLs will not work with the Azure Media Player. It too is being retired, and we can't say we're sad to see it go. You will need to replace the AMP with a new player, and you should ideally test the streaming locator with your player of choice. 
 
 10. To ensure that it works with your existing AMS account, run the following command:
 ```
