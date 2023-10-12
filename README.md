@@ -39,9 +39,9 @@ On the respective pages for the SDK version demo application you can see a scree
 > [!NOTE]
 > **TEST AND COMPARE RMS WITH AMS** You can also use the test application to connect to your AMS account to compare the responses. Because the RMS and AMS API are the same, all you need to do to connect it to AMS and upload a file is change rms to ams in the command: To test RMS use: dotnet run **rms** file.mp4 and to test AMS use: dotnet run **ams** file.mp4
 
-## Solution Overview
+## What is Ravnur Media Services?
 
-Broadly speaking, RMS replaces the most recent version of the Azure Media Services V3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing Microsoft Azure Media Services (v3) documentation for the comprehensive REST API description and documentation. 
+Ravnur Media Services (RMS) replaces the most recent version of the Azure Media Services v3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing [Microsoft Azure Media Services (v3) documentation] (https://learn.microsoft.com/en-us/rest/api/media/) for the comprehensive REST API description and documentation. 
 Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.5, implements the core AMS functionality for VOD encoding and streaming. All subsequent functionality, such as support for custom transforms, requires these endpoints. 
 
 ## RMS Deployment Instructions
@@ -51,19 +51,6 @@ The RMS marketplace package is in the process of being certified for publication
 ## Migration of Existing AMS Assets to RMS
 
 A migration guide will be delivered together with the RMS deployment instructions. For any migration-related queries, please refer to the Roadmap and Q&A sections.
-
-## Demo App for Ravnur Media Services API
-
-This sample application showcases the process of replacing Azure Media Services with the Ravnur Media Services API to establish Video On Demand (VOD). The application follows a straightforward VOD workflow:
-1. Create input asset
-2. Upload video to the input asset
-3. Generate output asset
-4. Initiate encoding job
-5. Await completion of the encoding job
-6. Create streaming locator
-7. Retrieve streaming and download URLs
-
-
 
 ## RMS Feature Roadmap
 
