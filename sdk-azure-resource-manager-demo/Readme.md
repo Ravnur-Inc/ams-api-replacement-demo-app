@@ -78,9 +78,11 @@ dotnet run ams <path to video file>
 
 The output of the program will look like this:
 
-![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/516d3b7f-6c89-4f38-a16e-0c8566ab3e6a)
+![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/0d632402-787d-4ffc-b2f8-e3264568e866)
 
 Then you can play streaming URLs in player:
 https://hlsjs.video-dev.org/demo/ - for HLS
-https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH
-NOTE! At the moment it doesn't work for Azure Media Player but we are working to fix it ASAP
+https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
+NOTE! At the moment it doesn't work for Azure Media Player
+
+As a source of test videos I suggest this link https://gist.github.com/jsturgis/3b19447b304616f18657
