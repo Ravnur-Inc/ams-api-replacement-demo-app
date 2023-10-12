@@ -1,5 +1,5 @@
-[!NOTE]
-This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. 
+> [!NOTE]
+> This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. 
 
 ## Overview of the Ravnur Media Services API Demo Application
 
