@@ -1,7 +1,7 @@
 > [!NOTE]
 > This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. Contact Ravnur at info@ravnur.com to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment
 
-## What is the Ravnur Media Services API Demo Application
+## What is the Ravnur Media Services API Demo Application?
 
 Ravnur Media Services (RMS) and its API have been engineered for Azure Media Services (AMS) customers seeking to transition away from AMS without significant modifications to their existing application code. The demo application in this repository will help you understand how RMS can seamlessly replace AMS with minimal changes to your existing code.
 
@@ -11,7 +11,7 @@ We’ve created this console application to give you a quick and simple way to t
 
 After selecting one of the links above, you’ll find instructions on installing and running the demo application and SDK specific code samples that highlight the code changes required for authentication and redirecting to RMS.
 
-## Prerequisites for Using the RMS API Demo Application
+## What do I need to use the RMS API Demo Application to test the API?
 
 To run the RMS demo application, you will need:
 
@@ -21,7 +21,7 @@ To run the RMS demo application, you will need:
 
 ✅ The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 
-## What can you test using the RMS Demo Application?
+## What can I test using the RMS Demo Application?
 
 The demo application will connect to the RMS v0.5 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
 
