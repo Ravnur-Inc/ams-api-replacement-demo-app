@@ -1,3 +1,6 @@
+[!NOTE]
+This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. 
+
 ## Overview of the Ravnur Media Services API Demo Application
 
 Ravnur Media Services (RMS) and its API have been engineered for Azure Media Services (AMS) customers seeking to transition away from AMS without significant modifications to their existing application code. The demo application in this repository will help you understand how RMS can seamlessly replace AMS with minimal changes to your existing code.
