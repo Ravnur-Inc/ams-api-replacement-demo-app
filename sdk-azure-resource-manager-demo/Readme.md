@@ -31,22 +31,22 @@ https://hlsjs.video-dev.org/demo/ - for HLS
 https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
 
 > [!NOTE]
-> The RMS streaming URLs will not work with the Azure Media Player. It too is being retired, and we can't say we're sad to see it go. You will need to replace the AMP with a new player, and you should ideally test the streaming locator with your player of choice. 
+> The RMS streaming URLs will not work with the Azure Media Player. It, too, is being retired, and we can't say we're sad to see it go. You will need to replace the AMP with a new player, and ideally you should test the streaming locator with your player of choice. 
 
-10. To ensure that it works with your existing AMS account, run the following command:
+10. You can test to ensure that it works with your existing AMS account by running the following command:
 ```
 set Azure__SubscriptionId=<AMS subscription ID>,
 set Azure__ResourceGroupName": <AMS resource group>,
 set Azure__MediaServicesAccountName": <AMS account name>,
 dotnet run ams <path to video file>
 ```
-9. Investigate the code to ensure that it shares the same SDK instructions except connection/credentials part. This code is in [VodProvider.cs](VodProvider.cs) file.
+9. Investigate the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file.
 
 ### AMS to RMS code changes explanation
 
-To repoint AMS SDK to RMS instance, you need to create custome implementation of TokenCredentials class (see [RmsApiKeyCredentials.cs](RmsApiKeyTokenCredentials.cs)).
+To repoint the AMS SDK to the RMS instance, you need to create a custom implementation of the TokenCredentials class (see [RmsApiKeyCredentials.cs](RmsApiKeyTokenCredentials.cs)).
 
-This is code which you needed to connect SDK to AMS:
+This is the code which you need to connect the SDK to AMS:
 
 ```csharp
 private MediaServicesAccountResource CreateAmsClient()
@@ -62,7 +62,7 @@ private MediaServicesAccountResource CreateAmsClient()
 }
 ```
 
-This is code you need to point SDK to RMS instance:
+This is the code you need to point the SDK to the RMS instance:
 
 ```csharp
 private MediaServicesAccountResource CreateRmsClient()
