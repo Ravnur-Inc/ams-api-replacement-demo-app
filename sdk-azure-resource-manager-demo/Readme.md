@@ -26,14 +26,14 @@ If for some reason you need test videos, this link has several: https://gist.git
 6. The output of the program will look like this:
 ![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/b60d6263-3571-43d1-8d53-ffc23212309d)
 
-8. Grab a streaming URL and test the playback in a player:
+7. Grab a streaming URL and test the playback in a player:
 https://hlsjs.video-dev.org/demo/ - for HLS
 https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
 
 > [!NOTE]
 > The RMS streaming URLs will not work with the Azure Media Player. It, too, is being retired, and we can't say we're sad to see it go. You will need to replace the AMP with a new player, and ideally you should test the streaming locator with your player of choice. 
 
-10. You can test to ensure that it works with your existing AMS account by running the following command:
+8. You can test to ensure that it works with your existing AMS account by running the following command:
 ```
 set Azure__SubscriptionId=<AMS subscription ID>,
 set Azure__ResourceGroupName": <AMS resource group>,
