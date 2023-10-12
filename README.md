@@ -1,7 +1,7 @@
 > [!NOTE]
 > This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. Contact Ravnur at info@ravnur.com to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment
 
-## Overview of the Ravnur Media Services API Demo Application
+## What is the Ravnur Media Services API Demo Application
 
 Ravnur Media Services (RMS) and its API have been engineered for Azure Media Services (AMS) customers seeking to transition away from AMS without significant modifications to their existing application code. The demo application in this repository will help you understand how RMS can seamlessly replace AMS with minimal changes to your existing code.
 
@@ -15,9 +15,9 @@ After selecting one of the links above, you’ll find instructions on installing
 
 To run the RMS demo application, you will need:
 
-1.	A deployed instance of RMS. You can deploy one fromm the Azure marketplace or use a Ravnur-hosted POC environment. Contact Ravnur to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment.
-2.	The corresponding RMS API endpoint. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
-3.	The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
+✅ A deployed instance of RMS. You can deploy one fromm the Azure marketplace or use a Ravnur-hosted POC environment. Contact Ravnur to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment.
+✅ The corresponding RMS API endpoint. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
+✅ The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 
 ## What can you test using the RMS Demo Application?
 
