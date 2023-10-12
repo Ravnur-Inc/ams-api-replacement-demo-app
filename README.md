@@ -18,7 +18,6 @@ To run the RMS demo application, you will need:
 1.	A deployed instance of RMS. You can deploy one fromm the Azure marketplace or use a Ravnur-hosted POC environment. Contact Ravnur to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment.
 2.	The corresponding RMS API endpoint. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 3.	The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
-4.	A registered Media Services Account with the following: subscription ID, resource group name, and account name. If you don’t have an existing AMS account, no worries. You can input any unique combination (specific to a single RMS instance) of subscription ID, resource group, and account name—even if they aren't present in Azure.
 
 ## What can you test using the RMS Demo Application
 
@@ -34,6 +33,9 @@ Specifically, the RMS v0.5 API will enable you to:
 7.	Retrieve streaming and download URLs
 
 On the respective pages for the SDK version demo application you can see a screenshot of the API responses.
+
+> [!NOTE]
+> You can also use the test application to connect to your AMS account to compare the responses. Because the RMS and AMS API are the same, all you need to do to connect it to AMS and upload a file is change rms to ams in the command: To test RMS use: dotnet run **rms** file.mp4 and to test AMS use: dotnet run **ams** file.mp4
 
 ## Solution Overview
 
