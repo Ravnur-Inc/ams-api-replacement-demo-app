@@ -1,9 +1,9 @@
-### Configure and run application
+### Configure and run the RMS API Demo Application for the Microsoft Azure Management Media SDK
 
-1. Open command prompt in your working directory
+1. Open a command prompt in your working directory
 2. Clone the repo: ```git clone git@github.com:Ravnur-Inc/ams-migration-demo.git```
 3. Go to app folder ```cd sdk-azure-resource-manager-demo```
-4. To configure RMS connection set the following environment variables (if you use test RMS instance contact us to get those credentials): 
+4. To configure the RMS connection, set the following environment variables (if you use the Ravnur RMS POC instance, contact us to get those credentials): 
 ```
 set Ravnur__SubscriptionId=<RMS account subscription ID>
 set Ravnur__ResourceGroupName=<RMS account resource group name>
@@ -16,19 +16,24 @@ set Ravnur__ApiKey=<RMS instance API key>
 dotnet build
 dotnet run
 ```
-If you start application without any command line arguments it will encode its default video using configured RMS instance<br>
-You can also specify a video file to encode as a command line argument:
+If you start the application without any command line arguments, it will encode the default video that is included in the package using the configured RMS instance.<br>
+However, you probably will want to upload and encode your own videos, so you can specify the video file to encode as a command line argument:
 ```
 dotnet run rms <path to video file>
 ```
-As a source of test videos I suggest this link https://gist.github.com/jsturgis/3b19447b304616f18657
+If for some reason you need test videos, this link has several: https://gist.github.com/jsturgis/3b19447b304616f18657
+
 6. The output of the program will look like this:
 ![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/b60d6263-3571-43d1-8d53-ffc23212309d)
-7. Grab streaming URL and play in player:
+
+8.  Grab a streaming URL and test the playback in a player:
 https://hlsjs.video-dev.org/demo/ - for HLS
 https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
-NOTE! At the moment it doesn't work for Azure Media Player
-8. To ensure that it works with your existing AMS account, run the following command:
+
+> [!NOTE]
+> The RMS streaming URLs will not work with the Azure Media Player. It, too, is being retired, and we can't say we're sad to see it go. You will need to replace the AMP with a new player, and ideally you should test the streaming locator with your player of choice.
+
+9. To ensure that it works with your existing AMS account, run the following command:
 ```
 set Azure__SubscriptionId=<AMS subscription ID>,
 set Azure__ResourceGroupName": <AMS resource group>,
@@ -39,13 +44,13 @@ set=Azure__ClientSecret=<AMS AAD Client Secret>
 
 dotnet run ams <path to video file>
 ```
-9. Investigate the code to ensure that it shares the same SDK instructions except connection/credentials part. This code is in [VodProvider.cs](VodProvider.cs) file.
+9. Investigate the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file.
 
 ### AMS to RMS code changes explanation
 
-To repoint AMS SDK to RMS instance, you need to create custome implementation of ServiceClientCredentials class (see [RmsApiKeyCredentials.cs](RmsApiKeyTokenCredentials.cs)).
+To repoint the AMS SDK to the RMS instance, you need to create a custom implementation of the ServiceClientCredentials class (see [RmsApiKeyCredentials.cs](RmsApiKeyTokenCredentials.cs)).
 
-This is a code you needed to connect SDK to AMS::
+This is the code you need to connect the SDK to AMS::
 
 ```csharp
 ClientCredential clientCredential = new ClientCredential(_azureOptions.ClientId, _azureOptions.ClientSecret);
@@ -63,7 +68,7 @@ return new AzureMediaServicesClient(serviceClientCredentials, client, true)
 };
 ```
 
-This is a code you need to point SDK to RMS instance:
+This is the code you need to point the SDK to the RMS instance:
 
 ```csharp
 private AzureMediaServicesClient CreateRmsClient()
