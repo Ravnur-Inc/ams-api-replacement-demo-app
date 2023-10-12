@@ -1,5 +1,5 @@
 > [!NOTE]
-> This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. 
+> This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. Contact Ravnur at info@ravnur.com to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment
 
 ## Overview of the Ravnur Media Services API Demo Application
 
