@@ -76,7 +76,7 @@ dotnet run ams <path to video file>
 
 The output of the program will look like this:
 
-![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/0d632402-787d-4ffc-b2f8-e3264568e866)
+![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/85164f1c-54a1-472d-b5d6-4eea1bd6c535)
 
 Then you can play streaming URLs in player:
 https://hlsjs.video-dev.org/demo/ - for HLS
