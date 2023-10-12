@@ -39,6 +39,8 @@ On the respective pages for the SDK version demo application you can see a scree
 > [!NOTE]
 > **TEST AND COMPARE RMS WITH AMS** You can also use the test application to connect to your AMS account to compare the responses. Because the RMS and AMS API are the same, all you need to do to connect it to AMS and upload a file is change rms to ams in the command: To test RMS use: dotnet run **rms** file.mp4 and to test AMS use: dotnet run **ams** file.mp4
 
+----
+
 ## What is Ravnur Media Services?
 
 Ravnur Media Services (RMS) replaces the most recent version of the Azure Media Services v3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing [Microsoft Azure Media Services (v3) documentation](https://learn.microsoft.com/en-us/rest/api/media/) for the comprehensive REST API description and documentation. 
