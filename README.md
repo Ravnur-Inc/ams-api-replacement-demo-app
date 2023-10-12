@@ -112,9 +112,12 @@ If you use DRM (Widevine, PlayReady, FairPlay), you will need to pay for DRM lic
 18.	**DO YOU SUPPORT ENCRYPTION AND DRM?**
 We support AES-128 encryption natively, and we use EZDRM for multi-DRM support. 
 
-##ABOUT RAVNUR
+## ABOUT RAVNUR
 
-Ravnur is an experienced video content management and live streaming solution provider that has been serving government customers such as the Department of Homeland Security and the Department of Commerce, as well as global commercial clients like Microsoft, Xerox, and Warner Brothers for over a decade. Our flagship solution, the Ravnur Media Platform (RMP), delivers scalable and reliable live and on-demand video workflows in high quality to any device. RMP allows customers to start fast with easy-to-use live streaming and video content management processes, and its rich functionality enables customers to grow their use of video, audio and live content in other workflows as the need arises.
+Ravnur is an experienced video content management and live streaming solution provider that has been serving government customers such as the Department of Homeland Security, Department of Defense and the Department of Commerce, as well as global commercial clients like Microsoft, Xerox, and Warner Brothers for over a decade. Our flagship solution, the Ravnur Media Platform (RMP), delivers scalable and reliable live and on-demand video workflows in high quality to any device. RMP allows customers to start fast with easy-to-use live streaming and video content management processes, and its rich functionality enables customers to grow their use of video, audio and live content in other workflows as the need arises.
+
 Our unique platform architecture allows RMP to function as a private multi-tenant SaaS solution for organizations that have multiple internal clients and require the security and privacy that a private SaaS solution offers. RMP is hosted in the customer’s FedRAMP certified Microsoft Azure Cloud, in either the commercial cloud or the government cloud, based on the customer's preference. Ravnur's solutions prioritize data privacy and security. Unlike other cloud solutions, we ensure that each customer's data and content are segregated and protected through separate databases and storage accounts, even when running as a private SaaS solution in the customer’s Azure tenant.
+
 We believe in simplifying the procurement process for government organizations. That's why we offer Ravnur solutions in the Microsoft Azure Marketplace. Customers can purchase and use our solutions as Azure services from their existing Azure monetary commitments. Standard procurement is also offered.
+
 We're proud to be a Veteran Owned Small Business, and we look forward to helping Azure Media Services customers migrate from AMS to RMS.
