@@ -1,4 +1,4 @@
-### Configure and run the RMS API Demo Application for the Microsoft Azure Management Media SDK
+### Configure and run the RMS API Demo Application for the Microsoft.Azure.Management.Media SDK
 
 1. Open a command prompt in your working directory
 2. Clone the repo: ```git clone git@github.com:Ravnur-Inc/ams-migration-demo.git```
