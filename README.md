@@ -41,7 +41,7 @@ On the respective pages for the SDK version demo application you can see a scree
 
 ## What is Ravnur Media Services?
 
-Ravnur Media Services (RMS) replaces the most recent version of the Azure Media Services v3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing [Microsoft Azure Media Services (v3) documentation] (https://learn.microsoft.com/en-us/rest/api/media/) for the comprehensive REST API description and documentation. 
+Ravnur Media Services (RMS) replaces the most recent version of the Azure Media Services v3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing [Microsoft Azure Media Services (v3) documentation](https://learn.microsoft.com/en-us/rest/api/media/) for the comprehensive REST API description and documentation. 
 Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.5, implements the core AMS functionality for VOD encoding and streaming. All subsequent functionality, such as support for custom transforms, requires these endpoints. 
 
 ## RMS Deployment Instructions
