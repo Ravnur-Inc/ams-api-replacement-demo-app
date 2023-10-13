@@ -21,6 +21,10 @@ To run the RMS demo application, you will need:
 
 ✅ The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 
+✅ Dotnet is installed (5 and above, app is written on donet 6).
+
+✅ Azure CLI is installed (it is needed only to run the app on existing AMS account for POC purposes, but it is not required by RMS).
+
 ## What can I test using the RMS Demo Application?
 
 The demo application will connect to the RMS v0.5 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
