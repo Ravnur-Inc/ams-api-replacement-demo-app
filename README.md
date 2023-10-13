@@ -21,7 +21,7 @@ To run the RMS demo application, you will need:
 
 ✅ The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 
-✅ Dotnet is installed (5 and above, app is written on donet 6).
+✅ Dotnet is installed (5 and above, app is written on dotnet 6).
 
 ✅ Azure CLI is installed (it is needed only to run the app on existing AMS account for POC purposes, but it is not required by RMS).
 
