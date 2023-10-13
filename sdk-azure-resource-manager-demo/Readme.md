@@ -46,7 +46,7 @@ then run command:
 dotnet run ams <path to video file>
 ```
 > [!NOTE]
-> The app creates transform named "default". So if you have it in your AMS account it will be overwritten.
+> The app creates transform named "default". So if you already have transform with such name in your AMS account it will be overwritten.
 9. Investigate the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file.
 
 ### AMS to RMS code changes explanation
