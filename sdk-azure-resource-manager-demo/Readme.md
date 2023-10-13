@@ -35,6 +35,8 @@ https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/ind
 
 8. You can test to ensure that it works with your existing AMS account by running the following command:
 ```
+as login
+
 set Azure__SubscriptionId=<AMS subscription ID>,
 set Azure__ResourceGroupName": <AMS resource group>,
 set Azure__MediaServicesAccountName": <AMS account name>,
