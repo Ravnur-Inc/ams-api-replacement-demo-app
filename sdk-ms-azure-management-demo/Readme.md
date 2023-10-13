@@ -38,8 +38,8 @@ https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/ind
 az login
 
 set Azure__SubscriptionId=<AMS subscription ID>,
-set Azure__ResourceGroupName": <AMS resource group>,
-set Azure__MediaServicesAccountName": <AMS account name>,
+set Azure__ResourceGroupName=<AMS resource group>,
+set Azure__MediaServicesAccountName=<AMS account name>,
 set=Azure__AadTenantId=<AMS AAD Tenant ID>
 set=Azure__ClientId=<AMS AAD Client ID>
 set=Azure__ClientSecret=<AMS AAD Client Secret>
