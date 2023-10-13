@@ -1,7 +1,7 @@
 ### Configure and run the RMS API Demo Application for the Microsoft.Azure.Management.Media SDK
 
 1. Open a command prompt in your working directory
-2. Clone the repo: ```git clone git@github.com:Ravnur-Inc/ams-migration-demo.git```
+2. Clone the repo: ```git clone https://github.com/Ravnur-Inc/ams-api-replacement-demo-app.git```
 3. Go to app folder ```cd sdk-azure-resource-manager-demo```
 4. To configure the RMS connection, set the following environment variables (if you use the Ravnur RMS POC instance, contact us to get those credentials): 
 ```
