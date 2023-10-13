@@ -37,7 +37,7 @@ Specifically, the RMS v0.5 API will enable you to:
 On the respective pages for the SDK version demo application you can see a screenshot of the API responses.
 
 > [!NOTE]
-> **TEST AND COMPARE RMS WITH AMS** You can also use the test application to connect to your AMS account to compare the responses. Because the RMS and AMS API are the same, all you need to do to connect it to AMS and upload a file is change rms to ams in the command: To test RMS use: dotnet run **rms** file.mp4 and to test AMS use: dotnet run **ams** file.mp4. This is also found in Step 8 of the respective SDK demo app instructions.
+> **TEST AND COMPARE RMS WITH AMS** You can also use the test application to connect to your AMS account to compare the responses. Because the RMS and AMS API are the same, all you need to do to connect it to AMS and upload a file is change rms to ams in the command: To test RMS use: ```dotnet run rms <your file>``` and to test AMS use: ```dotnet run ams <your file>```. This is also found in Step 8 of the respective SDK demo app instructions.
 
 ----
 
