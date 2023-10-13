@@ -11,6 +11,8 @@ set Ravnur__MediaServicesAccountName=<RMS account name>
 set Ravnur__ApiEndpoint=<RMS instance API endpoint>
 set Ravnur__ApiKey=<RMS instance API key>
 ```
+For Linux/Mac use "export" command.
+
 5. Build and run the application:
 ```
 dotnet build
