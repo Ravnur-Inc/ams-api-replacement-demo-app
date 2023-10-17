@@ -116,6 +116,38 @@ If you use DRM (Widevine, PlayReady, FairPlay), you will need to pay for DRM lic
 18.	**DO YOU SUPPORT ENCRYPTION AND DRM?**
 We support AES-128 encryption natively, and we use EZDRM for multi-DRM support. 
 
+## RAVNUR MEDIA SERVICES ARCHITECTURE AND DESCRIPTION
+
+Ravnur Media Services (RMS) is the replacement for Azure Media Services (AMS), which Microsoft is retiring on June 30, 2024. The similarity in naming is intentional; The RMS API is a mirror of the AMS API and migrating from AMS to RMS requires minimal code changes to the existing Azure SDK used with the AMS API (i.e. Azure.ResourceManager.Media SDK or the Microsoft.Azure.Management.Media SDK).
+
+The diagram below is the reference architecture for Ravnur Media Services (RMS). The Azure Services that provision RMS are deployed from the Azure Marketplace to a dedicated resource group in the customer’s Azure subscription. 
+
+![RMS-high-level-diagram drawio-dark](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/assets/59251956/a15afa28-ca13-4041-85e1-6063eda8168d)
+
+The architecture of RMS is similar to AMS, and it provides scalability for encoding and streaming demands. Azure Front Door sits in front of the RMS API. The RMS API endpoints terminate in an Azure container app. Streaming locators and asset metadata are stored in Azure SQL databases (primary and failover). Encoding jobs are processed by Azure VMs; the number and size can be configured during deployment. Output content assets (e.g. video files, thumbnails, manifest files, etc.) are stored in containers in Azure blob storage, and the account can be specified during deployment (e.g. connect an existing storage account or a new storage account). Streaming servers run in container apps and scale based on real-time monitoring. The connection to the Content Delivery Network is not shown on the diagram.
+
+Azure Service 	Purpose
+Azure Front Door	Manages and optimizes API traffic with global routing. Acts as a layer-7 load balancer that distributes traffic to corresponding services.  Provides SSL offloading, and WAF protects services
+Container app environment	Provides the runtime environment for the container apps
+Container app	Runs the containerized RMS API
+Container app	Runs the streaming server applications. Scales according to scaling rules based on real-time monitoring
+Application Insights	Provides telemetry and service performance monitoring
+Managed Identity	Grants permissions to resources securely without storing credentials in code.
+DNS Zones	Maps domain names to IP addresses.
+Key Vault	Safely stores and manages secrets, keys and certificates needed for RMS
+Log Analytics workspace	Aggregates and analyzes log data from Application Insights, App Service event logs, Container Apps and various Azure services.
+Network Interface	Provides an IP address to an Azure VM and connects to Azure VNet.
+Network security group	Filters and controls inbound and outbound traffic. This is created by default when VM is created.
+App Service plan	The App Service Plan provides the compute resources for the Azure function app.
+Azure SQL DBs	Microsoft SQL DB stores assets, locators and metadata. Configured with failover DB.
+Azure SQL Server	Managed service provisioning the SQL Server for the SQL DBs.
+Azure Storage Account	This storage account stores video originals, assets, sub resources, etc.
+Azure Storage Account	This storage account is used for infrastructure deployment.
+Virtual Machine	VMs run the RMS encoding agents and applications. Number of VMs is configurable. Each job is allocated to a dedicated VM. VM is billing only when executing a job.
+Disk	Each VM requires a disk. Disks are billable even when the VM is deallocated.
+Virtual Network	Provides an isolated and secure environment to run Azure resources. This Vnet deployed by default and needed for container apps, VMs, DB.
+
+
 ## ABOUT RAVNUR
 
 Ravnur is an experienced video content management and live streaming solution provider that has been serving government customers such as the Department of Homeland Security, Department of Defense and the Department of Commerce, as well as global commercial clients like Microsoft, Xerox, and Warner Brothers for over a decade. Our flagship solution, the Ravnur Media Platform (RMP), delivers scalable and reliable live and on-demand video workflows in high quality to any device. RMP allows customers to start fast with easy-to-use live streaming and video content management processes, and its rich functionality enables customers to grow their use of video, audio and live content in other workflows as the need arises.
