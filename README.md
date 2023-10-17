@@ -116,7 +116,7 @@ If you use DRM (Widevine, PlayReady, FairPlay), you will need to pay for DRM lic
 18.	**DO YOU SUPPORT ENCRYPTION AND DRM?**
 We support AES-128 encryption natively, and we use EZDRM for multi-DRM support. 
 
-## RAVNUR MEDIA SERVICES ARCHITECTURE AND DESCRIPTION
+## Ravnur Media Services Architecture
 
 Ravnur Media Services (RMS) is the replacement for Azure Media Services (AMS), which Microsoft is retiring on June 30, 2024. The similarity in naming is intentional; The RMS API is a mirror of the AMS API and migrating from AMS to RMS requires minimal code changes to the existing Azure SDK used with the AMS API (i.e. Azure.ResourceManager.Media SDK or the Microsoft.Azure.Management.Media SDK).
 
@@ -126,7 +126,7 @@ The diagram below is the reference architecture for Ravnur Media Services (RMS).
 
 The architecture of RMS is similar to AMS, and it provides scalability for encoding and streaming demands. Azure Front Door sits in front of the RMS API. The RMS API endpoints terminate in an Azure container app. Streaming locators and asset metadata are stored in Azure SQL databases (primary and failover). Encoding jobs are processed by Azure VMs; the number and size can be configured during deployment. Output content assets (e.g. video files, thumbnails, manifest files, etc.) are stored in containers in Azure blob storage, and the account can be specified during deployment (e.g. connect an existing storage account or a new storage account). Streaming servers run in container apps and scale based on real-time monitoring. The connection to the Content Delivery Network is not shown on the diagram.
 
-## LIST OF AZURE SERVICES USED BY RAVNUR MEDIA SERVICES
+## List of Azure resources used by Ravnur Media Services
 
 |Azure Service |	Purpose |
 | --- | --- |
