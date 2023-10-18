@@ -115,7 +115,7 @@ namespace VodCreatorApp
                 foreach (string streamingFormatPath in path.Paths)
                 {
                     var streamingUrl = $"https://{streamingEndpoint.Data.HostName}{streamingFormatPath}";
-                    Console.WriteLine(streamingUrl);
+                    Console.WriteLine($"{path.StreamingProtocol}: {streamingUrl}");
                     streamingUrls.Add(streamingUrl);
                 }
             }
@@ -183,7 +183,7 @@ namespace VodCreatorApp
 
         private static async Task<MediaJobResource> WaitForJobToFinishAsync(MediaJobResource job)
         {
-            var sleepInterval = TimeSpan.FromSeconds(30);
+            var sleepInterval = TimeSpan.FromSeconds(10);
             MediaJobState? state;
             int progress = 0;
 
