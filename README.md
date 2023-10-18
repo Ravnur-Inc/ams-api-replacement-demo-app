@@ -21,9 +21,9 @@ To run the RMS demo application, you will need:
 
 ✅ The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 
-✅ Dotnet is installed (both SDK and runtime, app is written on dotnet 6).
+✅ Dotnet installed (both SDK and runtime, app is written on dotnet 6).
 
-✅ Azure CLI is installed (it is needed only to run the app on existing AMS account for POC purposes, but it is not required by RMS).
+✅ Azure CLI installed (only if you want to run the app using an existing AMS account to compare the output with RMS. Azure CLI is not required by RMS).
 
 ## What can I test using the RMS Demo Application?
 
@@ -38,7 +38,7 @@ Specifically, the RMS v0.5 API will enable you to:
 6.	Create streaming locator
 7.	Retrieve streaming and download URLs
 
-On the respective pages for the SDK version demo application you can see a screenshot of the API responses.
+On the respective pages for the SDK version of the demo application, you can see a screenshot of the API responses.
 
 > [!NOTE]
 > **TEST AND COMPARE RMS WITH AMS** You can also use the test application to connect to your AMS account to compare the responses. Because the RMS and AMS API are the same, all you need to do to connect it to AMS and upload a file is change rms to ams in the command: To test RMS use: ```dotnet run rms <your file>``` and to test AMS use: ```dotnet run ams <your file>```. This is also found in Step 8 of the respective SDK demo app instructions.
@@ -49,7 +49,7 @@ On the respective pages for the SDK version demo application you can see a scree
 
 Ravnur Media Services (RMS) replaces the most recent version of the Azure Media Services v3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing [Microsoft Azure Media Services (v3) documentation](https://learn.microsoft.com/en-us/rest/api/media/) for the comprehensive REST API description and documentation. With RMS, you do not need to reencode your content, and you can use your existing storage account because the output of RMS is identical to AMS. 
 
-Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.5, implements the core AMS functionality for VOD encoding and streaming. Additional functionality, such as support for custom transforms, DRM, etc. will be released in two week intervals from October 1st.
+Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.6, implemented the core AMS functionality for VOD encoding and streaming. Additional functionality, such as support for custom transforms, DRM, etc. will be released in two week intervals from October 1st.
 
 ## How can I get Ravnur Media Services?
 
@@ -87,7 +87,7 @@ RMS can use the existing streaming locator. The streaming URL will need to be ch
 5.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR IF I’M USING A CDN?**
 No, all you need to change is your CDN origin so that it uses the RMS streaming domain and not AMS.
 6.	**DO I NEED TO MAKE CODE CHANGES IN MY APPLICATION TO USE THE RMS API?**
-Yes, but just a little bit. If you are using the Microsoft Azure SDK, you just need to tell the SDK to connect to RMS instead of AMS. We will provide code samples later. If you have your own implementation, you need to change only the host from AMS to RMS.
+Yes, but just a little bit. If you are using the Microsoft Azure SDK, you just need to tell the SDK to connect to RMS instead of AMS. Code samples can be found on the pages for the respective SDK versions of the demo app (links above). If you have your own implementation, you need to change only the host from AMS to RMS.
 7.	**WHAT STREAMING PROTOCOLS DO YOU SUPPORT?**
 RMS supports HLS, MPEG-DASH and Smooth Streaming (fragmented MP4).
 8.	**WHAT ENCODING FORMATS AND CODECS DO YOU SUPPORT?**
