@@ -26,7 +26,7 @@ dotnet run rms <path to video file>
 If for some reason you need test videos, this link has several: https://gist.github.com/jsturgis/3b19447b304616f18657
 
 6. The output of the program will look like this:
-![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/b60d6263-3571-43d1-8d53-ffc23212309d)
+![image](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/assets/73594896/1e8fbed2-e476-4120-b383-006334e569f3)
 > [!NOTE]
 > A job can stay in Queued state for a minute. The RMS instance is shared so potentially it can take even longer if all VMS are occupied.
 
