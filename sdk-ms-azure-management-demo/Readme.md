@@ -11,7 +11,7 @@ set Ravnur__MediaServicesAccountName=<RMS account name>
 set Ravnur__ApiEndpoint=<RMS instance API endpoint>
 set Ravnur__ApiKey=<RMS instance API key>
 ```
-For Linux/Mac use "export" command.
+For Linux/Mac use "export" command. If it is more convenient to you can set corresponding settings in appsettings.json file instead.
 
 5. Build and run the application:
 ```
@@ -52,6 +52,7 @@ dotnet run ams <path to video file>
 ```
 > [!NOTE]
 > The app creates transform named "default". So if you already have transform with such name in your AMS account it will be overwritten.
+> Also job can stay in Queued job for a minute. The instance is shared so potentially it could be evel longer if all VMS are occupied.
 9. Investigate the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file.
 
 ### AMS to RMS code changes explanation
