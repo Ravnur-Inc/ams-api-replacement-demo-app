@@ -11,7 +11,7 @@ set Ravnur__MediaServicesAccountName=<RMS account name>
 set Ravnur__ApiEndpoint=<RMS instance API endpoint>
 set Ravnur__ApiKey=<RMS instance API key>
 ```
-For Linux/Mac use "export" command.
+For Linux/Mac use "export" command. If it is more convenient for you can set corresponding settings in appsettings.json file instead.
 
 5. Build and run the application:
 ```
@@ -27,6 +27,8 @@ If for some reason you need test videos, this link has several: https://gist.git
 
 6. The output of the program will look like this:
 ![image](https://github.com/Ravnur-Inc/ams-migration-demo/assets/73594896/b60d6263-3571-43d1-8d53-ffc23212309d)
+> [!NOTE]
+> A job can stay in Queued state job for a minute. The RMS instance is shared so potentially it can take even longer if all VMS are occupied.
 
 7. Grab a streaming URL and test the playback in a player:
 https://hlsjs.video-dev.org/demo/ - for HLS
@@ -49,6 +51,7 @@ dotnet run ams <path to video file>
 ```
 > [!NOTE]
 > The app creates transform named "default". So if you already have transform with such name in your AMS account it will be overwritten.
+
 9. Investigate the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file.
 
 ### AMS to RMS code changes explanation
