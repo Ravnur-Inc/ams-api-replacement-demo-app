@@ -70,7 +70,7 @@ Ravnur includes a migration tool as part of the RMS manage application. It copie
 | Event Grid Support | In development | |
 | Automatic migration of AMS assets/locators to RMS | In development | |
 | Custom Streaming Policy | Planned | Currently there is only one predefined streaming policy: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. Create and update API will be added in later RMS versions. |
-| AES stream encoding | Planned | |
+| AES stream encoding | In development | |
 | DRM stream encoding | Planned | |
 | Smooth streaming | Planned | |
 | Custom Streaming Endpoints | Not supported | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. Implementation of this feature is not planned. |
