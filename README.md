@@ -32,7 +32,7 @@ The demo application will connect to the RMS v0.5 API and allow you to upload, e
 Specifically, the RMS v0.5 API will enable you to:
 1.	Create input asset
 2.	Upload video to the input asset
-3.	Generate output asset
+3.	Create output asset
 4.	Initiate encoding job
 5.	Await completion of the encoding job
 6.	Create streaming locator
