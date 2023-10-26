@@ -60,7 +60,7 @@ namespace VodCreatorApp
 
             // Create input asset
             var inputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, inputAssetName);
-            Console.WriteLine($"Input asset created: {inputAsset.Name}");
+            Console.WriteLine($"Input asset created: {inputAsset.Name} (container {inputAsset.Container})");
 
             // Upload video to asset
             Console.WriteLine();
@@ -71,7 +71,7 @@ namespace VodCreatorApp
             // Create output asset
             var outputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, outputAssetName);
             Console.WriteLine();
-            Console.WriteLine($"Output asset created: {outputAsset.Name}");
+            Console.WriteLine($"Output asset created: {outputAsset.Name} (container {outputAsset.Container})");
 
             // Create job
             var job = await SubmitJobAsync(mediaService, resourceGroupName, accountName, TransformName, jobName, inputAsset.Name, outputAsset.Name);
@@ -182,7 +182,7 @@ namespace VodCreatorApp
 
         private static async Task<Job> WaitForJobToFinishAsync(AzureMediaServicesClient mediaService, string resourceGroup, string accountName, string transformName, string jobName)
         {
-            var sleepInterval = TimeSpan.FromSeconds(5);
+            var sleepInterval = TimeSpan.FromSeconds(10);
             JobState? state;
             int progress = 0;
 

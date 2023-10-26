@@ -59,7 +59,7 @@ namespace VodCreatorApp
 
             // Create input asset
             var inputAsset = await CreateAsset(mediaService, inputAssetName);
-            Console.WriteLine($"Input asset created: {inputAsset.Data.Name}");
+            Console.WriteLine($"Input asset created: {inputAsset.Data.Name} (container {inputAsset.Data.Container})");
 
             // Upload video to asset
             Console.WriteLine();
@@ -70,7 +70,7 @@ namespace VodCreatorApp
             // Create output asset
             var outputAsset = await CreateAsset(mediaService, outputAssetName);
             Console.WriteLine();
-            Console.WriteLine($"Output asset created: {outputAsset.Data.Name}");
+            Console.WriteLine($"Output asset created: {outputAsset.Data.Name} (container {outputAsset.Data.Container})");
 
             // Create job
             var job = await SubmitJobAsync(transform, jobName, inputAsset, outputAsset);
