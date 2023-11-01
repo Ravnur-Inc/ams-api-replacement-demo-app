@@ -14,6 +14,7 @@ public partial class Program
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false)
+                .AddUserSecrets<Program>()
                 .AddEnvironmentVariables();
 
             IConfiguration config = builder.Build();
