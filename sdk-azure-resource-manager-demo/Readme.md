@@ -21,7 +21,7 @@ dotnet run
 If you start the application without any command line arguments, it will encode the default video that is included in the package using the configured RMS instance.<br>
 However, you probably will want to upload and encode your own videos, so you can specify the video file to encode as a command line argument:
 ```
-dotnet run rms <local path or URL of a video file>
+dotnet run rms <local path or URL of a video/audio file>
 ```
 If for some reason you need test videos, this link has several: https://gist.github.com/jsturgis/3b19447b304616f18657
 
@@ -47,7 +47,7 @@ set Azure__MediaServicesAccountName": <AMS account name>,
 ```
 then run command:
 ```
-dotnet run ams <local path or URL of a video file>
+dotnet run ams <local path or URL of a video/audio file>
 ```
 > [!NOTE]
 > The app creates a transform named "default". So if you already have a transform with this name in your AMS account, it will be overwritten.
