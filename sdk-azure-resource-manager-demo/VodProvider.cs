@@ -57,15 +57,27 @@ namespace VodCreatorApp
             // Get transform
             var transform = await mediaService.GetMediaTransforms().GetAsync(TransformName);
 
-            // Create input asset
-            var inputAsset = await CreateAsset(mediaService, inputAssetName);
-            Console.WriteLine($"Input asset created: {inputAsset.Data.Name} (container {inputAsset.Data.Container})");
+            MediaJobInputBasicProperties jobInput;
+            if (IsUrl(inputFile))
+            {
+                var httpInput = new MediaJobInputHttp();
+                httpInput.Files.Add(inputFile);
+                jobInput = httpInput;
+            }
+            else
+            {
+                // Create input asset
+                var inputAsset = await CreateAsset(mediaService, inputAssetName);
+                Console.WriteLine($"Input asset created: {inputAsset.Data.Name} (container {inputAsset.Data.Container})");
 
-            // Upload video to asset
-            Console.WriteLine();
-            Console.WriteLine("Uploading video to input asset...");
-            await UploadFileToAsset(mediaService, inputAssetName, inputFile);
-            Console.WriteLine("Video upload completed!");
+                // Upload video to asset
+                Console.WriteLine();
+                Console.WriteLine("Uploading video to input asset...");
+                await UploadFileToAsset(mediaService, inputAssetName, inputFile);
+                Console.WriteLine("Video upload completed!");
+
+                jobInput = new MediaJobInputAsset(assetName: inputAssetName);
+            }
 
             // Create output asset
             var outputAsset = await CreateAsset(mediaService, outputAssetName);
@@ -73,7 +85,7 @@ namespace VodCreatorApp
             Console.WriteLine($"Output asset created: {outputAsset.Data.Name} (container {outputAsset.Data.Container})");
 
             // Create job
-            var job = await SubmitJobAsync(transform, jobName, inputAsset, outputAsset);
+            var job = await SubmitJobAsync(transform, jobName, jobInput, outputAsset);
             Console.WriteLine();
             Console.WriteLine($"Job created: {job.Data.Name}");
 
@@ -207,7 +219,7 @@ namespace VodCreatorApp
         private static async Task<MediaJobResource> SubmitJobAsync(
             MediaTransformResource transform,
             string jobName,
-            MediaAssetResource inputAsset,
+            MediaJobInputBasicProperties input,
             MediaAssetResource outputAsset)
         {
             var job = await transform.GetMediaJobs().CreateOrUpdateAsync(
@@ -215,7 +227,7 @@ namespace VodCreatorApp
                 jobName,
                 new MediaJobData
                 {
-                    Input = new MediaJobInputAsset(assetName: inputAsset.Data.Name),
+                    Input = input,
                     Outputs =
                     {
                         new MediaJobOutputAsset(outputAsset.Data.Name),
@@ -341,5 +353,7 @@ namespace VodCreatorApp
 
             return transform.Value;
         }
+
+        private static bool IsUrl(string path) => Uri.TryCreate(path, UriKind.Absolute, out Uri? uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
     }
 }
