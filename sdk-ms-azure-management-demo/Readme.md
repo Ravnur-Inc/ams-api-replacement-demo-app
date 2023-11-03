@@ -57,6 +57,30 @@ dotnet run ams <path to video file>
 
 9. Inspect the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file.
 
+### Tranforms
+
+You can specify your custom transform using additional command line arguments.
+
+```
+dotnet run rms <path/URL to video/audio file> /Transform:Name=<transform name> /Tranform:OutputsJsonFile=<path to transform json file> /Transform:ShareOutputAsset=<true|false>
+```
+
+Command to create VOD using exising transform:
+
+```
+dotnet run rms /Transform:Name=my-transform
+```
+
+Command to create VOD using transform defined by json file (for example [Input/rmp_720p_transform.json](Input/rms_720p_transform.json)):
+
+```
+dotnet run rms /Tramsform:Name=my-transform /Transform:OutputsJsonFile=Input/rms_720p_transform.json
+```
+
+This command creates or updates transform with name 'my-transform' and uses it for VOD creation.<br>
+```/Transform:ShareOutputAsset=true``` argument is used to tell application that you want all outputs to be in the same asset. It is related only to transforms with multiple outputs (like default test transform). 
+
+
 ### AMS to RMS code changes explanation
 
 To repoint the AMS SDK to the RMS instance, you need to create a custom implementation of the ServiceClientCredentials class (see [RmsApiKeyCredentials.cs](RmsApiKeyTokenCredentials.cs)).
