@@ -4,13 +4,15 @@ using Microsoft.Azure.Management.Media.Models;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Rest;
 using Microsoft.Rest.Azure.Authentication;
+using Microsoft.Rest.Serialization;
+using System.Net;
 using VodCreatorApp.Configuration;
 
 namespace VodCreatorApp
 {
     public class VodProvider
     {
-        private const string TransformName = "Default";
+        private const string DefaultTestTransformName = "DefaultRmsTestTransform";
         private const string StreamingEndpointName = "default";
         private readonly AzureMediaServicesOptions _azureOptions;
         private readonly RmsOptions _rmsOptions;
@@ -21,7 +23,7 @@ namespace VodCreatorApp
             _rmsOptions = rmsOptions;
         }
 
-        public async Task CreateVod(string mediaServicesType, string inputFile)
+        public async Task CreateVod(string mediaServicesType, string inputFile, TransformOptions transformOptions)
         {
             // Create a new instance of the Media Services account
             AzureMediaServicesClient mediaService;
@@ -44,18 +46,18 @@ namespace VodCreatorApp
                 throw new ArgumentException($"Invalid media service type: {mediaServicesType}");
             }
 
-            await CreateTransformAsync(mediaService, resourceGroupName, accountName, TransformName);
-            await Run(mediaService, resourceGroupName, accountName, inputFile);
+            await Run(mediaService, resourceGroupName, accountName, inputFile, transformOptions);
         }
 
-        public async Task Run(AzureMediaServicesClient mediaService, string resourceGroupName, string accountName, string inputFile)
+        public async Task Run(AzureMediaServicesClient mediaService, string resourceGroupName, string accountName, string inputFile, TransformOptions transformOptions)
         {
             // Creating a unique suffix for this test run
             string unique = Guid.NewGuid().ToString()[..13];
             string inputAssetName = $"input-{unique}";
             string outputAssetName = $"output-{unique}";
             string jobName = $"job-{unique}";
-            string locatorName = $"locator-{unique}";
+
+            var transform = await CreateTransformAsync(mediaService, resourceGroupName, accountName, transformOptions);
 
             // Create input asset
             var inputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, inputAssetName);
@@ -67,30 +69,45 @@ namespace VodCreatorApp
             await UploadFileToAsset(mediaService, resourceGroupName, accountName, inputAssetName, inputFile);
             Console.WriteLine("Video upload completed!");
 
-            // Create output assets
-            var outputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, outputAssetName);
-            Console.WriteLine();
-            Console.WriteLine($"Output asset created: {outputAsset.Name} (container {outputAsset.Container})");
+            List<string> outputAssets = new List<string>();
+            if (transformOptions.ShareOutputAsset)
+            {
+                var outputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, outputAssetName);
+                Console.WriteLine();
+                Console.WriteLine($"Output asset created: {outputAsset.Name} (container {outputAsset.Container})");
 
-            string outputAssetName2 = $"{outputAssetName}_Croped";
-            var outputAsset2 = await CreateAsset(mediaService, resourceGroupName, accountName, outputAssetName2);
-            Console.WriteLine();
-            Console.WriteLine($"Output asset created: {outputAsset2.Name} (container {outputAsset2.Container})");
+                foreach (var transformOutput in transform.Outputs)
+                {
+                    outputAssets.Add(outputAsset.Name);
+                }
+            }
+            else
+            {
+                int outputAssetNumber = 1;
+                foreach (var transformOutput in transform.Outputs)
+                {
+                    // Create output assets
+                    var outputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, $"output-{unique}-{outputAssetNumber++}");
+                    Console.WriteLine();
+                    Console.WriteLine($"Output asset created: {outputAsset.Name} (container {outputAsset.Container})");
+                    outputAssets.Add(outputAsset.Name);
+                }
+            }
 
             // Create job
             var job = await SubmitJobAsync(
                 mediaService,
                 resourceGroupName,
                 accountName,
-                TransformName,
+                transform.Name,
                 jobName,
                 inputAsset.Name,
-                new string[] { outputAsset.Name, outputAsset2.Name });
+                outputAssets);
             Console.WriteLine();
             Console.WriteLine($"Job created: {job.Name}");
 
             // Track job progress
-            job = await WaitForJobToFinishAsync(mediaService, resourceGroupName, accountName, TransformName, jobName);
+            job = await WaitForJobToFinishAsync(mediaService, resourceGroupName, accountName, transform.Name, jobName);
 
             if (job.State == JobState.Error)
             {
@@ -100,10 +117,6 @@ namespace VodCreatorApp
 
             Console.WriteLine($"Job finished: {job.Name}");
 
-            // Create streaming locator
-            await CreateStreamingLocatorAsync(mediaService, resourceGroupName, accountName, outputAsset.Name, locatorName);
-            Console.WriteLine();
-            Console.WriteLine($"Streaming locator created: {locatorName}");
             var streamingEndpoint = await mediaService.StreamingEndpoints.GetAsync(resourceGroupName, accountName, StreamingEndpointName);
 
             if (streamingEndpoint.ResourceState != StreamingEndpointResourceState.Running)
@@ -111,35 +124,50 @@ namespace VodCreatorApp
                 await mediaService.StreamingEndpoints.StartAsync(resourceGroupName, accountName, StreamingEndpointName);
             }
 
-            // List streaming locator for asset
-            var streamingLocator = await mediaService.StreamingLocators.GetAsync(resourceGroupName, accountName, locatorName);
+            List<ListPathsResponse> pathsResponses = new List<ListPathsResponse>();
+            foreach (var outputAsset in outputAssets.Distinct())
+            {
+                string locatorName = outputAsset.Replace("output-", "locator-");
+
+                // Create streaming locator
+                var locator = await CreateStreamingLocatorAsync(mediaService, resourceGroupName, accountName, outputAsset, locatorName);
+                Console.WriteLine();
+                Console.WriteLine($"Streaming locator created: {locator.Name}");
+
+                var paths = await mediaService.StreamingLocators.ListPathsAsync(resourceGroupName, accountName, locatorName);
+                pathsResponses.Add(paths);
+            }
 
             // List url for streaming locator
-            var paths = await mediaService.StreamingLocators.ListPathsAsync(resourceGroupName, accountName, locatorName);
-
-            var streamingUrls = new List<string>();
-
             Console.WriteLine();
             Console.WriteLine("The following URLs are available for adaptive streaming:");
-            // All paths returned can be streamed when append it to steaming endpoint or CDN domain name
-            foreach (StreamingPath path in paths.StreamingPaths)
+            foreach (var paths in pathsResponses)
             {
-                foreach (string streamingFormatPath in path.Paths)
+                // All paths returned can be streamed when append it to steaming endpoint or CDN domain name
+                foreach (var path in paths.StreamingPaths)
                 {
-                    var streamingUrl = $"https://{streamingEndpoint.HostName}{streamingFormatPath}";
-                    Console.WriteLine($"{path.StreamingProtocol}: {streamingUrl}");
-                    streamingUrls.Add(streamingUrl);
+                    foreach (string streamingFormatPath in path.Paths)
+                    {
+                        var streamingUrl = $"https://{streamingEndpoint.HostName}{streamingFormatPath}";
+                        Console.WriteLine($"{path.StreamingProtocol}: {streamingUrl}");
+                    }
                 }
+
+                Console.WriteLine();
             }
 
             Console.WriteLine();
             Console.WriteLine("The following URLs are available for downloads:");
-            // All paths returned can be streamed when append it to steaming endpoint or CDN domain name
-            foreach (string path in paths.DownloadPaths)
+            foreach (var paths in pathsResponses)
             {
-                var streamingUrl = $"https://{streamingEndpoint.HostName}{path}";
-                Console.WriteLine(streamingUrl);
-                streamingUrls.Add(streamingUrl);
+                // All paths returned can be streamed when append it to steaming endpoint or CDN domain name
+                foreach (string path in paths.DownloadPaths)
+                {
+                    var streamingUrl = $"https://{streamingEndpoint.HostName}{path}";
+                    Console.WriteLine(streamingUrl);
+                }
+
+                Console.WriteLine();
             }
         }
 
@@ -284,91 +312,149 @@ namespace VodCreatorApp
             AzureMediaServicesClient mediaService,
             string resourceGroupName,
             string accountName,
-            string transformName)
+            TransformOptions transformOptions)
         {
-            var outputs = new List<TransformOutput>
+            if (transformOptions.Name == null && transformOptions.OutputsJsonFile == null)
             {
-                new TransformOutput(new BuiltInStandardEncoderPreset(EncoderNamedPreset.AdaptiveStreaming)),
-                new TransformOutput
+                Console.WriteLine("Using default transform");
+
+                var outputs = new List<TransformOutput>
                 {
-                    Preset = new StandardEncoderPreset
+                    new TransformOutput(new BuiltInStandardEncoderPreset(EncoderNamedPreset.AdaptiveStreaming)),
+                    new TransformOutput
                     {
-                        Codecs = new List<Codec>
+                        Preset = new StandardEncoderPreset
                         {
-                            new AacAudio
+                            Codecs = new List<Codec>
                             {
-                                Channels = 2,
-                                SamplingRate = 48000,
-                                Bitrate = 128000,
-                                Profile = AacAudioProfile.AacLc,
-                            },
-                            new H264Video()
-                            {
-                                KeyFrameInterval = TimeSpan.FromSeconds(2),
-                                Layers = new List<H264Layer>
+                                new AacAudio
                                 {
-                                    new H264Layer(bitrate: 3600000)
+                                    Channels = 2,
+                                    SamplingRate = 48000,
+                                    Bitrate = 128000,
+                                    Profile = AacAudioProfile.AacLc,
+                                },
+                                new H264Video()
+                                {
+                                    KeyFrameInterval = TimeSpan.FromSeconds(2),
+                                    Layers = new List<H264Layer>
                                     {
-                                        Width = "1280",
-                                        Height = "720",
-                                        Label = "HD-3600kbps",
+                                        new H264Layer(bitrate: 3600000)
+                                        {
+                                            Width = "1280",
+                                            Height = "720",
+                                            Label = "HD-3600kbps",
+                                        },
+                                        new H264Layer(bitrate: 1600000)
+                                        {
+                                            Width = "960",
+                                            Height = "540",
+                                            Label = "SD-1600kbps",
+                                        },
+                                        new H264Layer(bitrate: 600000)
+                                        {
+                                            Width = "640",
+                                            Height = "360",
+                                            Label = "SD-600kbps",
+                                        },
                                     },
-                                    new H264Layer(bitrate: 1600000)
+                                },
+                                new JpgImage(start: "25%")
+                                {
+                                    Start = "25%",
+                                    Step = "25%",
+                                    Range = "80%",
+                                    Layers = new List<JpgLayer>
                                     {
-                                        Width = "960",
-                                        Height = "540",
-                                        Label = "SD-1600kbps",
-                                    },
-                                    new H264Layer(bitrate: 600000)
-                                    {
-                                        Width = "640",
-                                        Height = "360",
-                                        Label = "SD-600kbps",
+                                        new JpgLayer
+                                        {
+                                            Width = "50%",
+                                            Height = "50%",
+                                        },
                                     },
                                 },
                             },
-                            new JpgImage(start: "25%")
+                            Formats = new List<Format>
                             {
-                                Start = "25%",
-                                Step = "25%",
-                                Range = "80%",
-                                Layers = new List<JpgLayer>
+                                new Mp4Format(filenamePattern: "Video-{Basename}-{Label}-{Bitrate}{Extension}"),
+                                new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Index}{Extension}"),
+                            },
+                            Filters = new Filters
+                            {
+                                Crop = new Rectangle
                                 {
-                                    new JpgLayer
-                                    {
-                                        Width = "50%",
-                                        Height = "50%",
-                                    },
+                                    Left = "10%",
+                                    Top = "10%",
+                                    Height = "50%",
+                                    Width = "50%",
                                 },
                             },
                         },
-                        Formats = new List<Format>
-                        {
-                            new Mp4Format(filenamePattern: "Video-{Basename}-{Label}-{Bitrate}{Extension}"),
-                            new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Index}{Extension}"),
-                        },
-                        Filters = new Filters
-                        {
-                            Crop = new Rectangle
-                            {
-                                Left = "10%",
-                                Top = "10%",
-                                Height = "50%",
-                                Width = "50%",
-                            },
-                        },
-                    },
+                    }
+                };
+
+                return await mediaService.Transforms.CreateOrUpdateAsync(
+                    resourceGroupName,
+                    accountName,
+                    DefaultTestTransformName,
+                    outputs,
+                    "Custom encoding transforms with multiple outputs.");
+            }
+            else if (transformOptions.OutputsJsonFile != null)
+            {
+                _ = transformOptions.Name ?? throw new ArgumentException("Transform name is required when using OutputsJsonFile");
+                Transform? existingTransform = await GetTransform(mediaService, resourceGroupName, accountName, transformOptions.Name);
+                if (existingTransform != null)
+                {
+                    Console.WriteLine($"Transform {transformOptions.Name} already exists. Do you want to change it (y/n)?");
+                    if (Console.ReadKey().Key != ConsoleKey.Y)
+                    {
+                        return existingTransform;
+                    }
                 }
-            };
 
-            var transform = await mediaService.Transforms.CreateOrUpdateAsync(
-                resourceGroupName,
-                accountName,
-                transformName,
-                outputs,
-                "A simple custom encoding transforms.");
+                if (!File.Exists(transformOptions.OutputsJsonFile))
+                {
+                    throw new ArgumentException($"Transform file not found: {transformOptions.OutputsJsonFile}");
+                }
 
-            return transform;
+                List<TransformOutput>? outputs = SafeJsonConvert.DeserializeObject<List<TransformOutput>>(File.ReadAllText(transformOptions.OutputsJsonFile), mediaService.DeserializationSettings);
+                if (outputs == null)
+                {
+                    throw new ArgumentException($"Invalid transform file: {transformOptions.OutputsJsonFile}");
+                }
+
+                return await mediaService.Transforms.CreateOrUpdateAsync(
+                    resourceGroupName,
+                    accountName,
+                    transformOptions.Name,
+                    outputs,
+                    $"Custom encoding transofrm created from file {transformOptions.OutputsJsonFile}");
+            }
+            else
+            {
+                _ = transformOptions.Name ?? throw new ArgumentException("Transform name is required when using OutputsJsonFile");
+                var transform = await GetTransform(mediaService, resourceGroupName, accountName, transformOptions.Name);
+                if (transform == null)
+                {
+                    throw new ArgumentException($"Transform not found: {transformOptions.Name}");
+                }
+
+                return transform;
+            }
+        }
+
+        private static async Task<Transform?> GetTransform(AzureMediaServicesClient mediaService, string resourceGroupName, string accountName, string transformName)
+        {
+            try
+            {
+                var x = await mediaService.Transforms.GetWithHttpMessagesAsync(resourceGroupName, accountName, transformName);
+                return await mediaService.Transforms.GetAsync(resourceGroupName, accountName, transformName);
+            }
+            catch (ErrorResponseException ex) when (ex.Response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
         }
     }
 }

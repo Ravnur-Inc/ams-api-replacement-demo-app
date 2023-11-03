@@ -1,0 +1,144 @@
+﻿[
+  {
+    "onError": "StopProcessingJob",
+    "relativePriority": "Normal",
+    "preset": {
+      "@odata.type": "#Microsoft.Media.StandardEncoderPreset",
+      "codecs": [
+        {
+          "@odata.type": "#Microsoft.Media.AacAudio",
+          "channels": 2,
+          "samplingRate": 48000,
+          "bitrate": 128000,
+          "profile": "AacLc"
+        },
+        {
+          "@odata.type": "#Microsoft.Media.H264Video",
+          "keyFrameInterval": "PT2S",
+          "stretchMode": "AutoSize",
+          "syncMode": "Auto",
+          "sceneChangeDetection": false,
+          "rateControlMode": "ABR",
+          "complexity": "Balanced",
+          "layers": [
+            {
+              "width": "1280",
+              "height": "720",
+              "label": "1280x720",
+              "bitrate": 2800000,
+              "maxBitrate": 2800000,
+              "bFrames": 0,
+              "frameRate": "0",
+              "slices": 0,
+              "adaptiveBFrame": false,
+              "profile": "High",
+              "level": "auto",
+              "bufferWindow": "PT5S",
+              "referenceFrames": 3,
+              "crf": 23,
+              "entropyMode": "Cabac"
+            },
+            {
+              "width": "854",
+              "height": "480",
+              "label": "854x480",
+              "bitrate": 1200000,
+              "maxBitrate": 1200000,
+              "bFrames": 0,
+              "frameRate": "0",
+              "slices": 0,
+              "adaptiveBFrame": false,
+              "profile": "Baseline",
+              "level": "3.1",
+              "bufferWindow": "PT5S",
+              "referenceFrames": 3,
+              "crf": 23,
+              "entropyMode": "Cavlc"
+            },
+            {
+              "width": "640",
+              "height": "360",
+              "label": "640x360",
+              "bitrate": 750000,
+              "maxBitrate": 750000,
+              "bFrames": 0,
+              "frameRate": "0",
+              "slices": 0,
+              "adaptiveBFrame": false,
+              "profile": "Baseline",
+              "level": "3.1",
+              "bufferWindow": "PT5S",
+              "referenceFrames": 3,
+              "crf": 23,
+              "entropyMode": "Cavlc"
+            },
+            {
+              "width": "426",
+              "height": "240",
+              "label": "426x240",
+              "bitrate": 400000,
+              "maxBitrate": 400000,
+              "bFrames": 0,
+              "frameRate": "0",
+              "slices": 0,
+              "adaptiveBFrame": false,
+              "profile": "Baseline",
+              "level": "3.1",
+              "bufferWindow": "PT5S",
+              "referenceFrames": 3,
+              "crf": 23,
+              "entropyMode": "Cavlc"
+            }
+          ]
+        },
+        {
+          "@odata.type": "#Microsoft.Media.JpgImage",
+          "stretchMode": "AutoSize",
+          "syncMode": "Auto",
+          "start": "25%",
+          "step": "33%",
+          "range": "90%",
+          "layers": [
+            {
+              "width": "640",
+              "height": "360",
+              "label": "thumb",
+              "quality": 70
+            }
+          ],
+          "spriteColumn": 0
+        },
+        {
+          "@odata.type": "#Microsoft.Media.PngImage",
+          "stretchMode": "AutoSize",
+          "syncMode": "Auto",
+          "start": "0%",
+          "step": "PT3S",
+          "range": "100%",
+          "layers": [
+            {
+              "width": "160",
+              "height": "90",
+              "label": "preview"
+            }
+          ]
+        }
+      ],
+      "formats": [
+        {
+          "@odata.type": "#Microsoft.Media.Mp4Format",
+          "filenamePattern": "video_{Label}_{Bitrate}{Extension}",
+          "outputFiles": []
+        },
+        {
+          "@odata.type": "#Microsoft.Media.JpgFormat",
+          "filenamePattern": "{Label}_{Index}{Extension}"
+        },
+        {
+          "@odata.type": "#Microsoft.Media.PngFormat",
+          "filenamePattern": "{Label}_{Index}{Extension}"
+        }
+      ]
+    }
+  }
+]

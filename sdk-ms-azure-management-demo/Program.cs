@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Azure.Management.Media.Models;
+using Microsoft.Extensions.Configuration;
 using VodCreatorApp;
 using VodCreatorApp.Configuration;
 
@@ -8,19 +9,22 @@ public partial class Program
     {
         try
         {
-            string platform = args.Length > 0 ? args[0].ToLower() : "rms";
-            string inputFile = args.Length > 1 ? args[1] : "DefaultInput/ForBiggerBlazes.mp4";
+            string[] positionArgs = args.Where(args => !args.StartsWith("/")).ToArray();
+            string platform = positionArgs.Length > 0 ? positionArgs[0].ToLower() : "rms";
+            string inputFile = positionArgs.Length > 1 ? positionArgs[1] : "Input/ForBiggerBlazes.mp4";
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false)
                 .AddUserSecrets<Program>()
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables()
+                .AddCommandLine(args);
 
             IConfiguration config = builder.Build();
 
             var azureOptions = config.GetSection("Azure").Get<AzureMediaServicesOptions>();
             var rmsOptions = config.GetSection("Ravnur").Get<RmsOptions>();
+            var transformOptions = config.GetSection("Transform").Get<TransformOptions>() ?? new TransformOptions();
 
             if (rmsOptions is null)
             {
@@ -38,7 +42,11 @@ public partial class Program
 
             //var vodProvider = new VodProvider(rmsOptions, azureOptions);
             var vodProvider = new VodProvider(rmsOptions, azureOptions);
-            await vodProvider.CreateVod(platform, inputFile);
+            await vodProvider.CreateVod(platform, inputFile, transformOptions);
+        }
+        catch (ErrorResponseException ex)
+        {
+            Console.WriteLine(ex.Body?.Error?.Message ?? "RMS API error");
         }
         catch (Exception ex)
         {
