@@ -82,6 +82,7 @@ namespace VodCreatorApp
             }
 
             // Create output asset
+            List<string> outputAssets = new List<string>();
             if (transformOptions.ShareOutputAsset)
             {
                 var outputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, outputAssetName);
