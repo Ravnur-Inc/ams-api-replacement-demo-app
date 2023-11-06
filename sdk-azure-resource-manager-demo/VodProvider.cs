@@ -333,6 +333,19 @@ namespace VodCreatorApp
                                     {
                                         Width = "50%",
                                         Height = "50%",
+                                        Label ="50perc",
+                                    },
+                                    new JpgLayer
+                                    {
+                                        Width = "30%",
+                                        Height = "30%",
+                                        Label ="30perc",
+                                    },
+                                    new JpgLayer
+                                    {
+                                        Width = "90%",
+                                        Height = "90%",
+                                        Label ="90perc",
                                     },
                                 },
                             },
@@ -340,7 +353,7 @@ namespace VodCreatorApp
                         formats: new MediaFormatBase[]
                         {
                             new Mp4Format(filenamePattern: "Video-{Basename}-{Label}-{Bitrate}{Extension}"),
-                            new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Index}{Extension}"),
+                            new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Label}-{Index}{Extension}"),
                         })
                     {
                         Filters =  new FilteringOperations
