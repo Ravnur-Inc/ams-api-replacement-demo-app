@@ -88,13 +88,13 @@ namespace VodCreatorApp
             Console.WriteLine($"Output asset created: {outputAsset2.Name} (container {outputAsset2.Container})");
 
             // Create job
-            var job = await SubmitJobAsync(mediaService, resourceGroupName, accountName, TransformName, jobName, jobInput, outputAsset.Name);
+            var job = await SubmitJobAsync(
                 mediaService,
                 resourceGroupName,
                 accountName,
                 TransformName,
                 jobName,
-                inputAsset.Name,
+                jobInput,
                 new string[] { outputAsset.Name, outputAsset2.Name });
             Console.WriteLine();
             Console.WriteLine($"Job created: {job.Name}");
@@ -236,7 +236,7 @@ namespace VodCreatorApp
         {
             var jobParameters = new Job
             {
-                Input = new JobInputAsset(inputAsset),
+                Input = input,
                 Outputs = new List<JobOutput>(),
             };
 
