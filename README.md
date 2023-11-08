@@ -1,4 +1,4 @@
-🚀 **Event grid is now available!** 🚀  All AMS job-related events are supported by RMS with no code changes! Read more [here] (docs/monitoring.md)
+🚀 **Event grid is now available!** 🚀  All AMS job-related events are supported by RMS with no code changes! Read more [here](docs/monitoring.md)
 
 > [!NOTE]
 > This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. Contact Ravnur at info@ravnur.com to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment
