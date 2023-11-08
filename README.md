@@ -29,7 +29,7 @@ To run the RMS demo application, you will need:
 
 The demo application will connect to the RMS v0.5 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
 
-Specifically, the RMS v0.5 API will enable you to:
+Specifically, the RMS v0.6 API will enable you to:
 1.	Create input asset (if input is a local file)
 2.	Upload video/audio to the input asset (if input is a local file)
 3.	Create output asset
@@ -37,6 +37,7 @@ Specifically, the RMS v0.5 API will enable you to:
 5.	Await completion of the encoding job
 6.	Create streaming locator
 7.	Retrieve streaming and download URLs
+8.	Monitor and act on all Event Grid job-related event types supported by Azure Media Services
 
 On the respective pages for the SDK version of the demo application, you can see a screenshot of the API responses.
 
