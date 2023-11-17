@@ -442,7 +442,7 @@ namespace VodCreatorApp
                     accountName,
                     transformOptions.Name,
                     outputs,
-                    $"Custom encoding transofrm created from file {transformOptions.OutputsJsonFile}");
+                    $"Custom encoding transform created from file {transformOptions.OutputsJsonFile}");
             }
             else
             {
