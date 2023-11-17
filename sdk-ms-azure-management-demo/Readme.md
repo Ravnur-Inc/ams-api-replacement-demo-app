@@ -74,7 +74,7 @@ dotnet run rms /Transform:Name=my-transform
 Command to create VOD using transform defined by json file (for example [Input/rmp_720p_transform.json](Input/rms_720p_transform.json)):
 
 ```
-dotnet run rms /Tramsform:Name=my-transform /Transform:OutputsJsonFile=Input/rms_720p_transform.json
+dotnet run rms /Transform:Name=my-transform /Transform:OutputsJsonFile=Input/rms_720p_transform.json
 ```
 
 This command creates or updates transform with name 'my-transform' and uses it for VOD creation.<br>
