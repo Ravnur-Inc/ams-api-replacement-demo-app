@@ -1,3 +1,5 @@
+🚀 **Event grid is now available!** 🚀  All AMS job-related events are supported by RMS with no code changes! Read more [here](docs/monitoring.md)
+
 > [!NOTE]
 > This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. Contact Ravnur at info@ravnur.com to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment
 
@@ -29,7 +31,7 @@ To run the RMS demo application, you will need:
 
 The demo application will connect to the RMS v0.5 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
 
-Specifically, the RMS v0.5 API will enable you to:
+Specifically, the RMS v0.6 API will enable you to:
 1.	Create input asset (if input is a local file)
 2.	Upload video/audio to the input asset (if input is a local file)
 3.	Create output asset
@@ -37,6 +39,7 @@ Specifically, the RMS v0.5 API will enable you to:
 5.	Await completion of the encoding job
 6.	Create streaming locator
 7.	Retrieve streaming and download URLs
+8.	Monitor and act on all Event Grid job-related event types supported by Azure Media Services
 
 On the respective pages for the SDK version of the demo application, you can see a screenshot of the API responses.
 
@@ -66,24 +69,24 @@ Ravnur includes a migration tool as part of the RMS manage application. It copie
 | Assets  | Implemented | |
 | Jobs  | Implemented | Supported job inputs: JobInputAsset, JobInputHttp. Does not support  processing multiple media files in one job |
 | Streaming Locators  | Implemented | |
-| Custom Transforms | In development | Currently there is only one predefined transform, an adaptive bitrate streaming set of 5 (max) video qualities with audio and thumbnails. |
-| Event Grid Support | In development | |
-| Automatic migration of AMS assets/locators to RMS | In development | |
-| Custom Streaming Policy | Planned | Currently there is only one predefined streaming policy: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. Create and update API will be added in later RMS versions. |
-| AES stream encoding | In development | |
-| DRM stream encoding | Planned | |
-| Smooth streaming | Planned | |
+| Custom Transforms | In QA | Currently there is only one predefined transform, an adaptive bitrate streaming set of 5 (max) video qualities with audio and thumbnails. |
+| Event Grid support | Implemented | Supported all job-related event types. More details about Event Grid support can be found on [this page](docs/monitoring.md) |
+| Automatic migration of AMS assets/locators to RMS | Implemented | |
+| Custom Streaming Policy | In QA | Currently there is only one predefined streaming policy: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. Create and update API will be added in later RMS versions. |
+| AES stream encoding | In QA | |
+| DRM stream encoding | In development | |
+| Smooth streaming | In developement | |
 | Custom Streaming Endpoints | Not supported | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. Implementation of this feature is not planned. |
 
 ## Ravnur Media Services FAQs
 
 1.	**HOW CLOSELY DOES YOUR API'S ARCHITECTURE MIRROR THAT OF AMS IN TERMS OF REQUEST/RESPONSE PATTERNS, URL STRUCTURES, AND DATA MODELS?**
-The RMS API structure is a 100% mirror of the AMS API structure. The endpoints that are delivered in the October release are Assets, Jobs, Streaming Locators, Streaming Endpoints. The November release will include Transforms and Content Key Policies.
+The RMS API structure is a 100% mirror of the AMS API structure. The endpoints delivered so far (November 2023) are Assets, Jobs, Streaming Locators, Streaming Endpoints, Transforms and Content Key Policies.
 
 2.	**DO I NEED TO RE-ENCODE ALL MY VIDEOS?**
 No, you do not need to re-encode any videos. RMS can work with existing AMS assets without any issues.
 4.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR?**
-RMS can use the existing streaming locator. The streaming URL will need to be changed, but you need to change only the host. For example, if you have a streaming URL like this: https://ams1.streaming.media.azure.net/5197ca71-3edc-42b0-adff-12570b48b4e4/video_3500000.ism/manifest(format=m3u8-cmaf) you would need to change ams1.streaming.media.azure.net to the RMS host. The RMS host domain can be customized to use your domain.
+RMS can use the existing streaming locator. The streaming URL will need to be changed, but you need to change only the host. For example, if you have a streaming URL like this: https://ams1.streaming.media.azure.net/5197ca71-3edc-42b0-adff-12570b48b4e4/video_3500000.ism/manifest(format=m3u8-cmaf) you would need to change **ams1.streaming.media.azure.net** to the RMS host. The RMS host domain can be customized to use your domain.
 5.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR IF I’M USING A CDN?**
 No, all you need to change is your CDN origin so that it uses the RMS streaming domain and not AMS.
 6.	**DO I NEED TO MAKE CODE CHANGES IN MY APPLICATION TO USE THE RMS API?**
