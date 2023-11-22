@@ -30,9 +30,9 @@ If for some reason you need test videos, this link has several: https://gist.git
 > [!NOTE]
 > A job can stay in Queued state for a minute. The Ravnur-hosted RMS instance is shared, so potentially it can take even longer if all VMs in the pool are occupied. The encoding pool size is configurable, so if you need to support 20 concurrent encoding jobs, for example, you can set the pool size to meet your needs.
 
-7. Grab a streaming URL and test the playback in a player:
-https://hlsjs.video-dev.org/demo/ - for HLS
-https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH
+7. Grab a streaming URL and test the playback in a player:<br>
+https://hlsjs.video-dev.org/demo/ - for HLS<br>
+https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
 You can also test the Ravnur Player using an HLS streaming URL: https://strmsdemo.z13.web.core.windows.net/<br>
 
 > [!NOTE]
