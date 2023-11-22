@@ -32,7 +32,8 @@ If for some reason you need test videos, this link has several: https://gist.git
 
 7. Grab a streaming URL and test the playback in a player:
 https://hlsjs.video-dev.org/demo/ - for HLS
-https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
+https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH
+You can also test the Ravnur Player using an HLS streaming URL: https://strmsdemo.z13.web.core.windows.net/<br>
 
 > [!NOTE]
 > The RMS streaming URLs will not work with the Azure Media Player. It, too, is being retired, and we can't say we're sad to see it go. You will need to replace the AMP with a new player, and ideally you should test the streaming locator with your player of choice. 
