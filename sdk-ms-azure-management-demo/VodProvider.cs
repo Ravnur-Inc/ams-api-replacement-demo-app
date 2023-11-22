@@ -57,15 +57,26 @@ namespace VodCreatorApp
             string jobName = $"job-{unique}";
             string locatorName = $"locator-{unique}";
 
-            // Create input asset
-            var inputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, inputAssetName);
-            Console.WriteLine($"Input asset created: {inputAsset.Name} (container {inputAsset.Container})");
+            JobInput jobInput;
+            if (IsUrl(inputFile))
+            {
+                jobInput = new JobInputHttp(files: new[] { inputFile });
+            }
+            else
+            {
+                // Create input asset
+                var inputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, inputAssetName);
+                Console.WriteLine($"Input asset created: {inputAsset.Name} (container {inputAsset.Container})");
 
-            // Upload video to asset
-            Console.WriteLine();
-            Console.WriteLine("Uploading video to input asset...");
-            await UploadFileToAsset(mediaService, resourceGroupName, accountName, inputAssetName, inputFile);
-            Console.WriteLine("Video upload completed!");
+                // Upload video to asset
+                Console.WriteLine();
+                Console.WriteLine("Uploading video to input asset...");
+                await UploadFileToAsset(mediaService, resourceGroupName, accountName, inputAssetName, inputFile);
+
+                Console.WriteLine("Video upload completed!");
+
+                jobInput = new JobInputAsset(assetName: inputAssetName);
+            }
 
             // Create output assets
             var outputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, outputAssetName);
@@ -84,7 +95,7 @@ namespace VodCreatorApp
                 accountName,
                 TransformName,
                 jobName,
-                inputAsset.Name,
+                jobInput,
                 new string[] { outputAsset.Name, outputAsset2.Name });
             Console.WriteLine();
             Console.WriteLine($"Job created: {job.Name}");
@@ -221,12 +232,12 @@ namespace VodCreatorApp
             string accountName,
             string transformName,
             string jobName,
-            string inputAsset,
+            JobInput input,
             IEnumerable<string> outputAssets)
         {
             var jobParameters = new Job
             {
-                Input = new JobInputAsset(inputAsset),
+                Input = input,
                 Outputs = new List<JobOutput>(),
             };
 
@@ -370,5 +381,7 @@ namespace VodCreatorApp
 
             return transform;
         }
+
+        private static bool IsUrl(string path) => Uri.TryCreate(path, UriKind.Absolute, out Uri? uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
     }
 }
