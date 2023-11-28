@@ -82,8 +82,8 @@ After applying these updates, your media service client initialization will be a
 
 You can see detailed implementations for a demo application that can switch between AMS and RMS:
 
-* For **Azure.ResourceManager.Media SDK**, see [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo).
-* For **Microsoft.Azure.Management.Media SDK**, see [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo).
+* For **Azure.ResourceManager.Media SDK**, see [sdk-azure-resource-manager-demo](../sdk-azure-resource-manager-demo).
+* For **Microsoft.Azure.Management.Media SDK**, see [sdk-ms-azure-management-demo](../sdk-ms-azure-management-demo).
 
 ## Replace Azure Media Player with Another Player
 
