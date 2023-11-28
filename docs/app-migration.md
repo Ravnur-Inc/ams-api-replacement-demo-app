@@ -18,9 +18,9 @@
 ## Register your AMS storage(s) in RMS
 
 * In RMS Console page press "Manage" button for your RMS account ![Manage account](img/console-manage-account.PNG)
-* Go to your AMS storages list. You will need to migrate all of those. But start with primary one
+* Go to your AMS storages list. You need to register all of them but start with primary one
 ![AMS storages](img/ams-storages.PNG)
-* Add your primary AMS storage
+* Set name, key 1 and key 2
   ![AMS storage keys](img/ams-storage-keys.PNG)
   ![Add storage in console](img/storage-console-empty.PNG)
 * Make it primary
