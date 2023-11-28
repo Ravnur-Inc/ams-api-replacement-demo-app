@@ -12,29 +12,24 @@
 * On Azure Portal go to RMS Managed Application resource: Managed Applications center -> Marketplace Applications -> Find RMS Application and open it
 * Then click on "Parameters and Outputs" ![RMS Managed App view](img/rms-managed-app.png)
 * In the list of outputs copy "consoleURL" and open it in browser ![RMS Console URL](img/rms-managed-app-outputs.png)
-* On the Console page copy all neccessry RMS connection and save them for further steps
-TODO: Add screenshot
+* On the Console page copy all neccessry RMS connection and save them to be later specified in your app configuration
+![Console credentials](img/console-credentials.PNG)
 
 ## Register your AMS storage(s) in RMS
 
-* In RMS Console page press "Manage Storages" button for your RMS account
+* In RMS Console page press "Manage" button for your RMS account ![Manage account](img/console-manage-account.PNG)
+* Go to your AMS storages list. You will need to migrate all of those. But start with primary one
+![AMS storages](img/ams-storages.PNG)
+* Add your primary AMS storage
+  ![AMS storage keys](img/ams-storage-keys.PNG)
+  ![Add storage in console](img/storage-console-empty.PNG)
+* Make it primary
+  ![Make storage primary](img/storage-console-added.PNG)
 * Remove existing default storage (optional)
-TODO: Add screenshot
-* Add your primary AMS storage by specifying:
-  * Storage name
-  * Primary Key
-  * Secondary Key
-  * Check "Is Primary" checkbox
-  TODO: Add screenshot
-* Add secondary storages if any
-* Ensure that the list of storages match with your AMS account
-  TODO: Add screenshot
+![Remove RMS default storage](img/storage-console-made-primary.PNG)
+* Add all secondary storages if any
 
-> [!NOTE] **Storage account keys rotation**. If you are going to rotate your storage keys don't forget to update them in RMS Console after that.
-
-## Migrate AMS assets and locators to RMS
-
-Comes soon. At this stage you can use RMS for testing purpose and skip this step.
+> [!NOTE] **Storage account keys rotation**. If you are going to rotate your storage keys don't forget to update them in RMS Console ("Save" button).
 
 ## Migrate you application
 
@@ -57,7 +52,7 @@ var mediaServicesClient = new AzureMediaServicesClient(credentials, new HttpClie
 {
     SubscriptionId = "<RMS Subscription ID>"
 };
-// All client method calls then use RMS Resource Group and Account Names
+// All mediaServicesClient method calls then use RMS Resource Group and Account Name
 ```
 
 or
@@ -97,16 +92,12 @@ Azure Media Player was developed specifically for AMS streams and do not work wi
 * [Ravnur Media Player](https://strmsdemo.z13.web.core.windows.net/)
 * hls.js
 * dash.js
-* Shaka
-* Video.js (TODO: need to test)
-* ExoPlayer (TODO: need to test)
-* AVPlayer (TODO: need to test)
-* THEOplayer (TODO: need to test)
-* NextPlayer (TODO: need to test)
 
 ## Change Event Grid subscriptions
 
 RMS produces same Event Grid events schema as AMS. Use [these instructions](monitoring.md) to change your current Event Grid subscriptons to listen RMS events instead.
+
+> [!NOTE] In this case your RMS instance should be deployed to the same subscription as your current AMS account.
 
 ## Repoint your CDN to RMS original
 
@@ -116,6 +107,11 @@ RMS produces same Event Grid events schema as AMS. Use [these instructions](moni
   * Navigate to its CDN profile
 * Select endpoint routed to your AMS endpoint ![Ams endpoint location](img/cdn-update-1.png)
 * Change origin to your RMS streaming domain (it matches with RMS API endpoint domain) ![Change CDN origin](img/cdn-update-2.png)
+* Wait for origin change to be propagated in CDN. It can take a while. To ensure that new origin is available you can check URL in browser "https://{AMS streamin endpoint domain}/console"
 * Change RMS streaming endpoint hostName
-  * Go to RMS Console -> Streaming Endpoints (TODO: add screenshot)
-  * In Host Name text box specify host name of your current AMS account streaming endpoint
+  * Go to RMS Console -> Manage -> Streaming Endpoints
+  ![RMS Console endpoints](img/endpoints-console-origin.PNG)
+  * In Host Name text box specify host name of your current AMS account streaming endpoint and press "Save"
+  ![Change endpoint host name](img/endpoints-console-changed.PNG)
+
+> [!NOTE] At this point your existing VOD URLs will not work. To fix that AMS data migration is required. It comes soon.
