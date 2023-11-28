@@ -1,43 +1,41 @@
+# Application Migration to RMS
 
-# Application migration to RMS
+## Prerequisites
 
-## Pre-requisits
+✅ You have an RMS instance deployed using Azure Marketplace.
 
-✅ You have an RMS instance deployed using Azure Marketplace
+✅ You have a Microsoft account with access to an Azure Tenant where the RMS instance is deployed.
 
-✅ You have a Microsoft account which has access to an Azure Tenant where RMS instance is deployed
+## Get RMS Connection Credentials
 
-## Get RMS connection credentials
+1. On the Azure Portal, go to RMS Managed Application resource: Managed Applications center -> Marketplace Applications -> Find RMS Application and open it.
+2. Then click on "Parameters and Outputs". ![RMS Managed App view](img/rms-managed-app.png)
+3. In the list of outputs, copy "consoleURL" and open it in a browser. ![RMS Console URL](img/rms-managed-app-outputs.png)
+4. On the Console page, copy all necessary RMS connection credentials and save them to be later specified in your app configuration.
+   ![Console credentials](img/console-credentials.PNG)
 
-* On Azure Portal go to RMS Managed Application resource: Managed Applications center -> Marketplace Applications -> Find RMS Application and open it
-* Then click on "Parameters and Outputs" ![RMS Managed App view](img/rms-managed-app.png)
-* In the list of outputs copy "consoleURL" and open it in browser ![RMS Console URL](img/rms-managed-app-outputs.png)
-* On the Console page copy all neccessry RMS connection and save them to be later specified in your app configuration
-![Console credentials](img/console-credentials.PNG)
+## Register Your AMS Storage(s) in RMS
 
-## Register your AMS storage(s) in RMS
+1. In the RMS Console page, press the "Manage" button for your RMS account. ![Manage account](img/console-manage-account.PNG)
+2. Go to your AMS account storage list. You need to register all of them but start with the primary one.
+   ![AMS storages](img/ams-storages.PNG)
+3. Set the name, key 1, and key 2.
+   ![AMS storage keys](img/ams-storage-keys.PNG)
+   ![Add storage in console](img/storage-console-empty.PNG)
+4. Make it primary.
+   ![Make storage primary](img/storage-console-added.PNG)
+5. Remove the existing default storage (optional).
+   ![Remove RMS default storage](img/storage-console-made-primary.PNG)
+6. Add all secondary storages, if any.
 
-* In RMS Console page press "Manage" button for your RMS account ![Manage account](img/console-manage-account.PNG)
-* Go to your AMS storages list. You need to register all of them but start with primary one
-![AMS storages](img/ams-storages.PNG)
-* Set name, key 1 and key 2
-  ![AMS storage keys](img/ams-storage-keys.PNG)
-  ![Add storage in console](img/storage-console-empty.PNG)
-* Make it primary
-  ![Make storage primary](img/storage-console-added.PNG)
-* Remove existing default storage (optional)
-![Remove RMS default storage](img/storage-console-made-primary.PNG)
-* Add all secondary storages if any
+> [!NOTE] **Storage Account Keys Rotation**: If you plan to rotate your storage keys, don't forget to update them in the RMS Console using the "Save" button.
 
-> [!NOTE] **Storage account keys rotation**. If you are going to rotate your storage keys don't forget to update them in RMS Console ("Save" button).
+## Migrate Your Application
 
-## Migrate you application
+The RMS API mirrors the AMS API, meaning no significant code changes are required. You can continue using your existing SDK and logic without modifications. However, RMS uses a different authentication scheme, so you will need to update your code to use the new credentials. You can copy them from the following sources:
 
-RMS API mirrors AMS API that's why there is no dramatic code changes required. You can keep using your SDK and logic without changes. However RMS has different authentication scheme that's why you need to update your code to use new type of credentials.
-You can just copy them from here:
-
-* For **Azure.ResourceManager.Media SDK** use [this implementation](../sdk-azure-resource-manager-demo/RmsApiKeyCredentials.cs)
-* For **Microsoft.Azure.Management.Media SDK** use [this implementation](../sdk-ms-azure-management-demo/RmsApiKeyCredentials.cs)
+* For **Azure.ResourceManager.Media SDK**, use [this implementation](../sdk-azure-resource-manager-demo/RmsApiKeyCredentials.cs).
+* For **Microsoft.Azure.Management.Media SDK**, use [this implementation](../sdk-ms-azure-management-demo/RmsApiKeyCredentials.cs).
 
 Then your media service client initialization code will look like this:
 
@@ -80,38 +78,40 @@ var mediaServicesAccountIdentifier = MediaServicesAccountResource.CreateResource
 var mediaServiceClient = armClient.GetMediaServicesAccountResource(mediaServicesAccountIdentifier)
 ```
 
-You can see in details how it is done for demo application, which can switch between AMS and RMS:
+After applying these updates, your media service client initialization will be adapted for RMS.
 
-* For **Azure.ResourceManager.Media SDK** [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo)
-* For **Microsoft.Azure.Management.Media SDK**, please use this application: [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo).
+You can see detailed implementations for a demo application that can switch between AMS and RMS:
 
-## Replace Azure Media Player with another player
+* For **Azure.ResourceManager.Media SDK**, see [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo).
+* For **Microsoft.Azure.Management.Media SDK**, see [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo).
 
-Azure Media Player was developed specifically for AMS streams and do not work with any streaming link you provide it with. RMS is not exception: AMP does not work with RMS streams. You need to use a different player. At the moment the following players are consistent with RMS:
+## Replace Azure Media Player with Another Player
+
+Azure Media Player was developed specifically for AMS streams and does not work with other streaming links, including those from RMS. You need to use a different player. Currently, the following players are compatible with RMS:
 
 * [Ravnur Media Player](https://strmsdemo.z13.web.core.windows.net/)
 * hls.js
 * dash.js
 
-## Change Event Grid subscriptions
+## Change Event Grid Subscriptions
 
-RMS produces same Event Grid events schema as AMS. Use [these instructions](monitoring.md) to change your current Event Grid subscriptons to listen RMS events instead.
+RMS produces the same Event Grid events schema as AMS. Use [these instructions](monitoring.md) to change your current Event Grid subscriptions to listen to RMS events instead.
 
-> [!NOTE] In this case your RMS instance should be deployed to the same subscription as your current AMS account.
+> [!NOTE] For this, your RMS instance should be deployed in the same subscription as your current AMS account.
 
-## Repoint your CDN to RMS original
+## Repoint Your CDN to RMS Original
 
-* Go to your CDN profile:
-  * In azure portal go to your AMS account → Endpoints
-  * Select endpoint you use for streaming
-  * Navigate to its CDN profile
-* Select endpoint routed to your AMS endpoint ![Ams endpoint location](img/cdn-update-1.png)
-* Change origin to your RMS streaming domain (it matches with RMS API endpoint domain) ![Change CDN origin](img/cdn-update-2.png)
-* Wait for origin change to be propagated in CDN. It can take a while. To ensure that new origin is available you can check URL in browser "https://{AMS streamin endpoint domain}/console"
-* Change RMS streaming endpoint hostName
-  * Go to RMS Console -> Manage -> Streaming Endpoints
-  ![RMS Console endpoints](img/endpoints-console-origin.PNG)
-  * In Host Name text box specify host name of your current AMS account streaming endpoint and press "Save"
-  ![Change endpoint host name](img/endpoints-console-changed.PNG)
+1. Go to your CDN profile:
+   * In the Azure portal, go to your AMS account → Endpoints.
+   * Select the endpoint you use for streaming.
+   * Navigate to its CDN profile.
+2. Select the endpoint routed to your AMS endpoint. ![Ams endpoint location](img/cdn-update-1.png)
+3. Change the origin to your RMS streaming domain (it matches the RMS API endpoint domain). ![Change CDN origin](img/cdn-update-2.png)
+4. Wait for the origin change to propagate in the CDN. This can take a while. To ensure that the new origin is available, you can check the URL in a browser: "https://{AMS streaming endpoint domain}/console".
+5. Change the RMS streaming endpoint hostname:
+   * Go to RMS Console -> Manage -> Streaming Endpoints.
+     ![RMS Console endpoints](img/endpoints-console-origin.PNG)
+   * In the Host Name text box, specify the hostname of your current AMS account streaming endpoint and press "Save".
+     ![Change endpoint host name](img/endpoints-console-changed.PNG)
 
-> [!NOTE] At this point your existing VOD URLs will not work. To fix that AMS data migration is required. It comes soon.
+> [!NOTE] At this point, your existing VOD URLs will not work. To fix this, AMS data migration is required, which will be addressed soon
