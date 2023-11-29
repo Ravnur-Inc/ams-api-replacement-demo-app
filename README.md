@@ -72,7 +72,7 @@ Ravnur includes a migration tool as part of the RMS manage application. It copie
 | Custom Transforms | Released | |
 | Event Grid support | Released | Supported all job-related event types. More details about Event Grid support can be found on [this page](docs/monitoring.md) |
 | Automatic migration of AMS assets/locators to RMS | Implemented | |
-| Custom Streaming Policy | Released | Currently there is only one predefined streaming policy: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. Create and update API will be added in later RMS versions. |
+| Custom Streaming Policy | Released | |
 | AES stream encoding | Released | |
 | DRM stream encoding | In development | |
 | Smooth streaming | In developement | |
@@ -81,7 +81,7 @@ Ravnur includes a migration tool as part of the RMS manage application. It copie
 ## Ravnur Media Services FAQs
 
 1.	**HOW CLOSELY DOES YOUR API'S ARCHITECTURE MIRROR THAT OF AMS IN TERMS OF REQUEST/RESPONSE PATTERNS, URL STRUCTURES, AND DATA MODELS?**
-The RMS API structure is a 100% mirror of the AMS API structure. The endpoints delivered so far (November 2023) are Assets, Jobs, Streaming Locators, Streaming Endpoints, Transforms and Content Key Policies.
+The RMS API structure is a 100% mirror of the AMS API structure. The endpoints delivered so far (December 2023) are Assets, Jobs, Streaming Locators, Streaming Endpoints, Transforms and Content Key Policies.
 
 2.	**DO I NEED TO RE-ENCODE ALL MY VIDEOS?**
 No, you do not need to re-encode any videos. RMS can work with existing AMS assets without any issues.
@@ -97,7 +97,7 @@ RMS supports HLS, MPEG-DASH and Smooth Streaming (fragmented MP4).
 RMS encoding supports a wide range of codecs and containers and can accept the same codecs and containers as AMS. If you have a need to encode an unsupported codec/container, we’ll add it.
 The standard output asset is h.264/AAC in an mp4 container.
 9.	**CAN I USE CUSTOM ENCODING PRESETS SIMILAR TO WHAT I HAD IN AMS?**
-Custom transforms will be added in the RMS 0.7 release (November 2023). For the October 2023 release (v0.6), we use a predefined transform equivalent to the AdaptiveStreaming transform that outputs an MP4 (h.264/AAC) auto-generated adaptive bitrate streaming set of files. 
+Yes, custom transforms are supported. 
 10.	**HOW WOULD YOU MIGRATE THE STREAMING FUNCTIONALITY FOR MY CURRENT AMS ASSETS?**
 When you initially configure the RMS deployment, you’ll be asked to provide information about your current AMS and storage accounts. Once RMS connects, it will import all of the streaming locators and asset information from AMS, and it will use the existing storage account as the source and destination for video streaming and encoding.
 11.	**DO YOU PROVIDE ANY MIGRATION TOOLS FOR TRANSITIONING FROM AMS TO YOUR PLATFORM?**
