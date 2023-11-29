@@ -11,8 +11,7 @@ namespace VodCreatorApp
 {
     public class VodProvider
     {
-        //private const string InputMP4File = "media\\ignite.mp4";
-        private const string TransformName = "Default";
+        private const string TransformName = "RmsTestTransform";
         private const string StreamingEndpointName = "default";
         private readonly AzureOptions? _azureOptions;
         private readonly RmsOptions _rmsOptions;

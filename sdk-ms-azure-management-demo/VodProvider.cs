@@ -10,7 +10,7 @@ namespace VodCreatorApp
 {
     public class VodProvider
     {
-        private const string TransformName = "Default";
+        private const string TransformName = "RmsTestTransform";
         private const string StreamingEndpointName = "default";
         private readonly AzureMediaServicesOptions _azureOptions;
         private readonly RmsOptions _rmsOptions;
