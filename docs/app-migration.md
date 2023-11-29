@@ -13,6 +13,11 @@
 3. In the list of outputs, copy "consoleURL" and open it in a browser. ![RMS Console URL](img/rms-managed-app-outputs.png)
 4. On the Console page, copy all necessary RMS connection credentials and save them to be later specified in your app configuration.
    ![Console credentials](img/console-credentials.PNG)
+   * 1 - RMS Subscription ID;
+   * 2 - RMS Resource Group Name;
+   * 3 - RMS Account Name;
+   * 4 - RMS API Key
+   * 5 - RMS API Endpoint (`https://rms.{unique-string}.ravnur.net`).
 
 ## Register Your AMS Storage(s) in RMS
 
