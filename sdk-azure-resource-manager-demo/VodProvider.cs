@@ -1,18 +1,17 @@
+using System.Configuration;
 using Azure;
 using Azure.Identity;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Media;
 using Azure.ResourceManager.Media.Models;
 using Azure.Storage.Blobs;
-using System.Configuration;
 using VodCreatorApp.Configuration;
 
 namespace VodCreatorApp
 {
     public class VodProvider
     {
-        //private const string InputMP4File = "media\\ignite.mp4";
-        private const string TransformName = "Default";
+        private const string TransformName = "RmsTestTransform";
         private const string StreamingEndpointName = "default";
         private readonly AzureOptions? _azureOptions;
         private readonly RmsOptions _rmsOptions;
@@ -30,8 +29,6 @@ namespace VodCreatorApp
             if (mediaServicesType == "ams")
             {
                 mediaService = CreateAmsClient();
-                // In RMS transform write opeartion are not supported yet
-                await CreateTransformAsync(mediaService, TransformName);
             }
             else if (mediaServicesType == "rms")
             {
@@ -42,6 +39,7 @@ namespace VodCreatorApp
                 throw new ArgumentException($"Invalid media service type: {mediaServicesType}");
             }
 
+            await CreateTransformAsync(mediaService, TransformName);
             await Run(mediaService, inputFile);
         }
 
@@ -79,13 +77,18 @@ namespace VodCreatorApp
                 jobInput = new MediaJobInputAsset(assetName: inputAssetName);
             }
 
-            // Create output asset
+            // Create output assets
             var outputAsset = await CreateAsset(mediaService, outputAssetName);
             Console.WriteLine();
             Console.WriteLine($"Output asset created: {outputAsset.Data.Name} (container {outputAsset.Data.Container})");
 
+            string outputAssetName2 = $"{outputAssetName}_Croped";
+            var outputAsset2 = await CreateAsset(mediaService, outputAssetName2);
+            Console.WriteLine();
+            Console.WriteLine($"Output asset created: {outputAsset2.Data.Name} (container {outputAsset2.Data.Container})");
+
             // Create job
-            var job = await SubmitJobAsync(transform, jobName, jobInput, outputAsset);
+            var job = await SubmitJobAsync(transform, jobName, jobInput, new List<MediaAssetResource> { outputAsset, outputAsset2 });
             Console.WriteLine();
             Console.WriteLine($"Job created: {job.Data.Name}");
 
@@ -220,19 +223,22 @@ namespace VodCreatorApp
             MediaTransformResource transform,
             string jobName,
             MediaJobInputBasicProperties input,
-            MediaAssetResource outputAsset)
+            IEnumerable<MediaAssetResource> outputAssets)
         {
+            var mediaJobData = new MediaJobData
+            {
+                Input = input,
+            };
+
+            foreach (var outputAsset in outputAssets)
+            {
+                mediaJobData.Outputs.Add(new MediaJobOutputAsset(outputAsset.Data.Name));
+            }
+
             var job = await transform.GetMediaJobs().CreateOrUpdateAsync(
                 WaitUntil.Completed,
                 jobName,
-                new MediaJobData
-                {
-                    Input = input,
-                    Outputs =
-                    {
-                        new MediaJobOutputAsset(outputAsset.Data.Name),
-                    },
-                });
+                mediaJobData);
 
             return job.Value;
         }
@@ -277,79 +283,106 @@ namespace VodCreatorApp
             MediaServicesAccountResource mediaServicesAccount,
             string transformName)
         {
-            var codecs = new MediaCodecBase[]
+            var outputs = new MediaTransformOutput[]
             {
-                new AacAudio
-                {
-                    Channels = 2,
-                    SamplingRate = 48000,
-                    Bitrate = 128000,
-                    Profile = AacAudioProfile.AacLc,
-                },
-                new H264Video
-                {
-                    KeyFrameInterval = TimeSpan.FromSeconds(2),
-                    Layers =
+                new MediaTransformOutput(new BuiltInStandardEncoderPreset(EncoderNamedPreset.AdaptiveStreaming)),
+                new MediaTransformOutput(
+                    new StandardEncoderPreset(
+                        codecs: new MediaCodecBase[]
+                        {
+                            new AacAudio
+                            {
+                                Channels = 2,
+                                SamplingRate = 48000,
+                                Bitrate = 128000,
+                                Profile = AacAudioProfile.AacLc,
+                            },
+                            new H264Video
+                            {
+                                KeyFrameInterval = TimeSpan.FromSeconds(2),
+                                Layers =
+                                {
+                                    new H264Layer(bitrate: 3600000)
+                                    {
+                                        Width = "1280",
+                                        Height = "720",
+                                        Label = "HD-3600kbps",
+                                    },
+                                    new H264Layer(bitrate: 1600000)
+                                    {
+                                        Width = "960",
+                                        Height = "540",
+                                        Label = "SD-1600kbps",
+                                    },
+                                    new H264Layer(bitrate: 600000)
+                                    {
+                                        Width = "640",
+                                        Height = "360",
+                                        Label = "SD-600kbps",
+                                    },
+                                },
+                            },
+                            new JpgImage(start: "25%")
+                            {
+                                Start = "25%",
+                                Step = "25%",
+                                Range = "80%",
+                                Layers =
+                                {
+                                    new JpgLayer
+                                    {
+                                        Width = "50%",
+                                        Height = "50%",
+                                        Label ="50perc",
+                                    },
+                                    new JpgLayer
+                                    {
+                                        Width = "30%",
+                                        Height = "30%",
+                                        Label ="30perc",
+                                    },
+                                    new JpgLayer
+                                    {
+                                        Width = "90%",
+                                        Height = "90%",
+                                        Label ="90perc",
+                                    },
+                                },
+                            },
+                        },
+                        formats: new MediaFormatBase[]
+                        {
+                            new Mp4Format(filenamePattern: "Video-{Basename}-{Label}-{Bitrate}{Extension}"),
+                            new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Label}-{Index}{Extension}"),
+                        })
                     {
-                        new H264Layer(bitrate: 3600000)
+                        Filters =  new FilteringOperations
                         {
-                            Width = "1280",
-                            Height = "720",
-                            Label = "HD-3600kbps",
+                            Crop = new RectangularWindow
+                            {
+                                Left = "10%",
+                                Top = "10%",
+                                Height = "50%",
+                                Width = "50%",
+                            }
                         },
-                        new H264Layer(bitrate: 1600000)
-                        {
-                            Width = "960",
-                            Height = "540",
-                            Label = "SD-1600kbps",
-                        },
-                        new H264Layer(bitrate: 600000)
-                        {
-                            Width = "640",
-                            Height = "360",
-                            Label = "SD-600kbps",
-                        },
-                    },
-                },
-                new JpgImage(start: "25%")
-                {
-                    Start = "25%",
-                    Step = "25%",
-                    Range = "80%",
-                    Layers =
-                    {
-                        new JpgLayer
-                        {
-                            Width = "50%",
-                            Height = "50%",
-                        },
-                    },
-                },
+                    }),
             };
 
-            var formats = new MediaFormatBase[]
+            var tranformData = new MediaTransformData
             {
-                new Mp4Format(filenamePattern: "Video-{Basename}-{Label}-{Bitrate}{Extension}"),
-                new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Index}{Extension}"),
+                Description = "A simple custom encoding transform with 2 outputs",
             };
 
-            var mediaTransformOutput = new MediaTransformOutput(new StandardEncoderPreset(codecs, formats))
+            foreach (var output in outputs)
             {
-                OnError = MediaTransformOnErrorType.StopProcessingJob,
-                RelativePriority = MediaJobPriority.Normal,
-            };
+                tranformData.Outputs.Add(output);
+            }
 
             var transform = await mediaServicesAccount.GetMediaTransforms().CreateOrUpdateAsync(
                 WaitUntil.Completed,
                 transformName,
-                new MediaTransformData
-                {
-                    Outputs =
-                    {
-                        mediaTransformOutput,
-                    },
-                    Description = "A simple custom encoding transform with 3 MP4 bitrates",
-                });
+                tranformData);
 
             return transform.Value;
         }

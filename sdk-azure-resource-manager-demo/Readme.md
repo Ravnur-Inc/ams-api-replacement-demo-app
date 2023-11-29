@@ -50,8 +50,6 @@ then run command:
 ```
 dotnet run ams <local path or URL of a video/audio file>
 ```
-> [!NOTE]
-> The app creates a transform named "default". So if you already have a transform with this name in your AMS account, it will be overwritten.
 
 9. Inspect the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file.
 
