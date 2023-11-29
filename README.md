@@ -66,14 +66,14 @@ Ravnur includes a migration tool as part of the RMS manage application. It copie
 
 | Feature | State | Comments |
 |---------|-------|----------|
-| Assets  | Implemented | |
-| Jobs  | Implemented | Supported job inputs: JobInputAsset, JobInputHttp. Does not support  processing multiple media files in one job |
-| Streaming Locators  | Implemented | |
-| Custom Transforms | In QA | Currently there is only one predefined transform, an adaptive bitrate streaming set of 5 (max) video qualities with audio and thumbnails. |
-| Event Grid support | Implemented | Supported all job-related event types. More details about Event Grid support can be found on [this page](docs/monitoring.md) |
+| Assets  | Released | |
+| Jobs  | Released | Supported job inputs: JobInputAsset, JobInputHttp. Does not support  processing multiple media files in one job |
+| Streaming Locators  | Released | |
+| Custom Transforms | Released | |
+| Event Grid support | Released | Supported all job-related event types. More details about Event Grid support can be found on [this page](docs/monitoring.md) |
 | Automatic migration of AMS assets/locators to RMS | Implemented | |
-| Custom Streaming Policy | In QA | Currently there is only one predefined streaming policy: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. Create and update API will be added in later RMS versions. |
-| AES stream encoding | In QA | |
+| Custom Streaming Policy | Released | Currently there is only one predefined streaming policy: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. Create and update API will be added in later RMS versions. |
+| AES stream encoding | Released | |
 | DRM stream encoding | In development | |
 | Smooth streaming | In developement | |
 | Custom Streaming Endpoints | Not supported | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. Implementation of this feature is not planned. |
