@@ -15,7 +15,7 @@ List of entities that will be migrated:
       ![Console credentials](img/data-migration-select-api.png)
 3. Scroll down to "Connect to Media Services API" section and select JSON view.
       ![Console credentials](img/data-migration-json.png)
-
+4. To get AZURE_CLIENT_ID and AZURE_CLIENT_SECRET values use this instruction: [https://learn.microsoft.com/en-us/azure/databricks/dev-tools/service-prin-aad-token](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/service-prin-aad-token#--provision-a-service-principal-in-azure-portal). Please set Token expiration not less than a 1 week because migration process can take days depending on count of your media..
    
 ## Start Migration
 
