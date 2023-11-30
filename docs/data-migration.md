@@ -34,3 +34,8 @@ You will se the form where you should enter AMS Api Access JSON credentials in J
 3. When migration is finished succesfully you will see "Completed" status in Migration Info table, in Steps table you can check counts of migrated items.
       ![Console credentials](img/data-migration-finished.png)
    If some error occured during migration process you will see migration status Failed and more details about failure in Steps table. If you have entered notification emails on Start Migration form you also will get notification with migration results.
+
+4. In case when some new items were added to your AMS account after migration and you want to add them to RMS you can open Data Migration page and press "Sync latest changes" button. If also some changeas were made to already migrated items and you want to update items in RMS you can check "Update migrated items" checckbox before starting syncronization.
+
+## Migration Errors
+If your migration process finished with error - please contact Ravnur, we will help you to solve them and complete migration process.
