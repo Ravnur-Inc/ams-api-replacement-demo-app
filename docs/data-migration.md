@@ -15,12 +15,12 @@ List of entities that will be migrated:
       ![Console credentials](img/data-migration-select-api.png)
 3. Scroll down to "Connect to Media Services API" section and select JSON view.
       ![Console credentials](img/data-migration-json.png)
-4. To get AZURE_CLIENT_ID and AZURE_CLIENT_SECRET values use this instruction: [https://learn.microsoft.com/en-us/azure/databricks/dev-tools/service-prin-aad-token](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/service-prin-aad-token#--provision-a-service-principal-in-azure-portal). Please set Token expiration not less than a 1 week because migration process can take days depending on count of your media..
+4. To get AZURE_CLIENT_ID and AZURE_CLIENT_SECRET values use this instruction: [https://learn.microsoft.com/en-us/azure/databricks/dev-tools/service-prin-aad-token](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/service-prin-aad-token#--provision-a-service-principal-in-azure-portal). Please set Token expiration not less than a 1 week because migration process can take days depending on count of your media. Alsom make sure that your AMS account has Microsoft Entra Id (AAD) application assigned with role "Contributor".
+      ![Console credentials](img/data-migration-iam.png)
    
 ## Start Migration
 
 1. Go to RMS Console and press the "Data migration" button for your RMS account.
       ![Console credentials](img/data-migration-console.png)
-You will se the form where you should enter AMS api access credentials in Json format and comma separated list of emails for notifications about migration status (optional).
+You will se the form where you should enter AMS Api Access JSON credentials in JSON format and comma separated list of emails for notifications about migration status (optional).
       ![Console credentials](img/data-migration-start.png)
-2. To get Api access Json go to Api Access
