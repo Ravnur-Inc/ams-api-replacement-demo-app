@@ -11,7 +11,7 @@ Entities to be migrated:
 
 ## Get AMS credentials
 
-1. Open Azure Portal and navigate to the AMS account that need to be migrated.
+1. Open the Azure Portal and navigate to the AMS account that needs to be migrated.
 
 2. Navigate to API Access.
       ![Console credentials](img/data-migration-select-api.png)
@@ -24,21 +24,19 @@ Entities to be migrated:
    
 ## Start Migration
 
-1. On the Azure Portal, go to RMS Managed Application resource: Managed Applications center -> Marketplace Applications -> Find RMS Application and open it.
-   
-2. Go to RMS Console and click the "Data migration" button for your RMS account.
+1.Open RMS Console and click the "Data migration" button for your RMS account.
       ![Console credentials](img/data-migration-console.png)
 You will see a form where you should enter AMS API Access JSON credentials in JSON format and comma-separated list of emails for notifications about migration status (optional). Then press "Start Migration" button.
       ![Console credentials](img/data-migration-start.png)
 
-3. You will see migration status form with source AMS account inforamtion and a list of migration steps. Depending on media count, the migration process can take from a couple of hours to several days.
+2. You will see migration status form with source AMS account inforamtion and a list of migration steps. Depending on media count, the migration process can take from a couple of hours to several days.
       ![Console credentials](img/data-migration-inprogress.png)
 
-4. Upon successful completion, the Migration Info table will display a "Completed" status, and the Steps table will show counts of migrated items.
+3. Upon successful completion, the Migration Info table will display a "Completed" status, and the Steps table will show counts of migrated items.
       ![Console credentials](img/data-migration-finished.png)
-   If an error occurred during the migration process, the status will be "Failed," with details in the Steps table. If notification emails were provided, you will receive a notification with migration results.
+   If an error occurred during the migration process, the status will be "Failed", with details in the Steps table. If notification emails were provided, you will receive a notification with migration results.
 
-5. If new items were added to your AMS account after migration, and you want to add them to RMS, open the Data Migration page and press the "Sync latest changes" button. If changes were made to already migrated items, check the "Update migrated items" checkbox before starting synchronization.
+4. If new items were added to your AMS account after migration, and you want to add them to RMS, open the Data Migration page and press the "Sync latest changes" button. If changes were made to already migrated items, check the "Update migrated items" checkbox before starting synchronization.
 
 ## Migration Errors
 If the migration process finishes with an error, please contact Ravnur for assistance in resolving the issues and completing the migration process.
