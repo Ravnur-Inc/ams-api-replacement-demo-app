@@ -24,7 +24,7 @@ Entities to be migrated:
    
 ## Start Migration
 
-1.Open RMS Console and click the "Data migration" button for your RMS account.
+1. Open RMS Console and click the "Data migration" button for your RMS account.
       ![Console credentials](img/data-migration-console.png)
 You will see a form where you should enter AMS API Access JSON credentials in JSON format and comma-separated list of emails for notifications about migration status (optional). Then press "Start Migration" button.
       ![Console credentials](img/data-migration-start.png)
