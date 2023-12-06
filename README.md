@@ -52,7 +52,7 @@ On the respective pages for the SDK version of the demo application, you can see
 
 Ravnur Media Services (RMS) replaces the most recent version of the Azure Media Services v3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing [Microsoft Azure Media Services (v3) documentation](https://learn.microsoft.com/en-us/rest/api/media/) for the comprehensive REST API description and documentation. With RMS, you do not need to reencode your content, and you can use your existing storage account because the output of RMS is identical to AMS. 
 
-Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.6, implemented the core AMS functionality for VOD encoding and streaming. The current version, RMS v0.7 includes additional functionality, such as support for custom transforms, CDN tokenization, AES-128 encryption,content key policiesand streaming policies.
+Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.6, implemented the core AMS functionality for VOD encoding and streaming. The current version, RMS v0.7 includes additional functionality, such as support for custom transforms, CDN tokenization, AES-128 encryption, content key policiesand streaming policies.
 
 ## How can I get Ravnur Media Services?
 
@@ -60,7 +60,7 @@ RMS is offered as a managed application available from the Azure Marketplace. Th
 
 ## How do I migrate my existing AMS assets to RMS?
 
-Ravnur includes a migration tool as part of the RMS manage application. It copies the assets (not content - that stays put) and streaming locators from AMS to RMS so that your assets are streamable within minutes. A migration guide will be delivered together with the RMS deployment instructions. For any migration-related queries, please refer to the Roadmap and Q&A sections.
+Ravnur includes a migration tool as part of the RMS manage application. It copies the asset metadata (not content - that stays put), content key policies, transforms and streaming locators from AMS to RMS so that your assets are streamable within minutes. A migration guide will be delivered together with the RMS deployment instructions. For any migration-related queries, please refer to the Roadmap and Q&A sections.
 
 ## RMS Feature Roadmap
 
@@ -69,11 +69,11 @@ Ravnur includes a migration tool as part of the RMS manage application. It copie
 | Assets  | Implemented | |
 | Jobs  | Implemented | Supported job inputs: JobInputAsset, JobInputHttp. Does not support  processing multiple media files in one job |
 | Streaming Locators  | Implemented | |
-| Custom Transforms | In QA | Currently there is only one predefined transform, an adaptive bitrate streaming set of 5 (max) video qualities with audio and thumbnails. |
+| Custom Transforms | Implemented | Currently there is only one predefined transform, an adaptive bitrate streaming set of 5 (max) video qualities with audio and thumbnails. |
 | Event Grid support | Implemented | Supported all job-related event types. More details about Event Grid support can be found on [this page](docs/monitoring.md) |
 | Automatic migration of AMS assets/locators to RMS | Implemented | |
-| Custom Streaming Policy | In QA | Currently there is only one predefined streaming policy: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. Create and update API will be added in later RMS versions. |
-| AES stream encoding | In QA | |
+| Custom Streaming Policy | Implemented | Currently there is only one predefined streaming policy: “Predefined_DownloadAndClearStreaming”. It allows not encrypted HLS/DASH streaming and downloads. Create and update API will be added in later RMS versions. |
+| AES stream encoding | Implemented | |
 | DRM stream encoding | In development | |
 | Smooth streaming | In developement | |
 | Custom Streaming Endpoints | Not supported | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. Implementation of this feature is not planned. |
