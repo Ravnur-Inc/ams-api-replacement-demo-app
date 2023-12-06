@@ -97,7 +97,7 @@ RMS supports HLS, MPEG-DASH and Smooth Streaming (fragmented MP4).
 RMS encoding supports a wide range of codecs and containers and can accept the same codecs and containers as AMS. If you have a need to encode an unsupported codec/container, we’ll add it.
 The standard output asset is h.264/AAC in an mp4 container.
 9.	**CAN I USE CUSTOM ENCODING PRESETS SIMILAR TO WHAT I HAD IN AMS?**
-Custom transforms will be added in the RMS 0.7 release (November 2023). For the October 2023 release (v0.6), we use a predefined transform equivalent to the AdaptiveStreaming transform that outputs an MP4 (h.264/AAC) auto-generated adaptive bitrate streaming set of files. 
+Support for custom transforms has been added in the RMS 0.7 release (November 2023).  
 10.	**HOW WOULD YOU MIGRATE THE STREAMING FUNCTIONALITY FOR MY CURRENT AMS ASSETS?**
 When you initially configure the RMS deployment, you’ll be asked to provide information about your current AMS and storage accounts. Once RMS connects, it will import all of the streaming locators and asset information from AMS, and it will use the existing storage account as the source and destination for video streaming and encoding.
 11.	**DO YOU PROVIDE ANY MIGRATION TOOLS FOR TRANSITIONING FROM AMS TO YOUR PLATFORM?**
