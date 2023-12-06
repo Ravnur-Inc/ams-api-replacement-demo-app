@@ -29,9 +29,9 @@ To run the RMS demo application, you will need:
 
 ## What can I test using the RMS Demo Application?
 
-The demo application will connect to the RMS v0.6 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
+The demo application will connect to the RMS v0.7 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
 
-Specifically, the RMS v0.6 API will enable you to:
+Specifically, the RMS v0.7 API will enable you to:
 1.	Create input asset (if input is a local file)
 2.	Upload video/audio to the input asset (if input is a local file)
 3.	Create output asset
@@ -52,7 +52,7 @@ On the respective pages for the SDK version of the demo application, you can see
 
 Ravnur Media Services (RMS) replaces the most recent version of the Azure Media Services v3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing [Microsoft Azure Media Services (v3) documentation](https://learn.microsoft.com/en-us/rest/api/media/) for the comprehensive REST API description and documentation. With RMS, you do not need to reencode your content, and you can use your existing storage account because the output of RMS is identical to AMS. 
 
-Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.6, implemented the core AMS functionality for VOD encoding and streaming. Additional functionality, such as support for custom transforms, DRM, etc. will be released in two week intervals from October 1st.
+Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.6, implemented the core AMS functionality for VOD encoding and streaming. The current version, RMS v0.7 includes additional functionality, such as support for custom transforms, CDN tokenization, AES-128 encryption,content key policiesand streaming policies.
 
 ## How can I get Ravnur Media Services?
 
