@@ -177,7 +177,7 @@ namespace VodCreatorApp
             var aesPaths = await mediaService.StreamingLocators.ListPathsAsync(resourceGroupName, accountName, aes128locatorName);
 
             Console.WriteLine();
-            Console.WriteLine("The following URLs are available for adaptive streaming with AES-128 encryption:");
+            Console.WriteLine("The following URL is available for adaptive streaming with AES-128 encryption:");
             foreach (StreamingPath path in aesPaths.StreamingPaths)
             {
                 foreach (string streamingFormatPath in path.Paths)
@@ -200,7 +200,7 @@ namespace VodCreatorApp
                 },
                 tokenKey.KeyValue,
                 JwsAlgorithm.HS256);
-            Console.WriteLine($"Token for encrypted playback: {token}");
+            Console.WriteLine($"Token for encrypted playback (valid for 6hrs): {token}");
         }
 
         private async Task<AzureMediaServicesClient> CreateAmsClient()
