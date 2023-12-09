@@ -85,7 +85,3 @@ type Player$Source = {
    clip?: ?[number, number] // [ 10, 300 ] sec
 }
 ```
-
-## Base Options
-
-TODO: Implement
