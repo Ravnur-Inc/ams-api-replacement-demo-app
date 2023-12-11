@@ -98,6 +98,8 @@ Azure Media Player was developed specifically for AMS streams and does not work 
 * hls.js
 * dash.js
 
+You can find developer guide how to setup Ravnur Media Player [here](ravnur-player-instructions.md).
+
 ## Change Event Grid Subscriptions
 
 RMS produces the same Event Grid events schema as AMS. Use [these instructions](monitoring.md) to change your current Event Grid subscriptions to listen to RMS events instead.
