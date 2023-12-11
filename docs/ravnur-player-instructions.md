@@ -85,3 +85,7 @@ type Player$Source = {
    clip?: ?[number, number] // [ 10, 300 ] sec
 }
 ```
+
+## Player demo page
+
+https://strmsdemo.z13.web.core.windows.net/
