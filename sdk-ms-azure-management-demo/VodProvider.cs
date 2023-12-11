@@ -1,10 +1,14 @@
-﻿using Azure.Storage.Blobs;
+﻿﻿using Azure.Storage.Blobs;
+
 using Microsoft.Azure.Management.Media;
 using Microsoft.Azure.Management.Media.Models;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Rest;
 using Microsoft.Rest.Azure.Authentication;
+
 using VodCreatorApp.Configuration;
+
+using Jose;
 
 namespace VodCreatorApp
 {
@@ -44,8 +48,15 @@ namespace VodCreatorApp
                 throw new ArgumentException($"Invalid media service type: {mediaServicesType}");
             }
 
-            await CreateTransformAsync(mediaService, resourceGroupName, accountName, TransformName);
-            await Run(mediaService, resourceGroupName, accountName, inputFile);
+            try
+            {
+                await CreateTransformAsync(mediaService, resourceGroupName, accountName, TransformName);
+                await Run(mediaService, resourceGroupName, accountName, inputFile);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception when calling API: {0}", e.Message);
+            }
         }
 
         public async Task Run(AzureMediaServicesClient mediaService, string resourceGroupName, string accountName, string inputFile)
@@ -56,6 +67,8 @@ namespace VodCreatorApp
             string outputAssetName = $"output-{unique}";
             string jobName = $"job-{unique}";
             string locatorName = $"locator-{unique}";
+            string aes128locatorName = $"locator-{unique}-aes";
+            string contentKeyPolicyName = $"aeskeypolicy-{unique}";
 
             JobInput jobInput;
             if (IsUrl(inputFile))
@@ -152,6 +165,42 @@ namespace VodCreatorApp
                 Console.WriteLine(streamingUrl);
                 streamingUrls.Add(streamingUrl);
             }
+
+            // Prepearing AES-128 encrypted HLS stream
+            string issuer = "ravnur";
+            string audience = "rmstest";
+            // Create Content Key Policy for AES-128 encryption
+            var contentKeyPolicy = await CreateContentKeyPolicyAsync(mediaService, resourceGroupName, accountName, contentKeyPolicyName, issuer, audience);
+            // Create Streaming Locator with Content Key Policy
+            var aesLocator = await CreateAES128StreamingLocatorAsync(mediaService, resourceGroupName, accountName, outputAsset.Name, aes128locatorName, contentKeyPolicy.Name);
+            // List url for encrypted streaming
+            var aesPaths = await mediaService.StreamingLocators.ListPathsAsync(resourceGroupName, accountName, aes128locatorName);
+
+            Console.WriteLine();
+            Console.WriteLine("The following URL is available for adaptive streaming with AES-128 encryption:");
+            foreach (StreamingPath path in aesPaths.StreamingPaths)
+            {
+                foreach (string streamingFormatPath in path.Paths)
+                {
+                    var streamingUrl = $"https://{streamingEndpoint.HostName}{streamingFormatPath}";
+                    Console.WriteLine($"{path.StreamingProtocol}: {streamingUrl}");
+                    streamingUrls.Add(streamingUrl);
+                }
+            }
+
+            // Generate test token for AES-128 encryption
+            ContentKeyPolicyTokenRestriction restriction = (ContentKeyPolicyTokenRestriction)contentKeyPolicy.Options.First().Restriction;
+            ContentKeyPolicySymmetricTokenKey tokenKey = (ContentKeyPolicySymmetricTokenKey)restriction.PrimaryVerificationKey;
+            var token = JWT.Encode(new Dictionary<string, object>
+                {                
+                    { "exp", DateTimeOffset.UtcNow.AddHours(6).ToUnixTimeSeconds() },
+                    { "nbf", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
+                    { "iss", issuer },
+                    { "aud", audience }
+                },
+                tokenKey.KeyValue,
+                JwsAlgorithm.HS256);
+            Console.WriteLine($"Token for encrypted playback (valid for 6hrs): {token}");
         }
 
         private async Task<AzureMediaServicesClient> CreateAmsClient()
@@ -199,6 +248,26 @@ namespace VodCreatorApp
                 {
                     AssetName = assetName,
                     StreamingPolicyName = "Predefined_DownloadAndClearStreaming",
+                });
+        }
+
+        private static Task<StreamingLocator> CreateAES128StreamingLocatorAsync(
+            AzureMediaServicesClient mediaService,
+            string resourceGroupName,
+            string accountName,
+            string assetName,
+            string locatorName,
+            string contentKeyPolicyName)
+        {
+            return mediaService.StreamingLocators.CreateAsync(
+                resourceGroupName,
+                accountName,
+                locatorName,
+                new StreamingLocator
+                {
+                    AssetName = assetName,
+                    StreamingPolicyName = "Predefined_ClearKey",
+                    DefaultContentKeyPolicyName = contentKeyPolicyName,
                 });
         }
 
@@ -289,6 +358,30 @@ namespace VodCreatorApp
                 new Asset());
 
             return asset;
+        }
+
+        private async Task<ContentKeyPolicy> CreateContentKeyPolicyAsync(
+            AzureMediaServicesClient mediaService,
+            string resourceGroupName,
+            string accountName,
+            string policyName,
+            string issuer,
+            string audience)
+        {            
+            var options = new ContentKeyPolicyOption[]
+            {
+                new ContentKeyPolicyOption(
+                    name: "ae128-option",
+                    configuration: new ContentKeyPolicyClearKeyConfiguration(),
+                    restriction: new ContentKeyPolicyTokenRestriction(
+                        issuer: issuer,
+                        audience: audience,
+                        primaryVerificationKey: new ContentKeyPolicySymmetricTokenKey(Guid.NewGuid().ToByteArray()),
+                        restrictionTokenType: ContentKeyPolicyRestrictionTokenType.Jwt)
+                )
+            };
+
+            return await mediaService.ContentKeyPolicies.CreateOrUpdateAsync(resourceGroupName, accountName, policyName, options, "test policy description");
         }
 
         private static async Task<Transform> CreateTransformAsync(
