@@ -8,16 +8,7 @@
 
 ## Get RMS Connection Credentials
 
-1. On the Azure Portal, go to RMS Managed Application resource: Managed Applications center -> Marketplace Applications -> Find RMS Application and open it.
-2. Then click on "Parameters and Outputs". ![RMS Managed App view](img/rms-managed-app.png)
-3. In the list of outputs, copy "consoleURL" and open it in a browser. ![RMS Console URL](img/rms-managed-app-outputs.png)
-4. On the Console page, copy all necessary RMS connection credentials and save them to be later specified in your app configuration.
-   ![Console credentials](img/console-credentials.PNG)
-   * 1 - RMS Subscription ID;
-   * 2 - RMS Resource Group Name;
-   * 3 - RMS Account Name;
-   * 4 - RMS API Key
-   * 5 - RMS API Endpoint (`https://rms.{unique-string}.ravnur.net`).
+How to get RMS connection credentials you can find [here](how-to-get-credentials.md)
 
 ## Register Your AMS Storage(s) in RMS
 

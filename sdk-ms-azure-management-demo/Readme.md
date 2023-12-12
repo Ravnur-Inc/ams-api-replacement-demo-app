@@ -3,7 +3,8 @@
 1. Open a command prompt in your working directory
 2. Clone the repo: ```git clone https://github.com/Ravnur-Inc/ams-api-replacement-demo-app.git```
 3. Go to app folder ```cd ams-api-replacement-demo-app/sdk-ms-azure-management-demo```
-4. To configure the RMS connection, set the following environment variables (if you use the Ravnur RMS POC instance, contact us to get those credentials): 
+4. Get your RMS instance credentials using [these instructions](../docs/how-to-get-credentials.md)
+5. To configure the RMS connection, set the following environment variables (if you use the Ravnur RMS POC instance, contact us to get those credentials): 
 ```
 set Ravnur__SubscriptionId=<RMS account subscription ID>
 set Ravnur__ResourceGroupName=<RMS account resource group name>
@@ -11,9 +12,9 @@ set Ravnur__MediaServicesAccountName=<RMS account name>
 set Ravnur__ApiEndpoint=<RMS instance API endpoint>
 set Ravnur__ApiKey=<RMS instance API key>
 ```
-For Linux/Mac use the "export" command. If it is more convenient for you, you can set corresponding the settings in the appsettings.json file instead.
+For Linux/Mac use the "export" command. If it is more convenient for you, you can set corresponding settings in the appsettings.json file. If you prefer using IDE then launchSettings.json file will be more convinient to you.
 
-5. Build and run the application:
+1. Build and run the application:
 ```
 dotnet build
 dotnet run
@@ -25,12 +26,12 @@ dotnet run rms <local path or URL of a video/audio file>
 ```
 If for some reason you need test videos, this link has several: https://gist.github.com/jsturgis/3b19447b304616f18657
 
-6. The output of the program will look like this:
+1. The output of the program will look like this:
 ![image](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/assets/73594896/1e8fbed2-e476-4120-b383-006334e569f3)
 > [!NOTE]
 > A job can stay in Queued state for a minute. The Ravnur-hosted RMS instance is shared, so potentially it can take even longer if all VMs in the pool are occupied. The encoding pool size is configurable, so if you need to support 20 concurrent encoding jobs, for example, you can set the pool size to meet your needs.
 
-7.  Grab a streaming URL and test the playback in a player:
+1.  Grab a streaming URL and test the playback in a player:
 https://hlsjs.video-dev.org/demo/ - for HLS
 https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
 
