@@ -45,7 +45,7 @@ NPM_TOKENB64=$(echo -n '... your token here ...' | base64)
 4. Install Ravnur Player, ensuring that you specify the correct version.
 
 ```
-npm install @ravnur/player@^3.0.7
+npm install @ravnur/player@^3.1.1
 ```
 
 5. Include the player import in the file.
