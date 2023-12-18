@@ -23,6 +23,8 @@ The following sections provides step-by-step guide on how to connect custom stor
 - Storage Blob Delegator
 - Storage Table Data Contributor
 
+The step-by-step guide on how to assign Azure roles using the Azure portal can be found in [Azure RBAC documentation](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
+
 ![Storage account access rights for the Managed Identity resource](img/managed-identity-storage-access.png)
 
 ### Add storage configuration to the Ravnur Media Services
@@ -38,8 +40,10 @@ The following sections provides step-by-step guide on how to connect custom stor
 - The "Name" field should contain name of the storage account you connecting
 - The "Managed Identity" field should contain client ID of the Managed Identity from Ravnur Media Services resource group
 
-4. Set new storage account as default
+![Adding new storage to the RMS configuration](img/rms-console-add-new-storage.png)
 
-> It may take up to 10 minutes to propagate change of the default storage account throughout the system
+4. Set new storage account as Primary
 
-![Adding new storage to the RMS configuration](img/rms-console-account-page.png)
+![Setting new storage as Primary in the RMS configuration](img/rms-console-set-primaty-storage.png)
+
+> It may take up to 10 minutes to propagate change of the primary storage account throughout the system
