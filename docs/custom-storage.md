@@ -9,7 +9,7 @@ The following sections provides step-by-step guide on how to connect custom stor
 1. Go the resource group created as part of the Ravnur Media Services deployment
 2. Under the list of resources, go to the “Managed Identity” section
 
-> The name of the Managed wll be unique for your specific deployment, however, it always follows a pattern "id-\<unique-suffix\>"
+> The name of the Managed Identity wll be unique for your specific deployment, however, it always follows a pattern "id-\<unique-suffix\>"
 
 ![Managed Identity resource in the RMS deployment resource group](img/managed-identity.png)
 
