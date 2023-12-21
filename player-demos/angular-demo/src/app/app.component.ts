@@ -24,12 +24,12 @@ export class AppComponent {
 
     // Object containing video source information.
     var video = {
-      src: 'https://amsdemodib6ezjwmlzxc-usso.streaming.media.azure.net/f366ee9b-9423-4818-b8a0-f49c48bb7839/video_5500000.ism/manifest(format=m3u8-aapl)',
+      src: 'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8',
       type: "application/x-mpegURL",
     };
 
     let options = {};
 
-    player.setup(video, options); 
+    player.setup(video, options);
   }
 }
