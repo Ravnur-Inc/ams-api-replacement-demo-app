@@ -36,7 +36,7 @@ You will see a form where you should enter AMS API Access JSON credentials in JS
       ![Console credentials](img/data-migration-finished.png)
    If an error occurred during the migration process, the status will be "Failed", with details in the Steps table. If notification emails were provided, you will receive a notification with migration results.
 
-4. If new items were added to your AMS account after migration, and you want to add them to RMS, open the Data Migration page and press the "Sync latest changes" button. If changes were made to already migrated items, check the "Update migrated items" checkbox before starting synchronization.
+4. If new items were added to your AMS account after migration, and you want to add them to RMS, open the Data Migration page and press the "Sync latest changes" button.
 
 ## Migration Errors
 If the migration process finishes with an error, please contact Ravnur for assistance in resolving the issues and completing the migration process.
