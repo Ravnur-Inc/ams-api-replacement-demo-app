@@ -33,7 +33,7 @@ You will see a form where you should enter AMS API Access JSON credentials in JS
       ![Console credentials](img/data-migration-inprogress.png)
 
 3. Upon successful completion, the Migration Info table will display a "Completed" status, and the Steps table will show counts of migrated items.
-      ![Console credentials](img/data-migration-finished.png)
+      ![Console credentials](img/data-migration-finished2.png)
    If an error occurred during the migration process, the status will be "Failed", with details in the Steps table. If notification emails were provided, you will receive a notification with migration results.
 
 4. If new items were added to your AMS account after migration, and you want to add them to RMS, open the Data Migration page and press the "Sync latest changes" button.
