@@ -165,9 +165,9 @@ https://strmsdemo.z13.web.core.windows.net/
 | hls | `{ maxFragLookUpTolerance: 0.001, maxMaxBufferLength: 60 }` | `Player$HlsOptions` | Hls.js options | 
 | mux | `{ page_type: 'watchpage', player_name: 'RavnurPlayer', player_version: '1.0.0', video_stream_type: 'on-demand', }` | `Player$MuxOptions` | Mux options |
 | isMobile | `true` on mobile devices | `boolean` | Enables mobile mode in the player |
-| hlsjsURL | `https://cdn.jsdelivr.net/hls.js/latest/hls.min.js` | `string` | URL to specific hls.js version |
+| hlsjsURL | `https://cdn.jsdelivr.net/ hls.js/latest/hls.min.js` | `string` | URL to specific hls.js version |
 | flashPath | `/` | `string` | Path to specific Flash version |
-| muxURL | `https://src.litix.io/core/2/mux.js` | `string` | Path to specific Mux version |
+| muxURL | `https://src.litix.io/ core/2/mux.js` | `string` | Path to specific Mux version |
 | savePlayTime | `false` | `boolean` | If enabled, the player will save the last watched time in the browser's local storage. This allows the player to resume playback from the saved time during the next visit. |
 | aesToken | `undefined` | `string` | AES Token value |
 
