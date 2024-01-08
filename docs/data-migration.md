@@ -26,7 +26,7 @@ Entities to be migrated:
 
 1. Open RMS Console and click the "Data migration" button for your RMS account.
       ![Console credentials](img/data-migration-console.png)
-You will see a form where you should enter AMS API Access JSON credentials in JSON format and comma-separated list of emails for notifications about migration status (optional). Then press "Start Migration" button.
+You will see a form where you should enter AMS API Access JSON credentials in JSON format. Then press "Start Migration" button.
       ![Console credentials](img/data-migration-start.png)
 
 2. You will see migration status form with source AMS account inforamtion and a list of migration steps. Depending on media count, the migration process can take from a couple of hours to several days.
@@ -34,7 +34,7 @@ You will see a form where you should enter AMS API Access JSON credentials in JS
 
 3. Upon successful completion, the Migration Info table will display a "Completed" status, and the Steps table will show counts of migrated items.
       ![Console credentials](img/data-migration-finished2.png)
-   If an error occurred during the migration process, the status will be "Failed", with details in the Steps table. If notification emails were provided, you will receive a notification with migration results.
+   If an error occurred during the migration process, the status will be "Failed", with details in the Steps table.
 
 4. If new items were added to your AMS account after migration, and you want to add them to RMS, open the Data Migration page and press the "Sync latest changes" button.
 
