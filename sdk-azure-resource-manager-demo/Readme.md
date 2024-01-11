@@ -6,7 +6,7 @@
 2. Clone the repo: ```git clone https://github.com/Ravnur-Inc/ams-api-replacement-demo-app.git```
 3. Go to app folder ```cd ams-api-replacement-demo-app/sdk-azure-resource-manager-demo```
 4. Get your RMS instance credentials using [these instructions](../docs/how-to-get-credentials.md)
-5. To configure the RMS connection, set the following environment variables (if you use the Ravnur RMS POC instance, contact us to get those credentials):
+5. To configure the RMS connection, set the following environment variables (if you use the Ravnur-hosted RMS POC instance, contact us to get those credentials):
 
     ```console
     set Ravnur__SubscriptionId=<RMS account subscription ID>
@@ -16,7 +16,7 @@
     set Ravnur__ApiKey=<RMS instance API key>
     ```
 
-    For Linux/Mac use the "export" command. If it is more convenient for you, you can set corresponding settings in the appsettings.json file. If you prefer using IDE then launchSettings.json file will be more convinient to you.
+    For Linux/Mac use the "export" command. If it is more convenient for you, you can set corresponding settings in the appsettings.json file. If you prefer using your IDE, then the launchSettings.json file will be more convinient for you.
 6. Build and run the application:
 
     ```console
