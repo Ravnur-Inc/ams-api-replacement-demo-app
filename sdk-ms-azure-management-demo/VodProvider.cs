@@ -50,7 +50,6 @@ namespace VodCreatorApp
 
             try
             {
-                await CreateTransformAsync(mediaService, resourceGroupName, accountName, TransformName);
                 await Run(mediaService, resourceGroupName, accountName, inputFile);
             }
             catch (Exception e)
@@ -96,20 +95,17 @@ namespace VodCreatorApp
             Console.WriteLine();
             Console.WriteLine($"Output asset created: {outputAsset.Name} (container {outputAsset.Container})");
 
-            string outputAssetName2 = $"{outputAssetName}_Croped";
-            var outputAsset2 = await CreateAsset(mediaService, resourceGroupName, accountName, outputAssetName2);
-            Console.WriteLine();
-            Console.WriteLine($"Output asset created: {outputAsset2.Name} (container {outputAsset2.Container})");
+            var transform = await CreateTransformAsync(mediaService, resourceGroupName, accountName, TransformName);
 
             // Create job
             var job = await SubmitJobAsync(
                 mediaService,
                 resourceGroupName,
                 accountName,
-                TransformName,
+                transform.Name,
                 jobName,
                 jobInput,
-                new string[] { outputAsset.Name, outputAsset2.Name });
+                outputAsset.Name);
             Console.WriteLine();
             Console.WriteLine($"Job created: {job.Name}");
 
@@ -302,18 +298,16 @@ namespace VodCreatorApp
             string transformName,
             string jobName,
             JobInput input,
-            IEnumerable<string> outputAssets)
+            string outputAssetName)
         {
             var jobParameters = new Job
             {
                 Input = input,
-                Outputs = new List<JobOutput>(),
+                Outputs = new List<JobOutput>()
+                {
+                    new JobOutputAsset(outputAssetName),
+                },
             };
-
-            foreach (var outputAsset in outputAssets)
-            {
-                jobParameters.Outputs.Add(new JobOutputAsset(outputAsset));
-            }
 
             var job = await mediaService.Jobs.CreateAsync(
                 resourceGroupName,
@@ -392,7 +386,6 @@ namespace VodCreatorApp
         {
             var outputs = new List<TransformOutput>
             {
-                new TransformOutput(new BuiltInStandardEncoderPreset(EncoderNamedPreset.AdaptiveStreaming)),
                 new TransformOutput
                 {
                     Preset = new StandardEncoderPreset
@@ -450,16 +443,6 @@ namespace VodCreatorApp
                         {
                             new Mp4Format(filenamePattern: "Video-{Basename}-{Label}-{Bitrate}{Extension}"),
                             new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Index}{Extension}"),
-                        },
-                        Filters = new Filters
-                        {
-                            Crop = new Rectangle
-                            {
-                                Left = "10%",
-                                Top = "10%",
-                                Height = "50%",
-                                Width = "50%",
-                            },
                         },
                     },
                 }
