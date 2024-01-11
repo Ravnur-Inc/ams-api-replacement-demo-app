@@ -24,12 +24,12 @@
     dotnet run
     ```
 
-    If you start the application without any command line arguments, it will encode the default video that is included in the package using the configured RMS instance.<br>
-    However, you probably will want to upload and encode your own videos, so you can specify the video file to encode as a command line argument:
+    If you start the application without any command line arguments, it will encode the default video that is included in the package using the configured RMS instance. However, you probably will want to upload and encode your own videos, so you can specify the video file to encode as a command line argument:
 
     ```console
     dotnet run rms <local path or URL of a video/audio file>
     ```
+    If you're uploading from your loacal machine, a very large file may trigger a timeout after 100 seconds. This is caused by the testing app, not RMS. Using a URL transfers files faster.
 
     If for some reason you need test videos, this link has several: https://gist.github.com/jsturgis/3b19447b304616f18657<br>
     The app creates simple custom transform which generates: 3 video qualities, 1 audio quality and several thumbnail images.<br>
