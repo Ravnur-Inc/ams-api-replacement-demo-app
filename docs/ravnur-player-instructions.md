@@ -179,7 +179,7 @@ https://strmsdemo.z13.web.core.windows.net/
 
 ## <a id="player-events"></a>Events
 
-You can listen to player events using `the player.on()` method. Additionally, the player supports all HTMLMediaElement events. For details, refer to the MDN documentation: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
+You can listen to player events using the `player.on()` method. Additionally, the player supports all HTMLMediaElement events. For details, refer to the MDN documentation: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
 
 
 | Name | Data | Description |
