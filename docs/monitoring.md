@@ -15,7 +15,7 @@ The detailed list of the job-related events, together with schema examples, can 
 1. Go the resource group created as part of the Ravnur Media Services deployment
 2. Under the list of resources, go to the “Event Grid Topic” resource
 
-> The name of the Event Grid Topic wll be unique for the your specific deployment, however, it always follows a pattern "eg-topic-\<unique-suffix\>"
+> The name of the Event Grid Topic wll be unique for your specific deployment, however, it always follows a pattern "eg-topic-\<unique-suffix\>"
 
 ![Event Grid topic resource in the RMS deployment resource group](img/event-grid-topic.png)
 

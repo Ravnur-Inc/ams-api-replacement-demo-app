@@ -85,13 +85,8 @@ namespace VodCreatorApp
             Console.WriteLine();
             Console.WriteLine($"Output asset created: {outputAsset.Data.Name} (container {outputAsset.Data.Container})");
 
-            string outputAssetName2 = $"{outputAssetName}_Croped";
-            var outputAsset2 = await CreateAsset(mediaService, outputAssetName2);
-            Console.WriteLine();
-            Console.WriteLine($"Output asset created: {outputAsset2.Data.Name} (container {outputAsset2.Data.Container})");
-
             // Create job
-            var job = await SubmitJobAsync(transform, jobName, jobInput, new List<MediaAssetResource> { outputAsset, outputAsset2 });
+            var job = await SubmitJobAsync(transform, jobName, jobInput, outputAssetName);
             Console.WriteLine();
             Console.WriteLine($"Job created: {job.Data.Name}");
 
@@ -281,17 +276,14 @@ namespace VodCreatorApp
             MediaTransformResource transform,
             string jobName,
             MediaJobInputBasicProperties input,
-            IEnumerable<MediaAssetResource> outputAssets)
+            string outputAssetsName)
         {
             var mediaJobData = new MediaJobData
             {
-                Input = input,
+                Input = input
             };
 
-            foreach (var outputAsset in outputAssets)
-            {
-                mediaJobData.Outputs.Add(new MediaJobOutputAsset(outputAsset.Data.Name));
-            }
+            mediaJobData.Outputs.Add(new MediaJobOutputAsset(outputAssetsName));
 
             var job = await transform.GetMediaJobs().CreateOrUpdateAsync(
                 WaitUntil.Completed,
@@ -371,7 +363,6 @@ namespace VodCreatorApp
         {
             var outputs = new MediaTransformOutput[]
             {
-                new MediaTransformOutput(new BuiltInStandardEncoderPreset(EncoderNamedPreset.AdaptiveStreaming)),
                 new MediaTransformOutput(
                     new StandardEncoderPreset(
                         codecs: new MediaCodecBase[]
@@ -440,19 +431,7 @@ namespace VodCreatorApp
                         {
                             new Mp4Format(filenamePattern: "Video-{Basename}-{Label}-{Bitrate}{Extension}"),
                             new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Label}-{Index}{Extension}"),
-                        })
-                    {
-                        Filters =  new FilteringOperations
-                        {
-                            Crop = new RectangularWindow
-                            {
-                                Left = "10%",
-                                Top = "10%",
-                                Height = "50%",
-                                Width = "50%",
-                            }
-                        },
-                    }),
+                        })),
             };
 
             var tranformData = new MediaTransformData
