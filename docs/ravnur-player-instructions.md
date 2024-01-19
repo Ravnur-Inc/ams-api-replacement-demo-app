@@ -9,11 +9,17 @@
 
 3. [Setup](#setup)
 
-4. [Player demo page](#player-demo-page)
+4. [Demo page](#player-demo-page)
 
-5. [Player Options](#player-options)
+5. [Options](#player-options)
 
-6. [Types (Flow syntax)](#types-flow-syntax)
+6. [Events](#player-events)
+
+7. [Emits](#player-emits)
+
+8. [Methods](#player-methods)
+
+7. [Types (Flow syntax)](#types-flow-syntax)
 
 
 ## 1. <a id="installation"></a>Installation
@@ -100,11 +106,11 @@ let options = { ... };
 player.setup(video, options); 
 ```
 
-## <a id="player-demo-page"></a>Player demo page
+## <a id="player-demo-page"></a>Demo page
 
 https://strmsdemo.z13.web.core.windows.net/
 
-## <a id="player-options"></a>Player Options
+## <a id="player-options"></a>Options
 
 | Property | Default value | Type | Description |
 | :--- | :----: | :---: | :--- |
@@ -170,6 +176,81 @@ https://strmsdemo.z13.web.core.windows.net/
 | muxURL | `https://src.litix.io/ core/2/mux.js` | `string` | Path to specific Mux version |
 | savePlayTime | `false` | `boolean` | If enabled, the player will save the last watched time in the browser's local storage. This allows the player to resume playback from the saved time during the next visit. |
 | aesToken | `undefined` | `string` | AES Token value |
+
+## <a id="player-events"></a>Events
+
+You can listen to player events using `the player.on()` method. Additionally, the player supports all HTMLMediaElement events. For details, refer to the MDN documentation: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
+
+
+| Name | Data | Description |
+| :--- | :----: | :--- |
+|audiotrackswitched| `null` | Triggered when the player changes audio tracks |
+|handle-play-clicked|`null`|Triggered when the play button is clicked|
+|theaterchanging|`null`|Triggered when theater mode is changed|
+|fullscreenchanging|`boolean`|Triggered when full-screen mode changes|
+|toclang|`string`|Triggered when cue points language changes|
+|cclang|`string`|Triggered when captions language changes|
+|annotationslang|`string`|Triggered when annotations language changes|
+|qualitychange|`string`|Triggered when the quality level changes|
+|resizeplayer| `{ width, height, outerWidth }` |Triggered when the player size changes|
+|prevtrack|`null`|Triggered when switching to the previous track in the playlist|
+|nexttrack|`null`|Triggered when switching to the next track in the playlist|
+|mobiletouch|`null`|Triggered on mobile touch events|
+|downloadRequested|`string`|Triggered when someone requests media download, returns download URL|
+|statechanged|`Player$State`|Triggered when the player state changes|
+|cclayoutchange|`{ mode, fontSize }`|Triggered when closed captions layout changes|
+|captionschange|`Player$TimeDataSource`|Triggered when captions change|
+|changeplaylistmode|`bottom` \| `right`|Triggered when the player playlist mode changes|
+|changesource|`Player$Source`|Triggered when the current media source changes|
+
+
+## <a id="player-emits"></a>Emits
+
+You have the option to manually trigger these events. For instance, you can use the following example: `player.bus.emit('fullscreenchanging', false);`
+
+| Name | Payload | Description |
+| :--- | :----: | :--- |
+|fullscreenchanging|`boolean`|Alters full-screen mode|
+|toclang|`string`|Modifies language for cue points|
+|cclang|`string`|Modifies language for captions|
+|annotationslang|`string`|Modifies language for annotations|
+|prevtrack|`null`|Switches to the previous media in the playlist|
+|nexttrack|`null`|Switches to the next media in the playlist|
+|changeplaylistmode|`bottom` \| `right`|Changes the player's playlist mode|
+|changesource|`Player$Source`|Changes the current media source|
+
+## <a id="player-methods"></a>Methods
+
+Example of usage: `player.controller.getCurrentTime();`.
+
+| Method | Payload | Return | Description |
+| :--- | :----: | :----: | :--- |
+|getCurrentTime| - | `number` | Retrieves the current time of the media in seconds|
+|setCurrentTime| `number` | - | Sets the player's playback time|
+|isPaused| - | `boolean` | Checks if the media is currently paused|
+|isEnded| - | `boolean` | Checks if the media has reached the end|
+|isMuted| - | - | Checks if the player is currently muted|
+|play| - | `Promise` | Initiates playback of the media. Returns a `Promise` resolved when playback begins|
+|pause| - | - | Pauses the current playback|
+|prevFrame| - | - | Steps to the previous frame in the media|
+|nextFrame| - | - | Steps to the next frame in the media|
+|getDuration| - | `number` | Retrieves the duration of the media in seconds|
+|setMuted| `boolean` | - | Adjusts the muted state of the player|
+|getVolume| - | `number` | Retrieves the current volume level|
+|setVolume| `number` | - | Sets the volume level of the player|
+|getLevels| - | Array of objects | Retrieves the available quality levels|
+|getLevel| - | Object | Retrieves the current quality level|
+|setLevel| Object | - | Sets the quality level of the media|
+|isMultiQuality| - | `boolean` | Checks if the media has multiple quality options|
+|isMultiAudioTracks| - | `boolean` | Checks if the media has multiple audio tracks|
+|getAudioTracks| - | Array of objects | Retrieves the available audio tracks|
+|getAudioTrack| - | `number` | Retrieves the index of the current audio track|
+|setAudioTrack| `number` | - | Sets the current audio track by index|
+|load| `Player$Source` | - | Loads a new media source|
+|getBufferedPercent| - | `number` | Retrieves the current buffered percentage|
+|getElement| - | HTML element | Retrieves the player element|
+|_getFrameDuration| - | `number` | Retrieves the current frame duration|
+
 
 ## <a id="types-flow-syntax"></a>Types (Flow syntax)
 
