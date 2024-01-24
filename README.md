@@ -87,8 +87,9 @@ The RMS API structure is a 100% mirror of the AMS API structure. The endpoints d
 No, you do not need to re-encode any videos. RMS can work with existing AMS assets without any issues.
 4.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR?**
 RMS can use the existing streaming locator. The streaming URL will need to be changed, but you need to change only the host. For example, if you have a streaming URL like this: https://ams1.streaming.media.azure.net/5197ca71-3edc-42b0-adff-12570b48b4e4/video_3500000.ism/manifest(format=m3u8-cmaf) you would need to change **ams1.streaming.media.azure.net** to the RMS host. The RMS host domain can be customized to use your domain.
+But in case if you are using your own CDN your URL will remain the same, if you configure it to use RMS host as an origin instead of AMS one.
 5.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR IF I’M USING A CDN?**
-No, all you need to change is your CDN origin so that it uses the RMS streaming domain and not AMS.
+No, all you need to change is your CDN origin so that it navigates to RMS and not AMS. As it was already mentioned in this case you don't need to update domain for your streaming URLs.
 6.	**DO I NEED TO MAKE CODE CHANGES IN MY APPLICATION TO USE THE RMS API?**
 Yes, but just a little bit. If you are using the Microsoft Azure SDK, you just need to tell the SDK to connect to RMS instead of AMS. Code samples can be found on the pages for the respective SDK versions of the demo app (links above). If you have your own implementation, you need to change only the host from AMS to RMS.
 7.	**WHAT STREAMING PROTOCOLS DO YOU SUPPORT?**
@@ -99,13 +100,14 @@ The standard output asset is h.264/AAC in an mp4 container.
 9.	**CAN I USE CUSTOM ENCODING PRESETS SIMILAR TO WHAT I HAD IN AMS?**
 Yes, custom transforms are supported.
 10.	**HOW WOULD YOU MIGRATE THE STREAMING FUNCTIONALITY FOR MY CURRENT AMS ASSETS?**
-When you initially configure the RMS deployment, you’ll be asked to provide information about your current AMS and storage accounts. Once RMS connects, it will import all of the streaming locators and asset information from AMS, and it will use the existing storage account as the source and destination for video streaming and encoding.
+The migration of AMS streaming to RMS contains of two parts: migration of your application to use RMS and migration of AMS data. Use [these instruction](docs/app-migration.md) to configure your application to use RMS instead of AMS: register your existing storage, update your CDN. And to migrate AMS data use [these instructions](docs/data-migration.md).
 11.	**DO YOU PROVIDE ANY MIGRATION TOOLS FOR TRANSITIONING FROM AMS TO YOUR PLATFORM?**
-Yes, migration is an automated process. After you provide the AMS and storage account information, RMS will automatically import all assets, and they will become available for streaming by RMS.
+Yes, RMS has a special console UI which allows to perform some RMS maintenance actions including migration of your existing AMS account. It allows you to register your existing AMS storage account and trigger migration process which will copy your AMS metadata to RMS: transforms, streaming policies, content key policies, assets and locators. Instructions how to do it you can find [here](docs/data-migration.md).
 12.	**WHERE IS THE MEDIA CONTENT STORED, AND CAN IT INTEGRATE SEAMLESSLY WITH MY CURRENT STORAGE ACCOUNT?**
 All media content is stored in your Azure Storage Account, following the existing AMS structure. No data copying is required.
+To register your existing AMS storage in RMS use [these instructions](docs/custom-storage.md). Note that RMS instance should be deployed to the same region as your existing AMS storage account.
 13.	**HOW DOES YOUR PLATFORM HANDLE API AUTHENTICATION? IS IT SIMILAR TO THE WAY AMS HANDLES IT?**
-We use JWT bearer token authentication, like AMS. RMS will not require Azure Active Directory service principal or Managed Identity. 
+We use JWT bearer token authentication, like AMS. RMS will not require Azure Active Directory service principal or Managed Identity.
 14.**IS THERE A SANDBOX OR TESTING ENVIRONMENT WHERE I CAN VERIFY THE COMPATIBILITY BEFORE GOING LIVE?**
 Yes. Ravnur can set up a testing environment for you where you can run a POC. We can do this in your Azure tenant or ours.
 15.	**HOW DOES YOUR PLATFORM SCALE WITH INCREASED DEMAND?**
