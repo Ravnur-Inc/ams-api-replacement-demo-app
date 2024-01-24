@@ -71,7 +71,7 @@ Ravnur includes a migration tool as part of the RMS manage application. It copie
 | Streaming Locators  | Released | |
 | Custom Transforms | Released | |
 | Event Grid support | Released | Supported all job-related event types. More details about Event Grid support can be found on [this page](docs/monitoring.md) |
-| Automatic migration of AMS assets/locators to RMS | Released | |
+| Automatic migration of AMS assets/locators to RMS | Released | Migration instructions can be found on [this page](docs/data-migration.md) |
 | Custom Streaming Policy | Released | |
 | AES stream encoding | Released | |
 | DRM stream encoding | In development | |
