@@ -1,10 +1,14 @@
-﻿using Azure.Storage.Blobs;
+﻿﻿using Azure.Storage.Blobs;
+
 using Microsoft.Azure.Management.Media;
 using Microsoft.Azure.Management.Media.Models;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Rest;
 using Microsoft.Rest.Azure.Authentication;
+
 using VodCreatorApp.Configuration;
+
+using Jose;
 
 namespace VodCreatorApp
 {
@@ -44,8 +48,14 @@ namespace VodCreatorApp
                 throw new ArgumentException($"Invalid media service type: {mediaServicesType}");
             }
 
-            await CreateTransformAsync(mediaService, resourceGroupName, accountName, TransformName);
-            await Run(mediaService, resourceGroupName, accountName, inputFile);
+            try
+            {
+                await Run(mediaService, resourceGroupName, accountName, inputFile);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception when calling API: {0}", e.Message);
+            }
         }
 
         public async Task Run(AzureMediaServicesClient mediaService, string resourceGroupName, string accountName, string inputFile)
@@ -56,6 +66,8 @@ namespace VodCreatorApp
             string outputAssetName = $"output-{unique}";
             string jobName = $"job-{unique}";
             string locatorName = $"locator-{unique}";
+            string aes128locatorName = $"locator-{unique}-aes";
+            string contentKeyPolicyName = $"aeskeypolicy-{unique}";
 
             JobInput jobInput;
             if (IsUrl(inputFile))
@@ -83,20 +95,17 @@ namespace VodCreatorApp
             Console.WriteLine();
             Console.WriteLine($"Output asset created: {outputAsset.Name} (container {outputAsset.Container})");
 
-            string outputAssetName2 = $"{outputAssetName}_Croped";
-            var outputAsset2 = await CreateAsset(mediaService, resourceGroupName, accountName, outputAssetName2);
-            Console.WriteLine();
-            Console.WriteLine($"Output asset created: {outputAsset2.Name} (container {outputAsset2.Container})");
+            var transform = await CreateTransformAsync(mediaService, resourceGroupName, accountName, TransformName);
 
             // Create job
             var job = await SubmitJobAsync(
                 mediaService,
                 resourceGroupName,
                 accountName,
-                TransformName,
+                transform.Name,
                 jobName,
                 jobInput,
-                new string[] { outputAsset.Name, outputAsset2.Name });
+                outputAsset.Name);
             Console.WriteLine();
             Console.WriteLine($"Job created: {job.Name}");
 
@@ -152,6 +161,42 @@ namespace VodCreatorApp
                 Console.WriteLine(streamingUrl);
                 streamingUrls.Add(streamingUrl);
             }
+
+            // Prepearing AES-128 encrypted HLS stream
+            string issuer = "ravnur";
+            string audience = "rmstest";
+            // Create Content Key Policy for AES-128 encryption
+            var contentKeyPolicy = await CreateContentKeyPolicyAsync(mediaService, resourceGroupName, accountName, contentKeyPolicyName, issuer, audience);
+            // Create Streaming Locator with Content Key Policy
+            var aesLocator = await CreateAES128StreamingLocatorAsync(mediaService, resourceGroupName, accountName, outputAsset.Name, aes128locatorName, contentKeyPolicy.Name);
+            // List url for encrypted streaming
+            var aesPaths = await mediaService.StreamingLocators.ListPathsAsync(resourceGroupName, accountName, aes128locatorName);
+
+            Console.WriteLine();
+            Console.WriteLine("The following URL is available for adaptive streaming with AES-128 encryption:");
+            foreach (StreamingPath path in aesPaths.StreamingPaths)
+            {
+                foreach (string streamingFormatPath in path.Paths)
+                {
+                    var streamingUrl = $"https://{streamingEndpoint.HostName}{streamingFormatPath}";
+                    Console.WriteLine($"{path.StreamingProtocol}: {streamingUrl}");
+                    streamingUrls.Add(streamingUrl);
+                }
+            }
+
+            // Generate test token for AES-128 encryption
+            ContentKeyPolicyTokenRestriction restriction = (ContentKeyPolicyTokenRestriction)contentKeyPolicy.Options.First().Restriction;
+            ContentKeyPolicySymmetricTokenKey tokenKey = (ContentKeyPolicySymmetricTokenKey)restriction.PrimaryVerificationKey;
+            var token = JWT.Encode(new Dictionary<string, object>
+                {                
+                    { "exp", DateTimeOffset.UtcNow.AddHours(6).ToUnixTimeSeconds() },
+                    { "nbf", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
+                    { "iss", issuer },
+                    { "aud", audience }
+                },
+                tokenKey.KeyValue,
+                JwsAlgorithm.HS256);
+            Console.WriteLine($"Token for encrypted playback (valid for 6hrs): {token}");
         }
 
         private async Task<AzureMediaServicesClient> CreateAmsClient()
@@ -202,6 +247,26 @@ namespace VodCreatorApp
                 });
         }
 
+        private static Task<StreamingLocator> CreateAES128StreamingLocatorAsync(
+            AzureMediaServicesClient mediaService,
+            string resourceGroupName,
+            string accountName,
+            string assetName,
+            string locatorName,
+            string contentKeyPolicyName)
+        {
+            return mediaService.StreamingLocators.CreateAsync(
+                resourceGroupName,
+                accountName,
+                locatorName,
+                new StreamingLocator
+                {
+                    AssetName = assetName,
+                    StreamingPolicyName = "Predefined_ClearKey",
+                    DefaultContentKeyPolicyName = contentKeyPolicyName,
+                });
+        }
+
         private static async Task<Job> WaitForJobToFinishAsync(AzureMediaServicesClient mediaService, string resourceGroup, string accountName, string transformName, string jobName)
         {
             var sleepInterval = TimeSpan.FromSeconds(10);
@@ -233,18 +298,16 @@ namespace VodCreatorApp
             string transformName,
             string jobName,
             JobInput input,
-            IEnumerable<string> outputAssets)
+            string outputAssetName)
         {
             var jobParameters = new Job
             {
                 Input = input,
-                Outputs = new List<JobOutput>(),
+                Outputs = new List<JobOutput>()
+                {
+                    new JobOutputAsset(outputAssetName),
+                },
             };
-
-            foreach (var outputAsset in outputAssets)
-            {
-                jobParameters.Outputs.Add(new JobOutputAsset(outputAsset));
-            }
 
             var job = await mediaService.Jobs.CreateAsync(
                 resourceGroupName,
@@ -291,6 +354,30 @@ namespace VodCreatorApp
             return asset;
         }
 
+        private async Task<ContentKeyPolicy> CreateContentKeyPolicyAsync(
+            AzureMediaServicesClient mediaService,
+            string resourceGroupName,
+            string accountName,
+            string policyName,
+            string issuer,
+            string audience)
+        {            
+            var options = new ContentKeyPolicyOption[]
+            {
+                new ContentKeyPolicyOption(
+                    name: "ae128-option",
+                    configuration: new ContentKeyPolicyClearKeyConfiguration(),
+                    restriction: new ContentKeyPolicyTokenRestriction(
+                        issuer: issuer,
+                        audience: audience,
+                        primaryVerificationKey: new ContentKeyPolicySymmetricTokenKey(Guid.NewGuid().ToByteArray()),
+                        restrictionTokenType: ContentKeyPolicyRestrictionTokenType.Jwt)
+                )
+            };
+
+            return await mediaService.ContentKeyPolicies.CreateOrUpdateAsync(resourceGroupName, accountName, policyName, options, "test policy description");
+        }
+
         private static async Task<Transform> CreateTransformAsync(
             AzureMediaServicesClient mediaService,
             string resourceGroupName,
@@ -299,7 +386,6 @@ namespace VodCreatorApp
         {
             var outputs = new List<TransformOutput>
             {
-                new TransformOutput(new BuiltInStandardEncoderPreset(EncoderNamedPreset.AdaptiveStreaming)),
                 new TransformOutput
                 {
                     Preset = new StandardEncoderPreset
@@ -357,16 +443,6 @@ namespace VodCreatorApp
                         {
                             new Mp4Format(filenamePattern: "Video-{Basename}-{Label}-{Bitrate}{Extension}"),
                             new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Index}{Extension}"),
-                        },
-                        Filters = new Filters
-                        {
-                            Crop = new Rectangle
-                            {
-                                Left = "10%",
-                                Top = "10%",
-                                Height = "50%",
-                                Width = "50%",
-                            },
                         },
                     },
                 }

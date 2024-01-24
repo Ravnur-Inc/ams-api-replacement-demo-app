@@ -8,27 +8,11 @@
 
 ## Get RMS Connection Credentials
 
-1. On the Azure Portal, go to RMS Managed Application resource: Managed Applications center -> Marketplace Applications -> Find RMS Application and open it.
-2. Then click on "Parameters and Outputs". ![RMS Managed App view](img/rms-managed-app.png)
-3. In the list of outputs, copy "consoleURL" and open it in a browser. ![RMS Console URL](img/rms-managed-app-outputs.png)
-4. On the Console page, copy all necessary RMS connection credentials and save them to be later specified in your app configuration.
-   ![Console credentials](img/console-credentials.PNG)
+How to get RMS connection credentials you can find [here](how-to-get-credentials.md)
 
 ## Register Your AMS Storage(s) in RMS
 
-1. In the RMS Console page, press the "Manage" button for your RMS account. ![Manage account](img/console-manage-account.PNG)
-2. Go to your AMS account storage list. You need to register all of them but start with the primary one.
-   ![AMS storages](img/ams-storages.PNG)
-3. Set the name, key 1, and key 2.
-   ![AMS storage keys](img/ams-storage-keys.PNG)
-   ![Add storage in console](img/storage-console-empty.PNG)
-4. Make it primary.
-   ![Make storage primary](img/storage-console-added.PNG)
-5. Remove the existing default storage (optional).
-   ![Remove RMS default storage](img/storage-console-made-primary.PNG)
-6. Add all secondary storages, if any.
-
-> [!NOTE] **Storage Account Keys Rotation**: If you plan to rotate your storage keys, don't forget to update them in the RMS Console using the "Save" button.
+How to register custom storage account with RMS you can find [here](custom-storage.md)
 
 ## Migrate Your Application
 
@@ -92,6 +76,8 @@ Azure Media Player was developed specifically for AMS streams and does not work 
 * [Ravnur Media Player](https://strmsdemo.z13.web.core.windows.net/)
 * hls.js
 * dash.js
+
+You can find developer guide how to setup Ravnur Media Player [here](ravnur-player-instructions.md).
 
 ## Change Event Grid Subscriptions
 

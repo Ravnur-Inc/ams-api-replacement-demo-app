@@ -322,3 +322,5 @@ Source/Ravnur.Content.Migration/appsettings-CDCOE-Dev.json
 /Source/Ravnur.Content.Migration/appsettings-SDCOE-Prod.json
 /Source/Ravnur.Content.Migration/appsettings-SDCOE-Uat.json
 /Source/Ravnur.Content.Migration/appsettings-SDCOE-Dev.json
+sdk-ms-azure-management-demo/.vscode/launch.json
+sdk-ms-azure-management-demo/.vscode/tasks.json

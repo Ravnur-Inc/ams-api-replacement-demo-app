@@ -5,6 +5,7 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.Media;
 using Azure.ResourceManager.Media.Models;
 using Azure.Storage.Blobs;
+using Jose;
 using VodCreatorApp.Configuration;
 
 namespace VodCreatorApp
@@ -51,6 +52,8 @@ namespace VodCreatorApp
             string outputAssetName = $"output-{unique}";
             string jobName = $"job-{unique}";
             string locatorName = $"locator-{unique}";
+            string aes128locatorName = $"locator-{unique}-aes";
+            string contentKeyPolicyName = $"aeskeypolicy-{unique}";
 
             // Get transform
             var transform = await mediaService.GetMediaTransforms().GetAsync(TransformName);
@@ -82,13 +85,8 @@ namespace VodCreatorApp
             Console.WriteLine();
             Console.WriteLine($"Output asset created: {outputAsset.Data.Name} (container {outputAsset.Data.Container})");
 
-            string outputAssetName2 = $"{outputAssetName}_Croped";
-            var outputAsset2 = await CreateAsset(mediaService, outputAssetName2);
-            Console.WriteLine();
-            Console.WriteLine($"Output asset created: {outputAsset2.Data.Name} (container {outputAsset2.Data.Container})");
-
             // Create job
-            var job = await SubmitJobAsync(transform, jobName, jobInput, new List<MediaAssetResource> { outputAsset, outputAsset2 });
+            var job = await SubmitJobAsync(transform, jobName, jobInput, outputAssetName);
             Console.WriteLine();
             Console.WriteLine($"Job created: {job.Data.Name}");
 
@@ -144,6 +142,42 @@ namespace VodCreatorApp
                 Console.WriteLine(streamingUrl);
                 streamingUrls.Add(streamingUrl);
             }
+
+            // Prepearing AES-128 encrypted HLS stream
+            string issuer = "ravnur";
+            string audience = "rmstest";
+            // Create Content Key Policy for AES-128 encryption
+            var contentKeyPolicy = await CreateContentKeyPolicyAsync(mediaService, contentKeyPolicyName, issuer, audience);
+            // Create Streaming Locator with Content Key Policy
+            var aesLocator = await CreateAES128StreamingLocatorAsync(mediaService, outputAsset.Data.Name, aes128locatorName, contentKeyPolicy.Data.Name);
+            // List url for encrypted streaming
+            var aesPaths = await aesLocator.GetStreamingPathsAsync();
+
+            Console.WriteLine();
+            Console.WriteLine("The following URL is available for adaptive streaming with AES-128 encryption:");
+            foreach (StreamingPath path in aesPaths.Value.StreamingPaths)
+            {
+                foreach (string streamingFormatPath in path.Paths)
+                {
+                    var streamingUrl = $"https://{streamingEndpoint.Data.HostName}{streamingFormatPath}";
+                    Console.WriteLine($"{path.StreamingProtocol}: {streamingUrl}");
+                    streamingUrls.Add(streamingUrl);
+                }
+            }
+
+            // Generate test token for AES-128 encryption
+            ContentKeyPolicyTokenRestriction restriction = (ContentKeyPolicyTokenRestriction)contentKeyPolicy.Data.Options.First().Restriction;
+            ContentKeyPolicySymmetricTokenKey tokenKey = (ContentKeyPolicySymmetricTokenKey)restriction.PrimaryVerificationKey;
+            var token = JWT.Encode(new Dictionary<string, object>
+                {                
+                    { "exp", DateTimeOffset.UtcNow.AddHours(6).ToUnixTimeSeconds() },
+                    { "nbf", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
+                    { "iss", issuer },
+                    { "aud", audience }
+                },
+                tokenKey.KeyValue,
+                JwsAlgorithm.HS256);
+            Console.WriteLine($"Token for encrypted playback (valid for 6hrs): {token}");
         }
 
         private MediaServicesAccountResource CreateAmsClient()
@@ -196,6 +230,25 @@ namespace VodCreatorApp
             return locator.Value;
         }
 
+        private static async Task<StreamingLocatorResource> CreateAES128StreamingLocatorAsync(
+            MediaServicesAccountResource mediaService,
+            string assetName,
+            string locatorName,
+            string contentKeyPolicyName)
+        {
+            var locator = await mediaService.GetStreamingLocators().CreateOrUpdateAsync(
+                WaitUntil.Completed,
+                locatorName,
+                new StreamingLocatorData
+                {
+                    AssetName = assetName,
+                    StreamingPolicyName = "Predefined_ClearKey",
+                    DefaultContentKeyPolicyName = contentKeyPolicyName,
+                });
+
+            return locator.Value;
+        }
+
         private static async Task<MediaJobResource> WaitForJobToFinishAsync(MediaJobResource job)
         {
             var sleepInterval = TimeSpan.FromSeconds(10);
@@ -223,17 +276,14 @@ namespace VodCreatorApp
             MediaTransformResource transform,
             string jobName,
             MediaJobInputBasicProperties input,
-            IEnumerable<MediaAssetResource> outputAssets)
+            string outputAssetsName)
         {
             var mediaJobData = new MediaJobData
             {
-                Input = input,
+                Input = input
             };
 
-            foreach (var outputAsset in outputAssets)
-            {
-                mediaJobData.Outputs.Add(new MediaJobOutputAsset(outputAsset.Data.Name));
-            }
+            mediaJobData.Outputs.Add(new MediaJobOutputAsset(outputAssetsName));
 
             var job = await transform.GetMediaJobs().CreateOrUpdateAsync(
                 WaitUntil.Completed,
@@ -279,13 +329,40 @@ namespace VodCreatorApp
             return asset.Value;
         }
 
+        private async Task<ContentKeyPolicyResource> CreateContentKeyPolicyAsync(
+            MediaServicesAccountResource mediaService,
+            string policyName,
+            string issuer,
+            string audience)
+        {
+            var contentKeyPolicyData = new ContentKeyPolicyData()
+            {
+                Description = "Test Content Key Policy",
+            };
+
+            var aes128ContentKeyPolicyOption = new ContentKeyPolicyOption(
+                    configuration: new ContentKeyPolicyClearKeyConfiguration(),
+                    restriction: new ContentKeyPolicyTokenRestriction(
+                        issuer: issuer,
+                        audience: audience,
+                        primaryVerificationKey: new ContentKeyPolicySymmetricTokenKey(Guid.NewGuid().ToByteArray()),
+                        restrictionTokenType: ContentKeyPolicyRestrictionTokenType.Jwt))
+            {
+                Name = "ae128-option",
+            };
+
+            contentKeyPolicyData.Options.Add(aes128ContentKeyPolicyOption);
+
+            var policy = await mediaService.GetContentKeyPolicies().CreateOrUpdateAsync(WaitUntil.Completed, policyName, contentKeyPolicyData);
+            return policy.Value;
+        }
+
         private static async Task<MediaTransformResource> CreateTransformAsync(
             MediaServicesAccountResource mediaServicesAccount,
             string transformName)
         {
             var outputs = new MediaTransformOutput[]
             {
-                new MediaTransformOutput(new BuiltInStandardEncoderPreset(EncoderNamedPreset.AdaptiveStreaming)),
                 new MediaTransformOutput(
                     new StandardEncoderPreset(
                         codecs: new MediaCodecBase[]
@@ -354,19 +431,7 @@ namespace VodCreatorApp
                         {
                             new Mp4Format(filenamePattern: "Video-{Basename}-{Label}-{Bitrate}{Extension}"),
                             new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Label}-{Index}{Extension}"),
-                        })
-                    {
-                        Filters =  new FilteringOperations
-                        {
-                            Crop = new RectangularWindow
-                            {
-                                Left = "10%",
-                                Top = "10%",
-                                Height = "50%",
-                                Width = "50%",
-                            }
-                        },
-                    }),
+                        })),
             };
 
             var tranformData = new MediaTransformData
