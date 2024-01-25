@@ -1,4 +1,4 @@
-# Application Migration to RMS
+# AMS data Migration to RMS
 
 To enable the playback of media stored in your AMS account within RMS, follow the migration procedure outlined below. This process involves extracting necessary resources from your AMS account and storing them in the RMS database.
 
@@ -8,6 +8,9 @@ Entities to be migrated:
 - Streaming Policies
 - Assets
 - Streaming Locators
+
+Assets contents are not going to be copied or moved from the storage only its metadata will be migrated.
+This process is only a part of a bigger procedure of migration to RMS. That's why we recommened to [read it](docs/app-migration.md) before starting it.
 
 ## Pre requisits
 

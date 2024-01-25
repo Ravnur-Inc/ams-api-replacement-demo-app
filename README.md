@@ -60,7 +60,7 @@ RMS is offered as a managed application available from the Azure Marketplace. Th
 
 ## How do I migrate my existing AMS assets to RMS?
 
-Ravnur includes a migration tool as part of the RMS manage application. It copies the asset metadata (not content - that stays put), content key policies, transforms and streaming locators from AMS to RMS so that your assets are streamable within minutes. A migration guide will be delivered together with the RMS deployment instructions. For any migration-related queries, please refer to the Roadmap and Q&A sections.
+Ravnur includes a Console UI as part of the RMS manage application. It allows you to perform maintenance task including migration of data from existing AMS account. Migration job copies the asset metadata (not content - that stays put), content key policies, transforms and streaming locators from AMS to RMS so that your assets are streamable within minutes. We have a [complete migration guide](docs/app-migration.md) and [AMS metadata migration guide](docs/data-migration.md) as a part of it.
 
 ## RMS Feature Roadmap
 
@@ -87,7 +87,6 @@ The RMS API structure is a 100% mirror of the AMS API structure. The endpoints d
 No, you do not need to re-encode any videos. RMS can work with existing AMS assets without any issues.
 4.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR?**
 RMS can use the existing streaming locator. The streaming URL will need to be changed, but you need to change only the host. For example, if you have a streaming URL like this: https://ams1.streaming.media.azure.net/5197ca71-3edc-42b0-adff-12570b48b4e4/video_3500000.ism/manifest(format=m3u8-cmaf) you would need to change **ams1.streaming.media.azure.net** to the RMS host. The RMS host domain can be customized to use your domain.
-But in case if you are using your own CDN your URL will remain the same, if you configure it to use RMS host as an origin instead of AMS one.
 5.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR IF I’M USING A CDN?**
 No, all you need to change is your CDN origin so that it navigates to RMS and not AMS. As it was already mentioned in this case you don't need to update domain for your streaming URLs.
 6.	**DO I NEED TO MAKE CODE CHANGES IN MY APPLICATION TO USE THE RMS API?**
@@ -100,9 +99,9 @@ The standard output asset is h.264/AAC in an mp4 container.
 9.	**CAN I USE CUSTOM ENCODING PRESETS SIMILAR TO WHAT I HAD IN AMS?**
 Yes, custom transforms are supported.
 10.	**HOW WOULD YOU MIGRATE THE STREAMING FUNCTIONALITY FOR MY CURRENT AMS ASSETS?**
-The migration of AMS streaming to RMS contains of two parts: migration of your application to use RMS and migration of AMS data. Use [these instruction](docs/app-migration.md) to configure your application to use RMS instead of AMS: register your existing storage, update your CDN. And to migrate AMS data use [these instructions](docs/data-migration.md).
+Overall migration process consist of: replaceing AMS connection with RMS in your application code, registering your storage accounts in RMS and triggering AMS migration job in RMS Console. If you use Event Grid subscriptions or CDN you have to configure them as well. All these described in details in our [complete migration guide](docs/app-migration.md) and [AMS metadata migration guide](docs/data-migration.md) as a part of it.
 11.	**DO YOU PROVIDE ANY MIGRATION TOOLS FOR TRANSITIONING FROM AMS TO YOUR PLATFORM?**
-Yes, RMS has a special console UI which allows to perform some RMS maintenance actions including migration of your existing AMS account. It allows you to register your existing AMS storage account and trigger migration process which will copy your AMS metadata to RMS: transforms, streaming policies, content key policies, assets and locators. Instructions how to do it you can find [here](docs/data-migration.md).
+Yes, RMS has a special console UI which allows to perform different maintenance actions including migration of your existing AMS account. It allows you to register your AMS storage account and trigger migration process which will copy your AMS metadata to RMS: transforms, streaming policies, content key policies, assets and locators. Instructions how to do it you can find [here](docs/data-migration.md).
 12.	**WHERE IS THE MEDIA CONTENT STORED, AND CAN IT INTEGRATE SEAMLESSLY WITH MY CURRENT STORAGE ACCOUNT?**
 All media content is stored in your Azure Storage Account, following the existing AMS structure. No data copying is required.
 To register your existing AMS storage in RMS use [these instructions](docs/custom-storage.md). Note that RMS instance should be deployed to the same region as your existing AMS storage account.
