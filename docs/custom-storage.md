@@ -1,12 +1,12 @@
-## Ravnur Media Services custom storage account support
+## How to configure Ravnur Media Services to work with your existing storage account 
 
-Ravnur Media Services provides the feature of connecting a custom storage account as a media content storage. You will need to setup user-assigned managed identity access to your storage account to enable passwordless connection between RMS and your storage account.
+Ravnur Media Services allows you to continue using your existing storage accounts. Your current AMS account may have one or more storage accounts connect to it, and you can continue to use them. You will need to setup user-assigned managed identity access to your storage account to enable a secure connection between RMS and your storage account.
 
-The following sections provides step-by-step guide on how to connect custom storage to Ravnur Media Services
+The following sections provides step-by-step guide on how to connect your existing storage account(s) to Ravnur Media Services.
 
 ### Locate the User-Assigned Managed Identity
 
-1. Go the resource group created as part of the Ravnur Media Services deployment
+1. Go to the resource group created as part of the Ravnur Media Services deployment
 2. Under the list of resources, go to the “Managed Identity” section
 
 > The name of the Managed Identity wll be unique for your specific deployment, however, it always follows a pattern "id-\<unique-suffix\>"
