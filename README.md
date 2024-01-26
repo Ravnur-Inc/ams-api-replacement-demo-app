@@ -31,7 +31,7 @@ To run the RMS demo application, you will need:
 
 The demo application will connect to the RMS v0.8.1 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
 
-Specifically, the RMS v0.7 API will enable you to:
+Specifically, the RMS v0.8.1 API will enable you to:
 1.	Add a custom transform
 2.	Optionally add AES-128 encryption
 3.	Create input asset (if input is a local file)
