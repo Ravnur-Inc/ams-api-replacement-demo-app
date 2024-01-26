@@ -29,17 +29,19 @@ To run the RMS demo application, you will need:
 
 ## What can I test using the RMS Demo Application?
 
-The demo application will connect to the RMS v0.7 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
+The demo application will connect to the RMS v0.8.1 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
 
 Specifically, the RMS v0.7 API will enable you to:
-1.	Create input asset (if input is a local file)
-2.	Upload video/audio to the input asset (if input is a local file)
-3.	Create output asset
-4.	Initiate encoding job
-5.	Await completion of the encoding job
-6.	Create streaming locator
-7.	Retrieve streaming and download URLs
-8.	Monitor and act on all Event Grid job-related event types supported by Azure Media Services
+1.	Add a custom transform
+2.	Optionally add AES-128 encryption
+3.	Create input asset (if input is a local file)
+4.	Upload video/audio to the input asset (if input is a local file)
+5.	Create output asset
+6.	Initiate encoding job
+7.	Await completion of the encoding job
+8.	Create streaming locator
+9.	Retrieve streaming and download URLs, and the AES-128 token if used in the transform
+10.	Monitor and act on all Event Grid job-related event types supported by Azure Media Services
 
 On the respective pages for the SDK version of the demo application, you can see a screenshot of the API responses.
 
@@ -52,7 +54,7 @@ On the respective pages for the SDK version of the demo application, you can see
 
 Ravnur Media Services (RMS) replaces the most recent version of the Azure Media Services v3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing [Microsoft Azure Media Services (v3) documentation](https://learn.microsoft.com/en-us/rest/api/media/) for the comprehensive REST API description and documentation. With RMS, you do not need to reencode your content, and you can use your existing storage account because the output of RMS is identical to AMS. 
 
-Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.6, implemented the core AMS functionality for VOD encoding and streaming. The current version, RMS v0.7 includes additional functionality, such as support for custom transforms, CDN tokenization, AES-128 encryption, content key policiesand streaming policies.
+Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.6.0, implemented the core AMS functionality for VOD encoding and streaming. The current version, RMS v0.8.1 includes additional functionality, such as support for custom transforms, CDN tokenization, AES-128 encryption, content key policiesand streaming policies.
 
 ## How can I get Ravnur Media Services?
 
@@ -60,7 +62,7 @@ RMS is offered as a managed application available from the Azure Marketplace. Th
 
 ## How do I migrate my existing AMS assets to RMS?
 
-Ravnur includes a migration tool as part of the RMS manage application. It copies the asset metadata (not content - that stays put), content key policies, transforms and streaming locators from AMS to RMS so that your assets are streamable within minutes. A migration guide will be delivered together with the RMS deployment instructions. For any migration-related queries, please refer to the Roadmap and Q&A sections.
+Ravnur Media Services includes migration functionality as part of the RMS managed application. It copies the asset metadata (not content - that stays put), content key policies, transforms and streaming locators from AMS to RMS so that your assets are streamable within minutes. A migration guide will be delivered together with the RMS deployment instructions. For any migration-related queries, please refer to the Roadmap and Q&A sections.
 
 ## RMS Feature Roadmap
 
@@ -74,14 +76,14 @@ Ravnur includes a migration tool as part of the RMS manage application. It copie
 | Automatic migration of AMS assets/locators to RMS | Released | Migration instructions can be found on [this page](docs/data-migration.md) |
 | Custom Streaming Policy | Released | |
 | AES stream encoding | Released | |
-| DRM stream encoding | In development | |
+| DRM stream encoding | In QA | |
 | Smooth streaming | In developement | |
 | Custom Streaming Endpoints | Not supported | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. Implementation of this feature is not planned. |
 
 ## Ravnur Media Services FAQs
 
 1.	**HOW CLOSELY DOES YOUR API'S ARCHITECTURE MIRROR THAT OF AMS IN TERMS OF REQUEST/RESPONSE PATTERNS, URL STRUCTURES, AND DATA MODELS?**
-The RMS API structure is a 100% mirror of the AMS API structure. The endpoints delivered so far (December 2023) are Assets, Jobs, Streaming Locators, Streaming Endpoints, Transforms and Content Key Policies.
+The RMS API structure is a 100% mirror of the AMS API structure. The endpoints delivered so far (January 2024) are Assets, Jobs, Streaming Locators, Streaming Endpoints, Transforms and Content Key Policies.
 
 2.	**DO I NEED TO RE-ENCODE ALL MY VIDEOS?**
 No, you do not need to re-encode any videos. RMS can work with existing AMS assets without any issues.
