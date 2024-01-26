@@ -17,7 +17,7 @@ The following sections provides step-by-step guide on how to connect your existi
 
 1. Go the storage account you want to connect with Ravnur Media Services
 2. Navigate to Access Control (IAM) section
-3. Assign the following roles to the Managed Identity from the Ravnur Media Services resource group:
+3. Assign the following roles to the Managed Identity from the Ravnur Media Services managed resource group:
 - Reader
 - Storage Blob Data Contributor
 - Storage Blob Delegator
