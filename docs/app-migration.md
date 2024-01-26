@@ -83,7 +83,8 @@ You can find developer guide how to setup Ravnur Media Player [here](ravnur-play
 
 RMS produces the same Event Grid events schema as AMS. Use [these instructions](monitoring.md) to change your current Event Grid subscriptions to listen to RMS events instead.
 
-> [!NOTE] For this, your RMS instance should be deployed in the same subscription as your current AMS account.
+> [!NOTE]
+> For this, your RMS instance should be deployed in the same subscription as your current AMS account.
 
 ## Repoint Your CDN to RMS Original
 
