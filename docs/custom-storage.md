@@ -48,4 +48,5 @@ The step-by-step guide on how to assign Azure roles using the Azure portal can b
 
 ![Setting new storage as Primary in the RMS configuration](img/rms-console-set-primaty-storage.png)
 
-> **Important!** It may take up to 10 minutes to propagate the change of the primary storage account throughout the system
+> **Important!**
+> It may take up to 10 minutes to propagate the change of the primary storage account throughout the system
