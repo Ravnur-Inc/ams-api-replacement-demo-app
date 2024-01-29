@@ -176,7 +176,7 @@ https://strmsdemo.z13.web.core.windows.net/
 | muxURL | `https://src.litix.io/ core/2/mux.js` | `string` | Path to specific Mux version |
 | savePlayTime | `false` | `boolean` | If enabled, the player will save the last watched time in the browser's local storage. This allows the player to resume playback from the saved time during the next visit. |
 | aesToken | `undefined` | `string` | AES Token value |
-| playbackRates | `undefined` | Array of numbers | Custom playback rate options: an array of numbers from 0.01 to 5. For example, `[0.25, 0.50, 1, 1.75]`. Option 1 is always present as "Standard", and option 5 is hidden for audio-only media.|
+| playbackRates | `[0.5, 0.8, 1, 1.5, 2, 3, 5]` | Array of numbers | Custom playback rate options: an array of numbers from 0.01 to 5. For example, `[0.25, 0.50, 1, 1.75]`. Option 1 is always present as "Standard", and option 5 is hidden for audio-only media.|
 
 ## <a id="player-events"></a>Events
 
