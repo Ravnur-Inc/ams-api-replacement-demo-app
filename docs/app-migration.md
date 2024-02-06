@@ -95,7 +95,7 @@ At this point you have your storages registered in RMS and you ensured that your
 
 AMS streaming domain will be unavailable after AMS account deactivation. So please prepare your own custom domain for your CDN in advance. [Here](https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain) Microsoft gives instructions how to do this. After that your CDN endpoint should look like this:
 ![CDN before RMS migration](img/cdn-before-rms-migration.png)
-Also it means that all your existing streaming links should not use AMS streaming endpoint and use your own custom domain instead.
+Also it means that all your existing streaming links should be updted not to use AMS streaming endpoint domain and use your custom domain instead.
 
 ### Change CDN Origin
 
