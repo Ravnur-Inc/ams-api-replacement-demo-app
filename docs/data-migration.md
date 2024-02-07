@@ -9,6 +9,14 @@ Entities to be migrated:
 - Assets
 - Streaming Locators
 
+Assets contents are not going to be copied or moved from the storage only its metadata will be migrated.
+This process is only a part of a bigger procedure of migration to RMS. That's why we recommened to [read it](docs/app-migration.md) before starting it.
+
+## Pre requisits
+
+1. You need to know your RMS host name and be able to login to RMS console. You can find how to do that using [these instructions](how-to-get-credentials.md)
+2. Your AMS storage accounts need to be registered in your RMS instance. Use [these instructions](custom-storage.md) to do that.
+
 ## Get AMS credentials
 
 1. Open the Azure Portal and navigate to the AMS account that needs to be migrated.

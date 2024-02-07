@@ -1,4 +1,4 @@
-# Application Migration to RMS
+# Complete guide of Migration to RMS
 
 ## Prerequisites
 
@@ -86,19 +86,35 @@ RMS produces the same Event Grid events schema as AMS. Use [these instructions](
 > [!NOTE]
 > For this, your RMS instance should be deployed in the same subscription as your current AMS account.
 
-## Repoint Your CDN to RMS Original
+## AMS metadata migration
 
-1. Go to your CDN profile:
-   * In the Azure portal, go to your AMS account → Endpoints.
-   * Select the endpoint you use for streaming.
-   * Navigate to its CDN profile.
-2. Select the endpoint routed to your AMS endpoint. ![Ams endpoint location](img/cdn-update-1.png)
-3. Change the origin to your RMS streaming domain (it matches the RMS API endpoint domain). ![Change CDN origin](img/cdn-update-2.png)
-4. Wait for the origin change to propagate in the CDN. This can take a while. To ensure that the new origin is available, you can check the URL in a browser: "https://{AMS streaming endpoint domain}/console".
-5. Change the RMS streaming endpoint hostname:
+At this point you have your storages registered in RMS and you ensured that your application works seamlessly with RMS API. Now you can migrate all your existing AMS assets metadata to RMS. This migration copies only metadata of your assets; it does not copy or move your assets contents from storage. [These instructions](data-migration.md) will guide you throug this process.
+
+## Update CDN configuration
+
+### Change CDN domain
+
+AMS streaming domain will be awailable for a while after AMS shutdown, but they promise to remove it anyway. So we highly recommend you to prepare your own custom domain for your CDN in advance before migration to RMS. [Here](https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain) Microsoft gives instructions how to do this. After that your CDN endpoint should look like this:
+![CDN before RMS migration](img/cdn-before-rms-migration.png)
+It also means that all your existing streaming links should be updted not to use AMS streaming endpoint domain but your own custom domain instead.
+
+### Change CDN Origin
+
+After this step, all your existing streaming links will be routed to RMS streaming server. That's why it should be performed as part of your final migration procedure and incorporated into your first release with RMS, which can look like this:
+
+1. Specify CDN domain as a new RMS streaming endpoint hostname
    * Go to RMS Console -> Manage -> Streaming Endpoints.
      ![RMS Console endpoints](img/endpoints-console-origin.PNG)
-   * In the Host Name text box, specify the hostname of your current AMS account streaming endpoint and press "Save".
+   * Remember the host name of your RMS streaming endpoint, as you will need to use it as the new origin for your CDN
+   * In the "Host Name" text box, specify your CDN domain name (for AMS, it's the AMS streaming endpoint hostname), and then click "Save"
      ![Change endpoint host name](img/endpoints-console-changed.PNG)
-
-> [!NOTE] At this point, your existing VOD URLs will not work. To fix this, AMS data migration is required, which will be addressed soon
+   > [!NOTE] Without completing this step, your application may generate streaming links with the RMS origin domain instead of your CDN domain. It is because RMS API returns it to your application as a streaming endpoint hostname.
+2. Repoint your application to use RMS API
+   After this step your application will create all new videos in RMS instead of AMS, but their links will not work from CDN until the next step is completed.
+3. Change your CDN origin
+   * Navigate to your AMS Streaming Endpoint CDN profile
+   * Select the endpoint routed to your AMS endpoint. ![Ams endpoint location](img/cdn-update-1.png)
+   * Change the origin to your RMS streaming domain (it matches the RMS API endpoint domain). ![Change CDN origin](img/cdn-update-2.png)
+   * Wait for the origin change to propagate in the CDN. This can take a while. To ensure that the new origin is available, you can check the URL in a browser: "https://{your custom CDN domain}/console".
+4. Purge your CDN cache.
+   Your CDN contains cached AMS manifests with AMS segments URLs. And if some of segments are not in cache it will go to RMS which does not recognize such URLs. That's why please purge your CDN cache to ensure that all your VODs are correctly streamed.
