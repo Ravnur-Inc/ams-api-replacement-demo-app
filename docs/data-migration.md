@@ -1,6 +1,6 @@
-# AMS data Migration to RMS
+# AMS Account Data Migration to RMS
 
-To enable the playback of media stored in your AMS account within RMS, follow the migration procedure outlined below. This process involves extracting necessary resources from your AMS account and storing them in the RMS database.
+To enable the continued playback of media stored in your AMS storage account with RMS, follow the migration procedure outlined below. This process involves copying the  necessary entities from your AMS account to the RMS database.
 
 Entities to be migrated:
 - Transforms
