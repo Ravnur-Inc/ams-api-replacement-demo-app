@@ -11,7 +11,6 @@ Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) 
         "description": "multi-drm-cenc",
         "options": [
             {
-                "policyOptionId": "b85d7243-3aa5-4df6-1df2-08dc27247b18",
                 "name": "widevine-option",
                 "configuration": {
                     "@odata.type": "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
@@ -39,6 +38,7 @@ Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) 
     }
 }
 ```
+WidevineTemplate field contains streaming restrictions in Json format, details about it can be found here https://learn.microsoft.com/en-us/azure/media-services/latest/drm-widevine-license-template-concept
 
 2. Then you need to create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy should be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
 ![screenshot](img/widevine-sl.png)
@@ -111,3 +111,4 @@ PlayReady DRM technology can be used on Edge browser on Windows. More details ab
     }
 }
 ```
+Licenses filed contains streaming restriction setting, details about it can be found here https://learn.microsoft.com/en-us/playready/overview/license-and-policies
