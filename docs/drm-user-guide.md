@@ -48,12 +48,12 @@ WidevineTemplate field contains streaming restrictions in Json format, details a
 5. Select DRM pane. In Custom License Server URL field you need to enter https://widevine-dash.ezdrm.com/widevine-php/widevine-foreignkey.php?pX=[ezdrm_widevine_profile_id]&locatorid=[locator_id]&authorization=[token]
 ![screenshot](img/widevine-shaka-drm.png)
 
-ezdrm_widevine_profile_id - get from Widevine DRM profile in your EZDRM Account:
+![#1589F0]ezdrm_widevine_profile_id`#1589F0` - get from Widevine DRM profile in your EZDRM Account:
 ![screenshot](img/widevine-ezdrm-id.png)
 
-locator_id - ID of Streaming Locator you have created on step 2
+![#1589F0]locator_id`#1589F0` - ID of Streaming Locator you have created on step 2
 
-token - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
+![#1589F0]token`#1589F0` - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
 
 6. Now media can be played.
 
@@ -121,12 +121,12 @@ Licenses filed contains streaming restriction setting, details about it can be f
 5. Select DRM pane. In Custom License Server URL field you need to enter https://playready.ezdrm.com/cency/preauth.aspx?pX=[ezdrm_playready_profile_id]&locatorid=[locator_id]&authorization=[token]
 ![screenshot](img/playready-shaka-drm.png)
 
-ezdrm_playready_profile_id - get from Widevine DRM profile in your EZDRM Account:
+![#1589F0]ezdrm_playready_profile_id`#1589F0` - get from Widevine DRM profile in your EZDRM Account:
 ![screenshot](img/playready-ezdrm-id.png)
 
-locator_id - ID of Streaming Locator you have created on step 2
+![#1589F0]locator_id`#1589F0` - ID of Streaming Locator you have created on step 2
 
-token - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
+![#1589F0]token`#1589F0` - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
 
 6. Now media can be played.
 
@@ -177,9 +177,9 @@ Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and Safari o
 
    ![screenshot](img/fairplay-shaka-drm.png)
 
-locator_id - ID of Streaming Locator you have created on step 2
+![#1589F0]locator_id`#1589F0` - ID of Streaming Locator you have created on step 2
 
-token - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
+![#1589F0]token`#1589F0` - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
 
 6. Now media can be played.
 
@@ -195,10 +195,10 @@ For testing purposes Authorization Token can be generated on https://jwt.io/
     "aud": "test"
 }
 ```
-exp - token expiration date in unix timestamp format (You can edit it right there in payload field and tip will showl you readable value).
-nbf - token validity start date in unix timestamp format.
-iss - issuer value from Content Key Policy.
-aud - audience value from Content Key Policy.
+![#1589F0]exp`#1589F0` - token expiration date in unix timestamp format (You can edit it right there in payload field and tip will showl you readable value).
+![#1589F0]nbf`#1589F0` - token validity start date in unix timestamp format.
+![#1589F0]iss`#1589F0` - issuer value from Content Key Policy.
+![#1589F0]aud`#1589F0` - audience value from Content Key Policy.
 
 If you have any additional Required CLaims in your Content Key Policy, you should add it payload data.
 
