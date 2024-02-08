@@ -1,6 +1,6 @@
-This instruction is about how to use DRM feature
+# This instruction is about how to use DRM feature
 
-Widevine DRM
+## Widevine DRM
 Widevine DRM technology works on webkit browsers (Chrome, Opera, Firefox) on Windows and macOS.
 
 1. To use it first you need to create ContentKeyPolicy with Widevine option:
