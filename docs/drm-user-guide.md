@@ -1,10 +1,13 @@
 # This instruction is about how to use DRM feature
 RMS supports 3 Google Widevine, Microsof tPlayReady and Apple FairPlay DRM technologies, each of them can be used on appropriate devices and operation systems. You can find full Platform compatibility table here: https://www.drm.cloud/platform-compatibility.
+RMS use EZDRM as license provider, so before start using DRM on RMs you need to create account on EZDRM https://www.ezdrm.com
 
 ## Widevine DRM
 Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) on Windows and macOS.
+First of all, you need to configure your EZDRM Widevine account. Enter https://[rms_domain]/drmservice/widevine as Authorization URL.
+![screenshot](img/widevine-ezdrm-acc.png)
 
-1. To use it first you need to create ContentKeyPolicy with Widevine option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in RequiredClaims array if needed.
+1. Create Content Key Policy with Widevine option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in Required Claims array if needed.
 ```JSON
 {
     "properties": {
@@ -59,6 +62,8 @@ token - JWT token to authorize your access to media. How to generate appropriate
 
 ## PlayReady DRM
 PlayReady DRM technology can be used on Edge browser on Windows. More details about it you can read here https://learn.microsoft.com/en-us/playready/overview/overview.
+First of all, you need to configure your EZDRM Widevine account. Enter https://[rms_domain]/drmservice/playready as Authorization URL.
+![screenshot](img/playready-ezdrm-acc.png)
 
 1. Create Content Key Policy with PlayReady option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in RequiredClaims array if needed.
 ```JSON
@@ -132,6 +137,8 @@ token - JWT token to authorize your access to media. How to generate appropriate
 
 ## FairPlay DRM
 Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and Safari on macOS. First of all, you need to get AFP Certificate from Apple and configure your EZDRM FairPlay account. Instruction about how to do that you can find in your EZDRM account.
+Also you need to set https://[rms_domain]/drmservice/playready as Autorization URL.
+![screenshot](img/fairplay-ezdrm-acc.png)
 
 1. Create Content Key Policy with FairPlay option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in RequiredClaims array if needed.
 ```JSON
