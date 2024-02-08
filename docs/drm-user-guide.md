@@ -40,13 +40,13 @@ Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) 
 ```
 WidevineTemplate field contains streaming restrictions in Json format, details about it can be found here https://learn.microsoft.com/en-us/azure/media-services/latest/drm-widevine-license-template-concept
 
-2. Then you need to create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy should be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
+2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy should be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
 ![screenshot](img/widevine-sl.png)
 
 3. Then you need to get streaming paths.
 ![screenshot](img/widevine-paths.png)
 
-4. For playback testing we can use SHAKA Player. Go To https://shaka-player-demo.appspot.com/demo -> Custom Content and create new player source. Enter streaming url to Manifest URL field.
+4. For playback testing we can use SHAKA Player. Open browser that supports Widevine, go To https://shaka-player-demo.appspot.com/demo -> Custom Content and create new player source. Enter streaming url to Manifest URL field.
 
     ![screenshot](img/widevine-shaka-main.png)
 
@@ -112,3 +112,9 @@ PlayReady DRM technology can be used on Edge browser on Windows. More details ab
 }
 ```
 Licenses filed contains streaming restriction setting, details about it can be found here https://learn.microsoft.com/en-us/playready/overview/license-and-policies
+
+2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy should be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
+![screenshot](img/widevine-sl.png)
+
+3. Then you need to get streaming paths.
+![screenshot](img/widevine-paths.png)
