@@ -216,3 +216,7 @@ If you have any additional Required CLaims in your Content Key Policy, you shoul
 ![screenshot](img/drm-token.png)
 
 3. Now you can get your token from input field on left.
+
+RMS support two additional token claims:
+1. "urn:microsoft:azure:mediaservices:maxuses" : "[uses_count]" - this calim allows you to restrict token usage count. When using this feature, requests with tokens whose expiry time is more than one hour away from the time the request is received are rejected with an unauthorized response.
+2. "urn:microsoft:azure:mediaservices:contentkeyidentifier" : "[streaming_locator_id]" - restrict token to be used only with specified streaming locator.
