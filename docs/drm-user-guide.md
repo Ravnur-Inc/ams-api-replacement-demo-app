@@ -4,7 +4,7 @@ RMS supports 3 Google Widevine, Microsof tPlayReady and Apple FairPlay DRM techn
 ## Widevine DRM
 Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) on Windows and macOS.
 
-1. To use it first you need to create ContentKeyPolicy with Widevine option.
+1. To use it first you need to create ContentKeyPolicy with Widevine option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in RequiredClaims array if needed.
 ```JSON
 {
     "properties": {
@@ -19,19 +19,14 @@ Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) 
                 "restriction": {
                     "restrictionTokenType": "Jwt",
                     "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
-                    "issuer": "vanosov",
-                    "audience": "ravnur",
+                    "issuer": "ravnur",
+                    "audience": "test",
                     "primaryVerificationKey": {
                         "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
                         "keyValue": "8RyJAV6mc6kk7m7ywFeyO6oUp0Jam1UoqvxEs/UhjrRElWdoD15R6iBWi1Am+En1s6Lv3pbYN94+Nt+3BdxETw=="
                     },
                     "alternateVerificationKeys": [],
-                    "requiredClaims": [
-                        {
-                            "claimType": "env",
-                            "claimValue": "local"
-                        }
-                    ]
+                    "requiredClaims": []
                 }
             }
         ]
@@ -60,12 +55,12 @@ locator_id - ID of Streaming Locator you have created on step 2
 
 token - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
 
-6. Now media can be played
+6. Now media can be played.
 
 ## PlayReady DRM
 PlayReady DRM technology can be used on Edge browser on Windows. More details about it you can read here https://learn.microsoft.com/en-us/playready/overview/overview.
 
-1. Create Content Key Policy with PlayReady option.
+1. Create Content Key Policy with PlayReady option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in RequiredClaims array if needed.
 ```JSON
 {
     "properties": {
@@ -98,7 +93,7 @@ PlayReady DRM technology can be used on Edge browser on Windows. More details ab
                     "restrictionTokenType": "Jwt",
                     "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
                     "issuer": "ravnur",
-                    "audience": "vian",
+                    "audience": "test",
                     "primaryVerificationKey": {
                         "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
                         "keyValue": "AopgfzcxUkS9LaQJtUxhlw=="
@@ -132,3 +127,57 @@ ezdrm_playready_profile_id - get from Widevine DRM profile in your EZDRM Account
 locator_id - ID of Streaming Locator you have created on step 2
 
 token - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
+
+6. Now media can be played.
+
+## FairPlay DRM
+Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and Safari on macOS. First of all, you need to get AFP Certificate from Apple and configure your EZDRM FairPlay account. Instruction about how to do that you can find in your EZDRM account.
+
+1. Create Content Key Policy with FairPlay option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in RequiredClaims array if needed.
+```JSON
+{
+    "properties": {
+        "description": "drm-cbcs",
+        "options": [
+            {
+                "policyOptionId": "63e86438-adbe-4af4-37d5-08dc2690c330",
+                "name": "fairplay-option",
+                "configuration": {
+                    "rentalAndLeaseKeyType": "DualExpiry",
+                    "@odata.type": "#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration"
+                },
+                "restriction": {
+                    "restrictionTokenType": "Jwt",
+                    "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                    "issuer": "ravnur",
+                    "audience": "test",
+                    "primaryVerificationKey": {
+                        "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                        "keyValue": "AopgfzcxUkS9LaQJtUxhlw=="
+                    },
+                    "alternateVerificationKeys": [],
+                    "requiredClaims": []
+                }
+            }
+        ]
+    }
+}
+```
+
+2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy should be or Predefined_MultiDrmStreaming.
+![screenshot](img/fairplay-sl.png)
+
+3. Then you need to get streaming paths.
+![screenshot](img/fairplay-paths.png)
+
+4.  For playback testing we can use SHAKA Player. Open browser that supports FairPlay, go To https://shaka-player-demo.appspot.com/demo -> Custom Content and create new player source. Enter streaming url to Manifest URL field.
+![screenshot](img/fairplay-shaka-main.png)
+
+5. Select DRM pane. In Custom License Server URL field you need to enter https://fps.ezdrm.com/api/licenses/253dd150-b3b4-4271-beee-c87cfa39b94?locatorid=[locator_id]&authorization=[token], in Custom License Certificate URL enter https://strms3vo4bxhqzr62k.blob.core.windows.net/drm/fairplay.cer
+![screenshot](img/fairplay-shaka-drm.png)
+
+locator_id - ID of Streaming Locator you have created on step 2
+
+token - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
+
+6. Now media can be played.
