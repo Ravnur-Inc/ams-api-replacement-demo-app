@@ -13,7 +13,7 @@ Widevine DRM technology works on webkit browsers (Chrome, Opera, Firefox) on Win
 ![screenshot](img/widevine-paths.png)
 
 4.For playback testing we can use SHAKA Player. Go To https://shaka-player-demo.appspot.com/demo -> Custom Content and crate new player source. Enter streaming url to Manifest URL field:
-![screenshot](img/widevine-shaka-main)
+![screenshot](img/widevine-shaka-main.png)
 
 5. Select DRM pane. In Custom License SErver URL field you need to enter https://widevine-dash.ezdrm.com/widevine-php/widevine-foreignkey.php?pX=[ezdrm_widevine__profile_id]&locatorid=[locator_id]&authorization=[token]
 ![screenshot](img/widevine-shaka-drm.png)
