@@ -174,7 +174,8 @@ Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and Safari o
 ![screenshot](img/fairplay-shaka-main.png)
 
 5. Select DRM pane. In Custom License Server URL field you need to enter https://fps.ezdrm.com/api/licenses/253dd150-b3b4-4271-beee-c87cfa39b94?locatorid=[locator_id]&authorization=[token], in Custom License Certificate URL enter https://strms3vo4bxhqzr62k.blob.core.windows.net/drm/fairplay.cer
-![screenshot](img/fairplay-shaka-drm.png)
+
+   ![screenshot](img/fairplay-shaka-drm.png)
 
 locator_id - ID of Streaming Locator you have created on step 2
 
