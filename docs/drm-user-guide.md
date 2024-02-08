@@ -182,3 +182,27 @@ locator_id - ID of Streaming Locator you have created on step 2
 token - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
 
 6. Now media can be played.
+
+## How to generate Authorization Token
+For testing purposes Authorization Token can be generated on https://jwt.io/
+
+1. Put this JSON as payload data:
+```JSON
+{
+    "exp": 1707265900,
+    "nbf": 1707244300,
+    "iss": "ravnur",
+    "aud": "test"
+}
+```
+exp - token expiration date in unix timestamp format (You can edit it right there in payload field and tip will showl you readable value).
+nbf - token validity start date in unix timestamp format.
+iss - issuer value from Content Key Policy.
+aud - audience value from Content Key Policy.
+
+If you have any additional Required CLaims in your Content Key Policy, you should add it payload data.
+
+2. Enter Primary Verification Key, you can get it from Content Key Policy that was used to create streaming Locator that you want to play
+![screenshot](img/drm-token.png)
+
+3. Now you can get your token from input field on left.
