@@ -38,7 +38,7 @@ First of all, you need to configure your EZDRM Widevine account. Enter https://[
 ```
 WidevineTemplate field contains streaming restrictions in Json format, details about it can be found here https://learn.microsoft.com/en-us/azure/media-services/latest/drm-widevine-license-template-concept
 
-2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy should be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
+2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy can be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
 ![screenshot](img/widevine-sl.png)
 
 3. Then you need to get streaming paths.
@@ -54,7 +54,7 @@ WidevineTemplate field contains streaming restrictions in Json format, details a
 ezdrm_widevine_profile_id - get from Widevine DRM profile in your EZDRM Account:
 ![screenshot](img/widevine-ezdrm-id.png)
 
-locator_id - ID of Streaming Locator you have created on step 2
+locator_id - ID of Streaming Locator you have created on step 2.
 
 token - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
 
@@ -111,19 +111,19 @@ First of all, you need to configure your EZDRM Widevine account. Enter https://[
     }
 }
 ```
-Licenses filed contains streaming restriction setting, details about it can be found here: https://learn.microsoft.com/en-us/playready/overview/license-and-policies
+Licenses field contains streaming restriction setting, details about it can be found here: https://learn.microsoft.com/en-us/playready/overview/license-and-policies
 
-2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy should be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
+2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy can be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
 ![screenshot](img/widevine-sl.png)
 
 3. Then you need to get streaming paths.
 ![screenshot](img/widevine-paths.png)
 
-4. For playback testing we can use SHAKA Player. Open browser that supports (Edge) PlayReady, go To https://shaka-player-demo.appspot.com/demo -> Custom Content and create new player source. Enter streaming url to Manifest URL field.
+4. For playback testing we can use SHAKA Player. Open browser that supports PlayReady (Edge), go To https://shaka-player-demo.appspot.com/demo -> Custom Content and create new player source. Enter streaming url to Manifest URL field.
 
     ![screenshot](img/playready-shaka-main.png)
 
-5. Select DRM pane. In Custom License Server URL field you need to enter https://playready.ezdrm.com/cency/preauth.aspx?pX=[ezdrm_playready_profile_id]&locatorid=[locator_id]&authorization=[token]
+5. Go to DRM pane. In Custom License Server URL field you need to enter https://playready.ezdrm.com/cency/preauth.aspx?pX=[ezdrm_playready_profile_id]&locatorid=[locator_id]&authorization=[token]
 ![screenshot](img/playready-shaka-drm.png)
 
 ezdrm_playready_profile_id - get from Widevine DRM profile in your EZDRM Account:
@@ -136,8 +136,8 @@ token - JWT token to authorize your access to media. How to generate appropriate
 6. Now media can be played.
 
 ## FairPlay DRM
-Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and with Safari on macOS. First of all, you need to get AFP Certificate from Apple and configure your EZDRM FairPlay account. Instruction about how to do that you can find in your EZDRM account.
-To play FairPlai DRM source player also requires URL to certificate from Apple, so it should be sotored somewhere with public or protected access (e.g. Azure storage blob with SAS or public access).
+Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and with Safari on macOS. First of all, you need to get AFP Certificate from Apple and configure your EZDRM FairPlay account. Instruction on how to do that you can find in your EZDRM account.
+To play FairPlay DRM source player also requires URL to AFP Certificate, so it should be stored somewhere with public or protected access (e.g. Azure storage blob with SAS or public access).
 Then you need to set https://[rms_domain]/drmservice/playready as Autorization URL.
 ![screenshot](img/fairplay-ezdrm-acc.png)
 
@@ -172,7 +172,7 @@ Then you need to set https://[rms_domain]/drmservice/playready as Autorization U
 }
 ```
 
-2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy should be or Predefined_MultiDrmStreaming.
+2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy should be Predefined_MultiDrmStreaming.
 ![screenshot](img/fairplay-sl.png)
 
 3. Then you need to get streaming paths.
@@ -181,7 +181,7 @@ Then you need to set https://[rms_domain]/drmservice/playready as Autorization U
 4.  For playback testing we can use SHAKA Player. Open browser that supports FairPlay, go To https://shaka-player-demo.appspot.com/demo -> Custom Content and create new player source. Enter streaming url to Manifest URL field.
 ![screenshot](img/fairplay-shaka-main.png)
 
-5. Select DRM pane. In Custom License Server URL field you need to enter https://fps.ezdrm.com/api/licenses/[fairplay_asset_id]?locatorid=[locator_id]&authorization=[token], in Custom License Certificate URL enter the URL to your Apple FairPlay sertificate.
+5. Go to DRM pane. In Custom License Server URL field you need to enter https://fps.ezdrm.com/api/licenses/[fairplay_asset_id]?locatorid=[locator_id]&authorization=[token], in Custom License Certificate URL enter the URL to your Apple FairPlay sertificate.
 
    ![screenshot](img/fairplay-shaka-drm.png)
 
@@ -213,18 +213,18 @@ iss - issuer value from Content Key Policy.
 
 aud - audience value from Content Key Policy.
 
-If you have any additional Required CLaims in your Content Key Policy, you should add it payload data.
+If you have any additional Required CLaims in your Content Key Policy, you should add it to payload data.
 
 2. Enter Primary Verification Key, you can get it from Content Key Policy that was used to create Streaming Locator that you want to play.
 ![screenshot](img/drm-token.png)
 
 3. Now you can get your token from input field on the left.
 
-RMS support two additional token claims:
+RMS supports two additional token claims:
 1. "urn:microsoft:azure:mediaservices:maxuses" : "[uses_count]" - this claim allows you to restrict token usage count. When using this feature, requests with tokens whose expiry time is more than one hour away from the time the request is received are rejected with an unauthorized response.
 2. "urn:microsoft:azure:mediaservices:contentkeyidentifier" : "[streaming_locator_id]" - restrict token to be used only with specified streaming locator. If you want to use this claim you also need to add it to appropriate Content Key Policy with empty value.
 
 ## NOTES
 
-1. It is better to create single Content Key Policy with all required DRM options, in this case Streaming Locator created with this Content Key Policy will be playable an any device. but there is restriction related to Streaming Policies: Predefined_MultiDrmStreaming can work with all three DRM technologies, Predefined_MultiDrmCencStreaming can work only with Widevine and PlayReady. This mean that you can create one Content Key Policy with all three DRM tech, but depending on Streaming Policy you've selected when creating Streaming Locator, this locator will work on Apple devices or not.
+1. You can create single Content Key Policy with all required DRM options, in this case Streaming Locator created with this Content Key Policy will be playable on any device. But there is restriction related to Streaming Policies: Predefined_MultiDrmStreaming can work with all three DRM technologies, Predefined_MultiDrmCencStreaming can work only with Widevine and PlayReady. This mean that you can create one Content Key Policy with all three DRM tech, but depending on Streaming Policy you've selected when creating Streaming Locator, this locator will work on Apple devices or not.
 2. 
