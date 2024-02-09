@@ -1,4 +1,4 @@
-# This instruction is about how to use DRM feature
+# These instructions are about how to use the DRM feature
 RMS supports Google Widevine, Microsof PlayReady and Apple FairPlay DRM technologies, each of them can be used on appropriate devices and operation systems. You can find full Platform Compatibility table here: https://www.drm.cloud/platform-compatibility.
 RMS use EZDRM as license provider, so before start using DRM on RMS you need to create account on EZDRM https://www.ezdrm.com
 
@@ -61,7 +61,7 @@ token - JWT token to authorize your access to media. How to generate appropriate
 6. Now media can be played.
 
 ## PlayReady DRM
-PlayReady DRM technology can be used on Edge browser on Windows. More details about it you can read here https://learn.microsoft.com/en-us/playready/overview/overview.
+PlayReady DRM technology can be used on Edge browsers on Windows. More details about it you can read here https://learn.microsoft.com/en-us/playready/overview/overview.
 First of all, you need to configure your EZDRM Widevine account. Enter https://[rms_domain]/drmservice/playready as Authorization URL.
 ![screenshot](img/playready-ezdrm-acc.png)
 
@@ -218,7 +218,7 @@ If you have any additional Required CLaims in your Content Key Policy, you shoul
 3. Now you can get your token from input field on the left.
 
 RMS support two additional token claims:
-1. "urn:microsoft:azure:mediaservices:maxuses" : "[uses_count]" - this calim allows you to restrict token usage count. When using this feature, requests with tokens whose expiry time is more than one hour away from the time the request is received are rejected with an unauthorized response.
+1. "urn:microsoft:azure:mediaservices:maxuses" : "[uses_count]" - this claim allows you to restrict token usage count. When using this feature, requests with tokens whose expiry time is more than one hour away from the time the request is received are rejected with an unauthorized response.
 2. "urn:microsoft:azure:mediaservices:contentkeyidentifier" : "[streaming_locator_id]" - restrict token to be used only with specified streaming locator. If you want to use this claim you also need to add it to appropriate Content Key Policy with empty value.
 
 ## NOTES
