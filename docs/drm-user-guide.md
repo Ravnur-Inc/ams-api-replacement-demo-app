@@ -1,4 +1,4 @@
-# These instructions are about how to use the DRM feature
+# How to configure and test DRM feature
 RMS supports Google Widevine, Microsof PlayReady and Apple FairPlay DRM technologies, each of them can be used on appropriate devices and operation systems. You can find full Platform Compatibility table here: https://www.drm.cloud/platform-compatibility.
 RMS use EZDRM as license provider, so before start using DRM on RMS you need to create account on EZDRM https://www.ezdrm.com
 
@@ -137,6 +137,7 @@ token - JWT token to authorize your access to media. How to generate appropriate
 
 ## FairPlay DRM
 Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and with Safari on macOS. First of all, you need to get AFP Certificate from Apple and configure your EZDRM FairPlay account. Instruction about how to do that you can find in your EZDRM account.
+To play FairPlai DRM source player also requires URL to certificate from Apple, so it should be sotored somewhere with public or protected access (e.g. Azure storage blob with SAS or public access).
 Then you need to set https://[rms_domain]/drmservice/playready as Autorization URL.
 ![screenshot](img/fairplay-ezdrm-acc.png)
 
@@ -180,9 +181,11 @@ Then you need to set https://[rms_domain]/drmservice/playready as Autorization U
 4.  For playback testing we can use SHAKA Player. Open browser that supports FairPlay, go To https://shaka-player-demo.appspot.com/demo -> Custom Content and create new player source. Enter streaming url to Manifest URL field.
 ![screenshot](img/fairplay-shaka-main.png)
 
-5. Select DRM pane. In Custom License Server URL field you need to enter https://fps.ezdrm.com/api/licenses/253dd150-b3b4-4271-beee-c87cfa39b94?locatorid=[locator_id]&authorization=[token], in Custom License Certificate URL enter https://strms3vo4bxhqzr62k.blob.core.windows.net/drm/fairplay.cer
+5. Select DRM pane. In Custom License Server URL field you need to enter https://fps.ezdrm.com/api/licenses/[fairplay_asset_id]?locatorid=[locator_id]&authorization=[token], in Custom License Certificate URL enter the URL to your Apple FairPlay sertificate.
 
    ![screenshot](img/fairplay-shaka-drm.png)
+
+fairplay_asset_id - AssetID from your EZDRM FairPlay Account.
 
 locator_id - ID of Streaming Locator you have created on step 2
 
