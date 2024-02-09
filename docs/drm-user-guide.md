@@ -1,6 +1,6 @@
 # This instruction is about how to use DRM feature
-RMS supports 3 Google Widevine, Microsof tPlayReady and Apple FairPlay DRM technologies, each of them can be used on appropriate devices and operation systems. You can find full Platform compatibility table here: https://www.drm.cloud/platform-compatibility.
-RMS use EZDRM as license provider, so before start using DRM on RMs you need to create account on EZDRM https://www.ezdrm.com
+RMS supports Google Widevine, Microsof PlayReady and Apple FairPlay DRM technologies, each of them can be used on appropriate devices and operation systems. You can find full Platform Compatibility table here: https://www.drm.cloud/platform-compatibility.
+RMS use EZDRM as license provider, so before start using DRM on RMS you need to create account on EZDRM https://www.ezdrm.com
 
 ## Widevine DRM
 Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) on Windows and macOS.
@@ -111,7 +111,7 @@ First of all, you need to configure your EZDRM Widevine account. Enter https://[
     }
 }
 ```
-Licenses filed contains streaming restriction setting, details about it can be found here https://learn.microsoft.com/en-us/playready/overview/license-and-policies
+Licenses filed contains streaming restriction setting, details about it can be found here: https://learn.microsoft.com/en-us/playready/overview/license-and-policies
 
 2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy should be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
 ![screenshot](img/widevine-sl.png)
@@ -136,8 +136,8 @@ token - JWT token to authorize your access to media. How to generate appropriate
 6. Now media can be played.
 
 ## FairPlay DRM
-Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and Safari on macOS. First of all, you need to get AFP Certificate from Apple and configure your EZDRM FairPlay account. Instruction about how to do that you can find in your EZDRM account.
-Also you need to set https://[rms_domain]/drmservice/playready as Autorization URL.
+Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and with Safari on macOS. First of all, you need to get AFP Certificate from Apple and configure your EZDRM FairPlay account. Instruction about how to do that you can find in your EZDRM account.
+Then you need to set https://[rms_domain]/drmservice/playready as Autorization URL.
 ![screenshot](img/fairplay-ezdrm-acc.png)
 
 1. Create Content Key Policy with FairPlay option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in RequiredClaims array if needed.
@@ -202,7 +202,7 @@ For testing purposes Authorization Token can be generated on https://jwt.io/
     "aud": "test"
 }
 ```
-exp - token expiration date in unix timestamp format (You can edit it right there in payload field and tip will showl you readable value).
+exp - token expiration date in unix timestamp format (You can edit it right there in payload field and tip will show you readable value).
 
 nbf - token validity start date in unix timestamp format.
 
@@ -212,11 +212,16 @@ aud - audience value from Content Key Policy.
 
 If you have any additional Required CLaims in your Content Key Policy, you should add it payload data.
 
-2. Enter Primary Verification Key, you can get it from Content Key Policy that was used to create streaming Locator that you want to play
+2. Enter Primary Verification Key, you can get it from Content Key Policy that was used to create Streaming Locator that you want to play.
 ![screenshot](img/drm-token.png)
 
-3. Now you can get your token from input field on left.
+3. Now you can get your token from input field on the left.
 
 RMS support two additional token claims:
 1. "urn:microsoft:azure:mediaservices:maxuses" : "[uses_count]" - this calim allows you to restrict token usage count. When using this feature, requests with tokens whose expiry time is more than one hour away from the time the request is received are rejected with an unauthorized response.
 2. "urn:microsoft:azure:mediaservices:contentkeyidentifier" : "[streaming_locator_id]" - restrict token to be used only with specified streaming locator. If you want to use this claim you also need to add it to appropriate Content Key Policy with empty value.
+
+## NOTES
+
+1. It is better to create single Content Key Policy with all required DRM options, in this case Streaming Locator created with this Content Key Policy will be playable an any device. but there is restriction related to Streaming Policies: Predefined_MultiDrmStreaming can work with all three DRM technologies, Predefined_MultiDrmCencStreaming can work only with Widevine and PlayReady. This mean that you can create one Content Key Policy with all three DRM tech, but depending on Streaming Policy you've selected when creating Streaming Locator, this locator will work on Apple devices or not.
+2. 
