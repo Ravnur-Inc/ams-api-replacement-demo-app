@@ -1,6 +1,6 @@
 # How to configure and test DRM feature
 RMS supports Google Widevine, Microsof PlayReady and Apple FairPlay DRM technologies, each of them can be used on appropriate devices and operation systems. You can find full Platform Compatibility table here: https://www.drm.cloud/platform-compatibility.
-RMS use EZDRM as license provider, so before start using DRM on RMS you need to create account on EZDRM https://www.ezdrm.com
+RMS use EZDRM as license provider, so before start using DRM on RMS you need to create account on EZDRM https://www.ezdrm.com. When account is created you should store your EZDRM credentials in SQL DB table Settings as Key="ezdrm.username" Value="[username]", Key="ezdrm.password" Value="[password]". Note that this values are cached for 30 min.
 
 ## Widevine DRM
 Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) on Windows and macOS.
@@ -137,6 +137,9 @@ token - JWT token to authorize your access to media. How to generate appropriate
 
 ## FairPlay DRM
 Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and with Safari on macOS. First of all, you need to get AFP Certificate from Apple and configure your EZDRM FairPlay account. Instruction on how to do that you can find in your EZDRM account.
+Then you need to create AssetID, to do this you need to send Get request http://cpix.ezdrm.com/kalturagetasset.aspx?u=[username]&p=[password] (replace [username] and [password] with your EZDRM credentials). After that you will se AssetID in you EZDRM account.
+![screenshot](img/fairplay-ezdrm-assetid.png)
+The AssetID should be sores in you SQL DB table Settings as Key="ezdrm.fpsassetid" Value="[AssetID]". Note that this value is cached for 30 min.
 To play FairPlay DRM source player also requires URL to AFP Certificate, so it should be stored somewhere with public or protected access (e.g. Azure storage blob with SAS or public access).
 Then you need to set https://[rms_domain]/drmservice/playready as Autorization URL.
 ![screenshot](img/fairplay-ezdrm-acc.png)
