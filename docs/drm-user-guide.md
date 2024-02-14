@@ -51,7 +51,7 @@ WidevineTemplate field contains streaming restrictions in Json format, details a
 5. Select DRM pane. In Custom License Server URL field you need to enter https://widevine-dash.ezdrm.com/widevine-php/widevine-foreignkey.php?pX=[ezdrm_widevine_profile_id]&locatorid=[locator_id]&authorization=[token]
 ![screenshot](img/widevine-shaka-drm.png)
 
-ezdrm_widevine_profile_id - get from Widevine DRM profile in your EZDRM Account:
+ezdrm_widevine_profile_id - get from Widevine DRM profile in your EZDRM Account (last 6 characters in Porofile Id):
 ![screenshot](img/widevine-ezdrm-id.png)
 
 locator_id - ID of Streaming Locator you have created on step 2.
