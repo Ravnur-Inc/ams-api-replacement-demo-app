@@ -218,7 +218,7 @@ aud - audience value from Content Key Policy.
 
 If you have any additional Required CLaims in your Content Key Policy, you should add it to payload data.
 
-2. Enter Primary Verification Key, you can get it from Content Key Policy that was used to create Streaming Locator that you want to play.
+2. Enter Primary Verification Key, you can get it from Content Key Policy that was used to create Streaming Locator that you want to play. Don't forget to check "secret base64 encoded".
 ![screenshot](img/drm-token.png)
 
 3. Now you can get your token from input field on the left.
