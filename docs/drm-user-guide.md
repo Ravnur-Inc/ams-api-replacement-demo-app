@@ -141,7 +141,7 @@ Then you need to create AssetID, to do this you need to send Get request http://
 ![screenshot](img/fairplay-ezdrm-assetid.png)
 The AssetID should be sores in you SQL DB table Settings as Key="ezdrm.fpsassetid" Value="[AssetID]". Note that this value is cached for 30 min.
 To play FairPlay DRM source player also requires URL to AFP Certificate, so it should be stored somewhere with public or protected access (e.g. Azure storage blob with SAS or public access).
-Then you need to set https://[rms_domain]/drmservice/playready as Autorization URL.
+Then you need to set https://[rms_domain]/drmservice/fairplay as Autorization URL.
 ![screenshot](img/fairplay-ezdrm-acc.png)
 
 1. Create Content Key Policy with FairPlay option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in RequiredClaims array if needed.
