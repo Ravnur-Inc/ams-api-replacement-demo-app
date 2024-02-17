@@ -151,7 +151,6 @@ Then you need to set https://[rms_domain]/drmservice/fairplay as Autorization UR
         "description": "drm-cbcs",
         "options": [
             {
-                "policyOptionId": "63e86438-adbe-4af4-37d5-08dc2690c330",
                 "name": "fairplay-option",
                 "configuration": {
                     "rentalAndLeaseKeyType": "DualExpiry",
