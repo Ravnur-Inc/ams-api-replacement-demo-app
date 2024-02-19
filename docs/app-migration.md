@@ -88,21 +88,21 @@ RMS produces the same Event Grid events schema as AMS. Use [these instructions](
 
 ## AMS metadata migration
 
-At this point you have your storages registered in RMS and you ensured that your application works seamlessly with RMS API. Now you can migrate all your existing AMS assets metadata to RMS. This migration copies only metadata of your assets; it does not copy or move your assets contents from storage. [These instructions](data-migration.md) will guide you throug this process.
+At this point you have your storages registered in RMS and you ensured that your application works seamlessly with RMS API. Now you can migrate all your existing AMS assets metadata to RMS. This migration copies only metadata of your assets; it does not copy or move your assets contents from storage. [These instructions](data-migration.md) will guide you through this process.
 
 ## Update CDN configuration
 
 ### Change CDN domain
 
-AMS streaming domain will be awailable for a while after AMS shutdown, but they promise to remove it anyway. So we highly recommend you to prepare your own custom domain for your CDN in advance before migration to RMS. [Here](https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain) Microsoft gives instructions how to do this. After that your CDN endpoint should look like this:
+The AMS streaming domain will be deleted immediately after the AMS account is deleted. If you keep the AMS account active, it will be available for a while after AMS shutdown, but Microsoft will delete the DNS records before the end of 2024. So we highly recommend that you prepare your own custom domain for your CDN in advance before migrating to RMS. [Here](https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain) Microsoft gives instructions how to do this. After that your CDN endpoint should look like this:
 ![CDN before RMS migration](img/cdn-before-rms-migration.png)
-It also means that all your existing streaming links should be updted not to use AMS streaming endpoint domain but your own custom domain instead.
+It also means that all your existing streaming links should be updated from the AMS streaming endpoint domain to your own custom domain instead.
 
 ### Change CDN Origin
 
-After this step, all your existing streaming links will be routed to RMS streaming server. That's why it should be performed as part of your final migration procedure and incorporated into your first release with RMS, which can look like this:
+After this step, all your existing streaming links will be routed to the RMS streaming server. That's why it should be performed as part of your final migration procedure and incorporated into your first release with RMS, which can look like this:
 
-1. Specify CDN domain as a new RMS streaming endpoint hostname
+1. Specify the CDN domain as a new RMS streaming endpoint hostname
    * Go to RMS Console -> Manage -> Streaming Endpoints.
      ![RMS Console endpoints](img/endpoints-console-origin.PNG)
    * Remember the host name of your RMS streaming endpoint, as you will need to use it as the new origin for your CDN
