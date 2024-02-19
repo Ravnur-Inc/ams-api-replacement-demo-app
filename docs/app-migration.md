@@ -90,6 +90,10 @@ RMS produces the same Event Grid events schema as AMS. Use [these instructions](
 
 At this point you have your storages registered in RMS and you ensured that your application works seamlessly with RMS API. Now you can migrate all your existing AMS assets metadata to RMS. This migration copies only metadata of your assets; it does not copy or move your assets contents from storage. [These instructions](data-migration.md) will guide you through this process.
 
+## Streaming Endpoints
+
+There is no migration of streaming endpoints from AMS to RMS. RMS does not support full streaming endpoints functionality. It coutnains only one hard-coded streaming endpoint which you can't remove. The only Streaming Endpoint property which you can change is HostName which your code may require for producing streaming URLs (it concatinates Streaming Endpoint host name with Streaming Locator paths). If you are using CDN then you need to follow CDN migration instructions. If you do not use CDN then we highly suggest you to use it, but if you still don't want it then please contact us and will set up your custom domain for you. 
+
 ## Update CDN configuration
 
 ### Change CDN domain
