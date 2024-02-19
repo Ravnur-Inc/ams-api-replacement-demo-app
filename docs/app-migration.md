@@ -92,7 +92,7 @@ At this point you have your storages registered in RMS and you ensured that your
 
 ## Streaming Endpoints
 
-There is no migration of streaming endpoints from AMS to RMS. RMS does not support full streaming endpoints functionality. It contains only one hard-coded streaming endpoint which you can't remove. The only streaming endpoint property which you can change is HostName which your code may require for producing streaming URLs (it concatinates Streaming Endpoint host name with Streaming Locator paths). If you are using CDN then you need to follow CDN migration instructions. If you do not use CDN then we highly suggest you to use it, but if you still don't want it then please contact us, we will setup your custom domain in RMS for you. 
+There is no migration of streaming endpoints from AMS to RMS. RMS does not support full streaming endpoints functionality. It contains only one hard-coded streaming endpoint which you can't remove. By default RMS streaming endpoint uses same domain name as API and Console. The only RMS streaming endpoint property which you can change is HostName which your code may require for producing streaming URLs (it concatinates Streaming Endpoint host name with Streaming Locator paths). If you are using CDN then you must specify your CDN domain name there. CDN migration instructions will tell you what actions are required from you in this case. If you do not want to use CDN but still want to use your custom domain name then please contact us and we will setup your custom domain in RMS for you.
 
 ## Update CDN configuration
 
