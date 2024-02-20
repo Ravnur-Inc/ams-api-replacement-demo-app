@@ -77,8 +77,8 @@ Ravnur includes a Console UI as part of the RMS manage application. It allows yo
 | Custom Streaming Policy | Released | |
 | AES stream encoding | Released | |
 | DRM stream encoding | In QA | |
-| Smooth streaming | In developement | |
-| Custom Streaming Endpoints | Not supported | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. Implementation of this feature is not planned. |
+| Smooth streaming | In developement | This is low priority because very few customers seem to use it. |
+| Custom Streaming Endpoints | Released | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. However, you can create a custom host domain for the streaming endpoint. |
 
 ## Ravnur Media Services FAQs
 
