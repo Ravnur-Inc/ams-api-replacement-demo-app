@@ -128,20 +128,17 @@ Ravnur Media Services (RMS) is the replacement for Azure Media Services (AMS), w
 
 The diagram below is the reference architecture for Ravnur Media Services (RMS). The Azure Services that provision RMS are deployed from the Azure Marketplace to a dedicated resource group in the customer’s Azure subscription. 
 
-![RMS-high-level-diagram drawio-dark](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/assets/59251956/a15afa28-ca13-4041-85e1-6063eda8168d)
 ![AKS_RMS DARK-drawio](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/assets/59251956/84232d48-a372-4b59-b6aa-65a3a4d7f9da)
 
 
-The architecture of RMS is similar to AMS, and it provides scalability for encoding and streaming demands. Azure Front Door sits in front of the RMS API. The RMS API endpoints terminate in an Azure container app. Streaming locators and asset metadata are stored in Azure SQL databases (primary and failover). Encoding jobs are processed by Azure VMs; the number and size can be configured during deployment. Output content assets (e.g. video files, thumbnails, manifest files, etc.) are stored in containers in Azure blob storage, and the account can be specified during deployment (e.g. connect an existing storage account or a new storage account). Streaming servers run in container apps and scale based on real-time monitoring. The connection to the Content Delivery Network is not shown on the diagram.
+The architecture of RMS is similar to AMS, and it provides scalability for encoding and streaming demands. Azure Front Door sits in front of the RMS API. The RMS API endpoints terminate in Azure Kubernetes Service. Streaming locators and asset metadata are stored in Azure SQL databases (primary and failover). Encoding jobs are processed by Azure VMs; the number and size can be configured during deployment. Output content assets (e.g. video files, thumbnails, manifest files, etc.) are stored in containers in Azure blob storage, and the account can be specified during deployment (e.g. connect an existing storage account or a new storage account). Streaming servers run in AKS and scale based on real-time monitoring. The connection to the Content Delivery Network is not shown on the diagram.
 
 ## List of Azure resources used by Ravnur Media Services
 
 |Azure Service |	Purpose |
 | --- | --- |
 |Azure Front Door |	Manages and optimizes API traffic with global routing. Acts as a layer-7 load balancer that distributes traffic to corresponding services.  Provides SSL offloading, and WAF protects services |
-Container app environment	| Provides the runtime environment for the container apps |
-Container app	| Runs the containerized RMS API |
-Container app	| Runs the streaming server applications. Scales according to scaling rules based on real-time monitoring |
+Azure Kubernetes Service environment	| Provides the runtime environment for the services |
 Application Insights | Provides telemetry and service performance monitoring |
 Managed Identity	| Grants permissions to resources securely without storing credentials in code. |
 DNS Zones |	Maps domain names to IP addresses. |
