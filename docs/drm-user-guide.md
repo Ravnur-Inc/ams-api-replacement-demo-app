@@ -181,7 +181,8 @@ Then you need to set https://[rms_domain]/drmservice/fairplay as Autorization UR
 ![screenshot](img/fairplay-paths.png)
 
 4.  For playback testing we can use SHAKA Player. Open browser that supports FairPlay, go To [Shaka Player Demo](https://shaka-player-demo.appspot.com/) -> Custom Content and create new player source. Enter streaming url to Manifest URL field.
-![screenshot](img/fairplay-shaka-main.png)
+
+    ![screenshot](img/fairplay-shaka-main.png)
 
 5. Go to DRM pane. In Custom License Server URL field you need to enter https://fps.ezdrm.com/api/licenses/[fairplay_asset_id]?locatorid=[locator_id]&authorization=[token]. In the Custom License Certificate URL field, enter the URL to your Apple FairPlay certificate.
 
