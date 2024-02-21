@@ -131,7 +131,7 @@ ezdrm_playready_profile_id - get from Widevine DRM profile in your EZDRM Account
 
 locator_id - ID of Streaming Locator you have created on step 2
 
-token - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
+token - JWT token to authorize your access to media. How to generate appropriate token will be explained [below](#how-to-generate-authorization-token).
 
 6. Now media can be played.
 
@@ -192,7 +192,7 @@ fairplay_asset_id - AssetID from your EZDRM FairPlay Account.
 
 locator_id - ID of Streaming Locator you have created on step 2
 
-token - JWT token to authorize your access to media. How to generate appropriate token will be explained below.
+token - JWT token to authorize your access to media. How to generate appropriate token will be explained [below](#how-to-generate-authorization-token).
 
 6. Now media can be played.
 
