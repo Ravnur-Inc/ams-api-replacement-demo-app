@@ -1,6 +1,6 @@
 # How to configure and test DRM feature
-RMS supports Google Widevine, Microsof PlayReady and Apple FairPlay DRM technologies, each of them can be used on appropriate devices and operation systems. You can find full Platform Compatibility table here: https://www.drm.cloud/platform-compatibility.
-RMS use EZDRM as license provider, so before start using DRM on RMS you need to create account on EZDRM https://www.ezdrm.com. When account is created you should store your EZDRM credentials in SQL DB table Settings as Key="ezdrm.username" Value="[username]", Key="ezdrm.password" Value="[password]". Note that this values are cached for 30 min.
+RMS supports Google Widevine, Microsof PlayReady and Apple FairPlay DRM technologies, each of them can be used on appropriate devices and operation systems. You can find full Platform Compatibility table [here](https://www.drm.cloud/platform-compatibility).
+RMS use EZDRM as license provider, so before start using DRM on RMS you need to create account on [EZDRM](https://www.ezdrm.com). When account is created you should store your EZDRM credentials in SQL DB table Settings as Key="ezdrm.username" Value="[username]", Key="ezdrm.password" Value="[password]". Note that this values are cached for 30 min.
 
 ## Widevine DRM
 Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) on Windows and macOS.
@@ -36,7 +36,7 @@ First of all, you need to configure your EZDRM Widevine account. Enter https://[
     }
 }
 ```
-WidevineTemplate field contains streaming restrictions in Json format, details about it can be found here https://learn.microsoft.com/en-us/azure/media-services/latest/drm-widevine-license-template-concept
+WidevineTemplate field contains streaming restrictions in Json format, details about it can be found [here](https://learn.microsoft.com/en-us/azure/media-services/latest/drm-widevine-license-template-concept).
 
 2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy can be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
 ![screenshot](img/widevine-sl.png)
@@ -61,7 +61,7 @@ token - JWT token to authorize your access to media. How to generate appropriate
 6. Now media can be played.
 
 ## PlayReady DRM
-PlayReady DRM technology can be used on Edge browsers on Windows. More details about it you can read here https://learn.microsoft.com/en-us/playready/overview/overview.
+PlayReady DRM technology can be used on Edge browsers on Windows. More details about it you can read [here](https://learn.microsoft.com/en-us/playready/overview/overview).
 First of all, you need to configure your EZDRM Widevine account. Enter https://[rms_domain]/drmservice/playready as Authorization URL.
 ![screenshot](img/playready-ezdrm-acc.png)
 
@@ -111,7 +111,7 @@ First of all, you need to configure your EZDRM Widevine account. Enter https://[
     }
 }
 ```
-Licenses field contains streaming restriction setting, details about it can be found here: https://learn.microsoft.com/en-us/playready/overview/license-and-policies
+Licenses field contains streaming restriction setting, details about it can be found [here](https://learn.microsoft.com/en-us/playready/overview/license-and-policies).
 
 2. Create Streaming Locator for existing asset with appropriate Content Key Policy and Streaming Policy. Streaming Policy can be Predefined_MultiDrmStreaming or Predefined_MultiDrmCencStreaming.
 ![screenshot](img/widevine-sl.png)
@@ -196,7 +196,7 @@ token - JWT token to authorize your access to media. How to generate appropriate
 6. Now media can be played.
 
 ## How to generate Authorization Token
-For testing purposes Authorization Token can be generated on https://jwt.io/
+For testing purposes Authorization Token can be generated on [https://jwt.io](https://jwt.io).
 
 1. Put this JSON as payload data:
 ```JSON
@@ -223,10 +223,10 @@ If you have any additional required claims in your Content Key Policy, you shoul
 3. Now you can get your token from input field on the left.
 
 RMS supports two additional token claims:
-1. "urn:microsoft:azure:mediaservices:maxuses" : "[uses_count]" - this claim allows you to restrict token usage count. When using this feature, requests with tokens whose expiry time is more than one hour away from the time the request is received are rejected with an unauthorized response. You can read more about this claim here: https://learn.microsoft.com/en-us/previous-versions/media-services/previous/media-services-content-protection-overview#token-replay-prevention.
-2. "urn:microsoft:azure:mediaservices:contentkeyidentifier" : "[streaming_locator_id]" - restrict token to be used only with specified streaming locator. If you want to use this claim you also need to add it to appropriate Content Key Policy with empty value. You can read more about this claim here :https://learn.microsoft.com/en-us/rest/api/media/operations/contentkeyauthorizationpolicyoption.
+1. "urn:microsoft:azure:mediaservices:maxuses" : "[uses_count]" - this claim allows you to restrict token usage count. When using this feature, requests with tokens whose expiry time is more than one hour away from the time the request is received are rejected with an unauthorized response. You can read more about this claim [here](https://learn.microsoft.com/en-us/previous-versions/media-services/previous/media-services-content-protection-overview#token-replay-prevention).
+2. "urn:microsoft:azure:mediaservices:contentkeyidentifier" : "[streaming_locator_id]" - restrict token to be used only with specified streaming locator. If you want to use this claim you also need to add it to appropriate Content Key Policy with empty value. You can read more about this claim [here](https://learn.microsoft.com/en-us/rest/api/media/operations/contentkeyauthorizationpolicyoption).
 
-Please check examples on how to use this claims here: https://github.com/Azure-Samples/media-services-v3-dotnet/blob/main/ContentProtection/BasicPlayReady/Program.cs.
+Please check examples on how to use this claims [here](https://github.com/Azure-Samples/media-services-v3-dotnet/blob/main/ContentProtection/BasicPlayReady/Program.cs).
 
 
 ## NOTES
