@@ -225,7 +225,7 @@ If you have any additional required claims in your Content Key Policy, you shoul
 
 RMS supports two additional token claims:
 1. "urn:microsoft:azure:mediaservices:maxuses" : "[uses_count]" - this claim allows you to restrict token usage count. When using this feature, requests with tokens whose expiry time is more than one hour away from the time the request is received are rejected with an unauthorized response. You can read more about this claim [here](https://learn.microsoft.com/en-us/previous-versions/media-services/previous/media-services-content-protection-overview#token-replay-prevention).
-2. "urn:microsoft:azure:mediaservices:contentkeyidentifier" : "[streaming_locator_id]" - restrict token to be used only with specified streaming locator. If you want to use this claim you also need to add it to appropriate Content Key Policy with empty value. You can read more about this claim [here](https://learn.microsoft.com/en-us/rest/api/media/operations/contentkeyauthorizationpolicyoption).
+2. "urn:microsoft:azure:mediaservices:contentkeyidentifier" : "[content_key_id]" - restrict token to be used only with specified Content Key Id from Streaming Locator. If you want to use this claim you also need to add it to appropriate Content Key Policy with empty value. You can read more about this claim [here](https://learn.microsoft.com/en-us/rest/api/media/operations/contentkeyauthorizationpolicyoption).
 
 Please check examples on how to use this claims [here](https://github.com/Azure-Samples/media-services-v3-dotnet/blob/main/ContentProtection/BasicPlayReady/Program.cs).
 
