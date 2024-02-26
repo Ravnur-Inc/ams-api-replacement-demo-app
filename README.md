@@ -149,7 +149,7 @@ Network security group	| Filters and controls inbound and outbound traffic. This
 App Service plan	| The App Service Plan provides the compute resources for the Azure function app. |
 Azure SQL DBs	| Microsoft SQL DB stores assets, locators and metadata. Configured with failover DB. |
 Azure SQL Server |	Managed service provisioning the SQL Server for the SQL DBs. |
-Azure Storage Account	| This storage account stores video originals, assets, sub resources, etc. |
+Azure Storage Account	| (Optional - you can use your existing account outside of the managed RG) This storage account stores video originals, assets, sub resources, etc. |
 Azure Storage Account	| This storage account is used for infrastructure deployment. |
 Virtual Machine	| VMs run the RMS encoding agents and applications. Number of VMs is configurable. Each job is allocated to a dedicated VM. VM is billing only when executing a job. |
 Disk	| Each VM requires a disk. Disks are billable even when the VM is deallocated. |
