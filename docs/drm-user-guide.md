@@ -62,7 +62,7 @@ token - JWT token to authorize your access to media. How to generate appropriate
 
 ## PlayReady DRM
 PlayReady DRM technology can be used on Edge browsers on Windows. More details about it you can read [here](https://learn.microsoft.com/en-us/playready/overview/overview).
-First of all, you need to configure your EZDRM Widevine account. Enter https://[rms_domain]/drmservice/playready as Authorization URL.
+First of all, you need to configure your EZDRM PlayReady account. Enter https://[rms_domain]/drmservice/playready as Authorization URL.
 ![screenshot](img/playready-ezdrm-acc.png)
 
 1. Create Content Key Policy with PlayReady option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in RequiredClaims array if needed.
