@@ -142,7 +142,7 @@ token - JWT token to authorize your access to media. How to generate appropriate
 Apple FairPlay technology can be used on Apple devices - iOS/ipadOS and with Safari on macOS. First of all, you need to get AFP Certificate from Apple and configure your EZDRM FairPlay account. Instruction on how to do that you can find in your EZDRM account.
 Then you need to create AssetID, to do this you need to send Get request http://cpix.ezdrm.com/kalturagetasset.aspx?u=[username]&p=[password] (replace [username] and [password] with your EZDRM credentials). After that you will se AssetID in you EZDRM account.
 ![screenshot](img/fairplay-ezdrm-assetid.png)
-The AssetID should be stored in your SQL database table Settings as Key="ezdrm.fpsassetid" Value="[AssetID]". Note that this value is cached for 30 min.
+The AssetID also should be set in your account settings in RMS Console, as described [here](#how-to-configure-and-test-drm-feature).
 To play FairPlay DRM source player also requires URL to AFP Certificate, so it should be stored somewhere with public or protected access (e.g. Azure storage blob with SAS or public access).
 Then you need to set https://[rms_domain]/drmservice/fairplay as Autorization URL.
 ![screenshot](img/fairplay-ezdrm-acc.png)
