@@ -1,6 +1,9 @@
 # How to configure and test DRM feature
 RMS supports Google Widevine, Microsof PlayReady and Apple FairPlay DRM technologies, each of them can be used on appropriate devices and operation systems. Please check full [Platform Compatibility](https://www.drm.cloud/platform-compatibility) table.
-RMS use EZDRM as license provider, so before start using DRM on RMS you need to create account on [EZDRM](https://www.ezdrm.com). When account is created you should store your EZDRM credentials in SQL DB table Settings as Key="ezdrm.username" Value="[username]", Key="ezdrm.password" Value="[password]". Note that this values are cached for 30 min.
+RMS use EZDRM as license provider, so before start using DRM on RMS you need to create account on [EZDRM](https://www.ezdrm.com). 
+When account is created you should set DRM configuration in RMS Console. Click Manage on your account and enter EZDRM Username and Password, then click Save:
+![screenshot](img/drm-console.png)
+Note that this values are cached for 30 min.
 
 ## Widevine DRM
 Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) on Windows and macOS.
