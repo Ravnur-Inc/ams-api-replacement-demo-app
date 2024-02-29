@@ -77,7 +77,7 @@ Ravnur includes a Console UI as part of the RMS manage application. It allows yo
 | Automatic migration of AMS assets/locators to RMS | Released | Migration instructions can be found on [this page](docs/data-migration.md) |
 | Custom Streaming Policy | Released | |
 | AES stream encoding | Released | |
-| DRM stream encoding | Released | |
+| DRM stream encoding | Released |DRM instructions are [here](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/drm-user-guide/docs/drm-user-guide.md)  |
 | Smooth streaming | In developement | This is low priority because very few customers seem to use it. Actually, nobody. |
 | Custom Streaming Endpoints | Released | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. However, you can create a custom host domain for the streaming endpoint. |
 
