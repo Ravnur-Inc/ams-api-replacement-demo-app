@@ -129,7 +129,7 @@ Ravnur Media Services (RMS) is the replacement for Azure Media Services (AMS), w
 
 The diagram below is the reference architecture for Ravnur Media Services (RMS). The Azure Services that provision RMS are deployed from the Azure Marketplace to a dedicated resource group in the customer’s Azure subscription. 
 
-![AKS_RMS DARK-drawio](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/assets/59251956/84232d48-a372-4b59-b6aa-65a3a4d7f9da)
+![AKS_RMS DARK-drawio](./docs/img/AKS_RMS.png)
 
 
 The architecture of RMS is similar to AMS, and it provides scalability for encoding and streaming demands. Azure Front Door sits in front of the RMS API. The RMS API endpoints terminate in Azure Kubernetes Service. Streaming locators and asset metadata are stored in Azure SQL databases (primary and failover). Encoding jobs are processed by Azure VMs; the number and size can be configured during deployment. Output content assets (e.g. video files, thumbnails, manifest files, etc.) are stored in containers in Azure blob storage, and the account can be specified during deployment (e.g. connect an existing storage account or a new storage account). Streaming servers run in AKS and scale based on real-time monitoring. The connection to the Content Delivery Network is not shown on the diagram.
@@ -145,16 +145,16 @@ Managed Identity	| Grants permissions to resources securely without storing cred
 DNS Zones |	Maps domain names to IP addresses. |
 Key Vault	| Safely stores and manages secrets, keys and certificates needed for RMS |
 Log Analytics workspace	| Aggregates and analyzes log data from Application Insights, App Service event logs, Container Apps and various Azure services. |
-Network Interface	| Provides an IP address to an Azure VM and connects to Azure VNet. |
 Network security group	| Filters and controls inbound and outbound traffic. This is created by default when VM is created. |
-App Service plan	| The App Service Plan provides the compute resources for the Azure function app. |
 Azure SQL DBs	| Microsoft SQL DB stores assets, locators and metadata. Configured with failover DB. |
 Azure SQL Server |	Managed service provisioning the SQL Server for the SQL DBs. |
 Azure Storage Account	| (Optional - you can use your existing account outside of the managed RG) This storage account stores video originals, assets, sub resources, etc. |
 Azure Storage Account	| This storage account is used for infrastructure deployment. |
-Virtual Machine	| VMs run the RMS encoding agents and applications. Number of VMs is configurable. Each job is allocated to a dedicated VM. VM is billing only when executing a job. |
-Disk	| Each VM requires a disk. Disks are billable even when the VM is deallocated. |
 Virtual Network	| Provides an isolated and secure environment to run Azure resources. This Vnet deployed by default and needed for container apps, VMs, DB. |
+Azure Service Bus | Message broker |
+Event Grid | Client can subscribe to the RMS events |
+Container Instances | Used for system upgrade |
+
 
 ## ABOUT RAVNUR
 
