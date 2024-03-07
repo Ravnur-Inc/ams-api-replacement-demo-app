@@ -1,5 +1,5 @@
 🚀 **Azure Media Services Explorer for Ravnur Media Services is now available!** 🚀  
-The tool that you're familiar with now works with Ravnur Media Services, and of course it does because RMS is a mirror of AMS. Just connect the AMSE to RMS and you can do everything with RMS that you can do with AMS. Download the RMS version of AMSE here: [AMSE for Ravnur Media Services](https://github.com/Ravnur-Inc/Azure-Media-Services-Explorer/releases/tag/v5.9.0.0-ravnur)
+The tool that you're familiar with now works with Ravnur Media Services, and of course it does because RMS is a mirror of AMS. Just connect the AMSE to RMS and you can do everything with RMS that you can do with AMS. Download the RMS version of AMSE here: [AMSE for Ravnur Media Services](https://github.com/Ravnur-Inc/Azure-Media-Services-Explorer/releases/tag/v5.9.1.0-ravnur)
 
 > [!NOTE]
 > This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. Contact Ravnur at info@ravnur.com to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment
