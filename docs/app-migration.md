@@ -128,7 +128,7 @@ There are two way to use new domain:
 
 ### Option 2: Change origin for existing CDN enpoint
 
-As far as you change existing enpoint after this step, all your existing streaming links will be routed to the RMS streaming server. That's why it should be performed as part of your final migration procedure and incorporated into your first release with RMS, which can look like this:
+If for some reason you want to reuse existing CDN endpoint (you have some complicated and specific settings) you can use this option. As far as you change existing enpoint after this step, all your existing streaming links will be routed to the RMS streaming server. That's why it should be performed as part of your final migration procedure and incorporated into your first release with RMS, which can look like this:
 
 1. Repoint your application to use RMS API instead of AMS
    After this step your application will create all new videos in RMS instead of AMS, but their links will not work from CDN until the next step is completed.
