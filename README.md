@@ -1,4 +1,5 @@
-🚀 **Event grid is now available!** 🚀  All AMS job-related events are supported by RMS with no code changes! Read more [here](docs/monitoring.md)
+🚀 **Azure Media Services Explorer for Ravnur Media Services is now available!** 🚀  
+The tool that you're familiar with now works with Ravnur Media Services, and of course it does because RMS is a mirror of AMS. Just connect the AMSE to RMS and you can do everything with RMS that you can do with AMS. Download the RMS version of AMSE here: [AMSE for Ravnur Media Services](https://github.com/Ravnur-Inc/Azure-Media-Services-Explorer/releases/tag/v5.9.1.0-ravnur)
 
 > [!NOTE]
 > This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. Contact Ravnur at info@ravnur.com to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment
@@ -76,9 +77,9 @@ Ravnur includes a Console UI as part of the RMS manage application. It allows yo
 | Automatic migration of AMS assets/locators to RMS | Released | Migration instructions can be found on [this page](docs/data-migration.md) |
 | Custom Streaming Policy | Released | |
 | AES stream encoding | Released | |
-| DRM stream encoding | In QA | |
-| Smooth streaming | In developement | |
-| Custom Streaming Endpoints | Not supported | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. Implementation of this feature is not planned. |
+| DRM stream encoding | Released |DRM instructions are [here](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/drm-user-guide/docs/drm-user-guide.md)  |
+| Smooth streaming | In developement | This is low priority because very few customers seem to use it. Actually, nobody. |
+| Custom Streaming Endpoints | Released | There is only one predefined streaming endpoint available. Its domain matches with domain of RMS API endpoint. However, you can create a custom host domain for the streaming endpoint. |
 
 ## Ravnur Media Services FAQs
 
@@ -87,39 +88,39 @@ The RMS API structure is a 100% mirror of the AMS API structure. The endpoints d
 
 2.	**DO I NEED TO RE-ENCODE ALL MY VIDEOS?**
 No, you do not need to re-encode any videos. RMS can work with existing AMS assets without any issues.
-4.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR?**
-RMS can use the existing streaming locator. The streaming URL will need to be changed, but you need to change only the host. For example, if you have a streaming URL like this: https://ams1.streaming.media.azure.net/5197ca71-3edc-42b0-adff-12570b48b4e4/video_3500000.ism/manifest(format=m3u8-cmaf) you would need to change **ams1.streaming.media.azure.net** to the RMS host. The RMS host domain can be customized to use your domain.
-5.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR IF I’M USING A CDN?**
-Yes, but it is not because of RMS but because of AMS. Microsoft promises to leave existing AMS domains for a while after AMS shutdown, but in the end, they will removed them anyway. That's why you need to create your own custom domain and map it to your CDN. You can do it independently even now because it is not a part of the RMS infrastructure. That's why we suggest you create your own custom domain, [map it to your existing CDN endpoint](https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain), and update your streaming links in advance. And as soon as you have a valid CDN domain, all you need is to change is your CDN origin so that it uses the RMS streaming endpoint hostname instead of AMS. It is explained in our migration guide.
-6.	**DO I NEED TO MAKE CODE CHANGES IN MY APPLICATION TO USE THE RMS API?**
+3.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR?**
+RMS can use the existing streaming locator. The streaming URL will need to be changed, but you need to change only the host. For example, if you have a streaming URL like this: https://ams1.streaming.media.azure.net/5197ca71-3edc-42b0-adff-12570b48b4e4/video_3500000.ism/manifest(format=m3u8-cmaf) you would need to change **ams1.streaming.media.azure.net** to the RMS host or to your CDN domain which uses RMS as origin. Both RMS host can be customized to use your own domain.
+4.	**DO I NEED TO CHANGE THE STREAMING URL OR STREAMING LOCATOR IF I’M USING A CDN?**
+Yes, you need to change streaming URLs because Microsoft will not support the streaming.media.azure.net AMS domains after the AMS retirement. That's why you need to create your own custom domain and map it to your CDN. You can do it independently even now because it is not a part of the RMS infrastructure. That's why we suggest you to create your own custom domain and update your streaming links in advance. You can create separate CDN endpoint or [map your custom domain name to your existing CDN endpoint](https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain), choose what is better for you. In case of reusing existing CDN endpoint then you need to change its origin, so that it uses the RMS streaming endpoint hostname instead of AMS. It is explained in our migration guide.
+5.	**DO I NEED TO MAKE CODE CHANGES IN MY APPLICATION TO USE THE RMS API?**
 Yes, but just a little bit. If you are using the Microsoft Azure SDK, you just need to tell the SDK to connect to RMS instead of AMS. Code samples can be found on the pages for the respective SDK versions of the demo app (links above). If you have your own implementation, you need to change only the host from AMS to RMS.
-7.	**WHAT STREAMING PROTOCOLS DO YOU SUPPORT?**
+6.	**WHAT STREAMING PROTOCOLS DO YOU SUPPORT?**
 RMS supports HLS, MPEG-DASH and Smooth Streaming (fragmented MP4).
-8.	**WHAT ENCODING FORMATS AND CODECS DO YOU SUPPORT?**
+7.	**WHAT ENCODING FORMATS AND CODECS DO YOU SUPPORT?**
 RMS encoding supports a wide range of codecs and containers and can accept the same codecs and containers as AMS. If you have a need to encode an unsupported codec/container, we’ll add it.
 The standard output asset is h.264/AAC in an mp4 container.
-9.	**CAN I USE CUSTOM ENCODING PRESETS SIMILAR TO WHAT I HAD IN AMS?**
+8.	**CAN I USE CUSTOM ENCODING PRESETS SIMILAR TO WHAT I HAD IN AMS?**
 Yes, custom transforms are supported.
-10.	**HOW WOULD YOU MIGRATE THE STREAMING FUNCTIONALITY FOR MY CURRENT AMS ASSETS?**
+9.	**HOW WOULD YOU MIGRATE THE STREAMING FUNCTIONALITY FOR MY CURRENT AMS ASSETS?**
 Overall migration process consist of: replaceing AMS connection with RMS in your application code, registering your storage accounts in RMS and triggering AMS migration job in RMS Console. If you use Event Grid subscriptions or CDN you have to configure them as well. All these described in details in our [complete migration guide](docs/app-migration.md) and [AMS metadata migration guide](docs/data-migration.md) as a part of it.
-11.	**DO YOU PROVIDE ANY MIGRATION TOOLS FOR TRANSITIONING FROM AMS TO YOUR PLATFORM?**
+10.	**DO YOU PROVIDE ANY MIGRATION TOOLS FOR TRANSITIONING FROM AMS TO YOUR PLATFORM?**
 Yes, RMS has a special console UI which allows to perform different maintenance actions including migration of your existing AMS account. It allows you to register your AMS storage account and trigger migration process which will copy your AMS metadata to RMS: transforms, streaming policies, content key policies, assets and locators. Instructions how to do it you can find [here](docs/data-migration.md).
-12.	**WHERE IS THE MEDIA CONTENT STORED, AND CAN IT INTEGRATE SEAMLESSLY WITH MY CURRENT STORAGE ACCOUNT?**
+11.	**WHERE IS THE MEDIA CONTENT STORED, AND CAN IT INTEGRATE SEAMLESSLY WITH MY CURRENT STORAGE ACCOUNT?**
 All media content is stored in your Azure Storage Account, following the existing AMS structure. No data copying is required.
 To register your existing AMS storage in RMS use [these instructions](docs/custom-storage.md). Note that RMS instance should be deployed to the same region as your existing AMS storage account.
-13.	**HOW DOES YOUR PLATFORM HANDLE API AUTHENTICATION? IS IT SIMILAR TO THE WAY AMS HANDLES IT?**
+12.	**HOW DOES YOUR PLATFORM HANDLE API AUTHENTICATION? IS IT SIMILAR TO THE WAY AMS HANDLES IT?**
 We use JWT bearer token authentication, like AMS. RMS will not require Azure Active Directory service principal or Managed Identity.
-14.**IS THERE A SANDBOX OR TESTING ENVIRONMENT WHERE I CAN VERIFY THE COMPATIBILITY BEFORE GOING LIVE?**
+13. **IS THERE A SANDBOX OR TESTING ENVIRONMENT WHERE I CAN VERIFY THE COMPATIBILITY BEFORE GOING LIVE?**
 Yes. Ravnur can set up a testing environment for you where you can run a POC. We can do this in your Azure tenant or ours.
-15.	**HOW DOES YOUR PLATFORM SCALE WITH INCREASED DEMAND?**
+14.	**HOW DOES YOUR PLATFORM SCALE WITH INCREASED DEMAND?**
 The RMS application is engineered to scale both streaming and encoding to meet the demands of your users and viewers. The encoding management application monitors queues and jobs to ensure that jobs are efficiently allocated, and provisions encoders as needed. Streaming demand is managed by a combination of CDN and auto-scaling triggered by egress bandwidth and CPU monitoring
-16.	**HOW IS PRICING STRUCTURED FOR ENCODING, STREAMING, STORAGE, AND ANY ADDITIONAL FEATURES?**
+15.	**HOW IS PRICING STRUCTURED FOR ENCODING, STREAMING, STORAGE, AND ANY ADDITIONAL FEATURES?**
 The pricing for RMS is comprised of two components. There is a fixed cost for support and updates, and there is a variable cost for Azure services. The RMS application is deployed to your Azure tenant from the Azure Marketplace as a managed application. This means that Ravnur manages the RMS application and the Azure services that provision the application.
 Fixed cost. Support of the application and Azure environment, and regular upgrades for the RMS encoding and streaming solution begins at $499/month. When subscribed to from the Azure Marketplace, this can be paid for from your Azure commitment, or added to your Azure monthly invoice as a marketplace charge.
 Variable cost. Because RMS runs in your Azure tenant, all encoding, streaming and storage costs accrue to your Azure expense. RMS uses VMs, Container Apps and Azure SQL (serverless), along with Azure Storage Queues and Tables. In RMS’s idle state, the encoding VMs are deallocated and not billing. The streaming servers running in Container Apps can be scaled to zero to minimize Azure expenses.
-17.	**ARE THERE ANY ADDITIONAL OR HIDDEN COSTS I SHOULD BE AWARE OF?**
+16.	**ARE THERE ANY ADDITIONAL OR HIDDEN COSTS I SHOULD BE AWARE OF?**
 If you use DRM (Widevine, PlayReady, FairPlay), you will need to pay for DRM licenses. We partner with EZDRM for DRM licenses.
-18.	**DO YOU SUPPORT ENCRYPTION AND DRM?**
+17.	**DO YOU SUPPORT ENCRYPTION AND DRM?**
 We support AES-128 encryption natively, and we use EZDRM for multi-DRM support. 
 
 ## Ravnur Media Services Architecture
@@ -128,33 +129,32 @@ Ravnur Media Services (RMS) is the replacement for Azure Media Services (AMS), w
 
 The diagram below is the reference architecture for Ravnur Media Services (RMS). The Azure Services that provision RMS are deployed from the Azure Marketplace to a dedicated resource group in the customer’s Azure subscription. 
 
-![RMS-high-level-diagram drawio-dark](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/assets/59251956/a15afa28-ca13-4041-85e1-6063eda8168d)
+![AKS_RMS DARK-drawio](./docs/img/AKS_RMS.png)
 
-The architecture of RMS is similar to AMS, and it provides scalability for encoding and streaming demands. Azure Front Door sits in front of the RMS API. The RMS API endpoints terminate in an Azure container app. Streaming locators and asset metadata are stored in Azure SQL databases (primary and failover). Encoding jobs are processed by Azure VMs; the number and size can be configured during deployment. Output content assets (e.g. video files, thumbnails, manifest files, etc.) are stored in containers in Azure blob storage, and the account can be specified during deployment (e.g. connect an existing storage account or a new storage account). Streaming servers run in container apps and scale based on real-time monitoring. The connection to the Content Delivery Network is not shown on the diagram.
+
+The architecture of RMS is similar to AMS, and it provides scalability for encoding and streaming demands. Azure Front Door sits in front of the RMS API. The RMS API endpoints terminate in Azure Kubernetes Service. Streaming locators and asset metadata are stored in Azure SQL databases (primary and failover). Encoding jobs are processed by Azure VMs; the number and size can be configured during deployment. Output content assets (e.g. video files, thumbnails, manifest files, etc.) are stored in containers in Azure blob storage, and the account can be specified during deployment (e.g. connect an existing storage account or a new storage account). Streaming servers run in AKS and scale based on real-time monitoring. The connection to the Content Delivery Network is not shown on the diagram.
 
 ## List of Azure resources used by Ravnur Media Services
 
 |Azure Service |	Purpose |
 | --- | --- |
 |Azure Front Door |	Manages and optimizes API traffic with global routing. Acts as a layer-7 load balancer that distributes traffic to corresponding services.  Provides SSL offloading, and WAF protects services |
-Container app environment	| Provides the runtime environment for the container apps |
-Container app	| Runs the containerized RMS API |
-Container app	| Runs the streaming server applications. Scales according to scaling rules based on real-time monitoring |
+Azure Kubernetes Service environment	| Provides the runtime environment for the services |
 Application Insights | Provides telemetry and service performance monitoring |
 Managed Identity	| Grants permissions to resources securely without storing credentials in code. |
 DNS Zones |	Maps domain names to IP addresses. |
 Key Vault	| Safely stores and manages secrets, keys and certificates needed for RMS |
 Log Analytics workspace	| Aggregates and analyzes log data from Application Insights, App Service event logs, Container Apps and various Azure services. |
-Network Interface	| Provides an IP address to an Azure VM and connects to Azure VNet. |
 Network security group	| Filters and controls inbound and outbound traffic. This is created by default when VM is created. |
-App Service plan	| The App Service Plan provides the compute resources for the Azure function app. |
 Azure SQL DBs	| Microsoft SQL DB stores assets, locators and metadata. Configured with failover DB. |
 Azure SQL Server |	Managed service provisioning the SQL Server for the SQL DBs. |
-Azure Storage Account	| This storage account stores video originals, assets, sub resources, etc. |
+Azure Storage Account	| (Optional - you can use your existing account outside of the managed RG) This storage account stores video originals, assets, sub resources, etc. |
 Azure Storage Account	| This storage account is used for infrastructure deployment. |
-Virtual Machine	| VMs run the RMS encoding agents and applications. Number of VMs is configurable. Each job is allocated to a dedicated VM. VM is billing only when executing a job. |
-Disk	| Each VM requires a disk. Disks are billable even when the VM is deallocated. |
 Virtual Network	| Provides an isolated and secure environment to run Azure resources. This Vnet deployed by default and needed for container apps, VMs, DB. |
+Azure Service Bus | Message broker |
+Event Grid | Client can subscribe to the RMS events |
+Container Instances | Used for system upgrade |
+
 
 ## ABOUT RAVNUR
 
