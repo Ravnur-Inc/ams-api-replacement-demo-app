@@ -29,7 +29,7 @@
 Include the Ravnur Media Player script in your HTML file by adding the following CDN link in the `<head>` section:
 
 ```
-<script src="https://cdn.example.com/RavnurMediaPlayer.min.js"></script>
+<script src=”https://stravcdn.blob.core.windows.net/static/player/prod/latest/RavnurMediaPlayer.min.js” ></script>
 ```
 
 ### <a id="add-to-codebase"></a>Add to Codebase
@@ -73,7 +73,7 @@ npm install @ravnur/player@^3.1.1
 5. Include the player import in the file.
 
 ```
-import RavnurPlayer from '@ravnur/player';
+import { RavnurMediaPlayer } from 'ravnur-player-public';
 ```
 
 
