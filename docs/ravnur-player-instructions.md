@@ -40,37 +40,17 @@ Alternatively, you can include the Ravnur Media Player script to your project's 
 <script src="path/to/RavnurMediaPlayer.min.js"></script>
 ```
 
-### <a id="using-private-npm-registry"></a>Using private NPM registry
+### <a id="using-private-npm-registry"></a>Using NPM registry
 
-You can also install Ravnur Media Player using the npm private registry. If this is the right option for you, follow the steps below:
+You can also install Ravnur Media Player using the npm registry. 
 
-1. Request an access token from the Ravnur administrator.
-2. Generate a base64 string using the provided token.
-
-```
-NPM_TOKENB64=$(echo -n '... your token here ...' | base64)
-```
-
-3. Update your `.npmrc` file as shown below. You can leave `username` and `email` blank.
+1. Install Ravnur Player
 
 ```
-@ravnur:registry=https://ravnur.pkgs.visualstudio.com/Ravnur/_packaging/ravnur-npm/npm/registry/         
-; begin auth token
-//ravnur.pkgs.visualstudio.com/Ravnur/_packaging/ravnur-npm/npm/registry/:username=
-//ravnur.pkgs.visualstudio.com/Ravnur/_packaging/ravnur-npm/npm/registry/:_password=${NPM_TOKENB64}
-//ravnur.pkgs.visualstudio.com/Ravnur/_packaging/ravnur-npm/npm/registry/:email=
-//ravnur.pkgs.visualstudio.com/Ravnur/_packaging/ravnur-npm/npm/:username=
-//ravnur.pkgs.visualstudio.com/Ravnur/_packaging/ravnur-npm/npm/:_password=${NPM_TOKENB64}
-//ravnur.pkgs.visualstudio.com/Ravnur/_packaging/ravnur-npm/npm/:email=
-; end auth token
-```
-4. Install Ravnur Player, ensuring that you specify the correct version.
-
-```
-npm install @ravnur/player@^3.1.1
+npm install ravnur-player-public
 ```
 
-5. Include the player import in the file.
+2. Include the player import in the file.
 
 ```
 import { RavnurMediaPlayer } from 'ravnur-player-public';
