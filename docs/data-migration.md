@@ -12,9 +12,9 @@ Entities to be migrated:
 Assets contents are not going to be copied or moved from the storage only its metadata will be migrated.
 This process is only a part of a bigger procedure of migration to RMS. That's why we recommened to [read it](docs/app-migration.md) before starting it.
 
-## Pre requisits
+## Pre requisites
 
-1. You need to know your RMS host name and be able to login to RMS console. You can find how to do that using [these instructions](how-to-get-credentials.md)
+1. You need to know your RMS host name and be able to login to the RMS console. You can find how to do that using [these instructions](how-to-get-credentials.md)
 2. Your AMS storage accounts need to be registered in your RMS instance. Use [these instructions](custom-storage.md) to do that.
 
 ## Get AMS credentials
@@ -37,7 +37,7 @@ This process is only a part of a bigger procedure of migration to RMS. That's wh
 You will see a form where you should enter AMS API Access JSON credentials in JSON format. Then press "Start Migration" button.
       ![Console credentials](img/data-migration-start2.png)
 
-2. You will see migration status form with source AMS account inforamtion and a list of migration steps. Depending on media count, the migration process can take from a couple of hours to several days.
+2. You will see the migration status form with source AMS account inforamtion and a list of migration steps. Depending on media count, the migration process can take from a couple of hours to several days.
       ![Console credentials](img/data-migration-inprogress.png)
 
 3. Upon successful completion, the Migration Info table will display a "Completed" status, and the Steps table will show counts of migrated items.
