@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Ravnur Media Player Demo</title>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="utf-8" />
+
+  <link rel="stylesheet" href="./main.css" />
+</head>
+
+  <body>
+    <div class="content">
+      <div>
+        <h4>MP4 Video</h4>
+        <div class="player" id="video"></div>
+      </div>
+
+      <div>
+        <h4>HLS Video</h4>
+        <div class="player" id="hls"></div>
+      </div>
+
+      <div>
+        <h4>DASH Video</h4>
+        <div class="player" id="dash"></div>
+      </div>
+
+      <div>
+        <h4>Audio</h4>
+        <div class="player" id="audio"></div>
+      </div>
+
+      <div>
+        <h4>Playlist</h4>
+        <div class="player" id="playlist"></div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/ravnur-player-public@latest/dist/cdn/RavnurMediaPlayer.min.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

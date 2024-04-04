@@ -16,7 +16,7 @@
     "@remix-run/react": "^2.4.0",
     "@remix-run/serve": "^2.4.0",
     "isbot": "^3.6.8",
-    "ravnur-player-public": "^3.0.7",
+    "ravnur-player-public": "^3.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

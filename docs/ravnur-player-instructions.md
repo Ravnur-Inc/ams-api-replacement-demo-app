@@ -29,7 +29,7 @@
 Include the Ravnur Media Player script in your HTML file by adding the following CDN link in the `<head>` section:
 
 ```
-<script src=”https://stravcdn.blob.core.windows.net/static/player/prod/latest/RavnurMediaPlayer.min.js” ></script>
+<script src=”https://unpkg.com/ravnur-player-public@latest/dist/cdn/RavnurMediaPlayer.min.js” ></script>
 ```
 
 ### <a id="add-to-codebase"></a>Add to Codebase
@@ -123,7 +123,6 @@ https://strmsdemo.z13.web.core.windows.net/
 | showCrawl? | `false` | `boolean` | Shows crawl text |
 | crawl | `null` | `Player$CrawlOptions` | Crawl text configurations |
 | isProgressLiveStream | `false` |`boolean` | If `true`, disables progressbar click event and current time indicatior |
-| useMux | `false` | `boolean` | Enables MUX |
 | showSubtitles | `false` | `boolean` | Disables captions build in manifest |
 | isAudio | `false` | `boolean` | Turns on players audio mode |
 | timecode | `0` | `number` | Sets time code value |
@@ -141,19 +140,16 @@ https://strmsdemo.z13.web.core.windows.net/
 | playLoop | `false` | `boolean` | Automatically starts playing from the beginning when the media has ended. |
 | hideplaylist | `false` | `boolean` | Hides playlist media previews |
 | showExtensions | `true` | `boolean` | Shows custom extensions |
-| alwaysShowExtensions | `true` | `boolean` | Keeps showing extensions even if media is playing |
+| alwaysShowExtensions | `false` | `boolean` | Keeps showing extensions even if media is playing |
 | extensionsVisibilityTimeout | `2000` ms on the desktop and `4000` ms on mobile | `number` | Hides extensions if media is playing after this time. |
 | skipDelta | `10` | `number` | Value in seconds which is used for media skip forward/backward functionality |
 | keyboardListeners | `{}` | `{ [keyCode]: (player) => void }` | List of key codes with custom handle functions |
 | globalKeyboardListeners | `false` | `boolean` | Controls whether keyboard events are listened to globally across the entire webpage or just within the specific player element |
 | isHandlingKeyboardEvents | `true` | `boolean` | Enables keyboard event handling |
 | bufferingTimeout | `200` | `number` | Specifies the delay, in milliseconds, before displaying the processing spinner during buffering |
-| hls | `{ maxFragLookUpTolerance: 0.001, maxMaxBufferLength: 60 }` | `Player$HlsOptions` | Hls.js options | 
-| mux | `{ page_type: 'watchpage', player_name: 'RavnurPlayer', player_version: '1.0.0', video_stream_type: 'on-demand', }` | `Player$MuxOptions` | Mux options |
 | isMobile | `true` on mobile devices | `boolean` | Enables mobile mode in the player |
 | hlsjsURL | `https://cdn.jsdelivr.net/ hls.js/latest/hls.min.js` | `string` | URL to specific hls.js version |
 | flashPath | `/` | `string` | Path to specific Flash version |
-| muxURL | `https://src.litix.io/ core/2/mux.js` | `string` | Path to specific Mux version |
 | savePlayTime | `false` | `boolean` | If enabled, the player will save the last watched time in the browser's local storage. This allows the player to resume playback from the saved time during the next visit. |
 | aesToken | `undefined` | `string` | AES Token value |
 | playbackRates | `[0.5, 0.8, 1, 1.5, 2, 3, 5]` | Array of numbers | Custom playback rate options: an array of numbers from 0.01 to 5. For example, `[0.25, 0.50, 1, 1.75]`. Option 1 is always present as "Standard", and option 5 is hidden for audio-only media.|
@@ -255,34 +251,6 @@ type Player$CrawlOptions = {
 }
 
 type Player$PlaylistMode = 'bottom' | 'right' | 'auto';
-
- type Player$HlsOptions = {
-   maxFragLookUpTolerance: number,
-   maxMaxBufferLength: number
-}
-
-type Player$MuxOptions = {
-   property_key: string,
-   page_type: '' | 'watchpage' | 'iframe',
-   viewer_user_id: string,
-   experiment_name: string,
-   sub_property_id: string,
-   player_name: 'RavnurPlayer',
-   player_version: string,
-   player_init_time: number | null | '',
-   video_id: string,
-   video_title: string,
-   video_series: string,
-   video_producer: string,
-   video_content_type: '' | 'short' | 'movie' | 'episode' | 'clip' | 'trailer' | 'event',
-   video_language_code: string,
-   video_variant_name: string,
-   video_variant_id: string,
-   video_duration: number | null | '',
-   video_stream_type: 'live' | 'on-demand',
-   video_encoding_variant: string,
-   video_cdn: string
-}
 
 type Player$SourceStatus = 0 | 1 | 2;
 
