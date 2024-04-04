@@ -1,8 +1,8 @@
-import baseOptions from './examples/options.js';
-import closedCaptions from './examples/closed-captions/closed-captions.js';
-import chapters from './examples/chapters/chapters.js';
-import annotations from './examples/annotations/annotations.js';
-import crawl from './examples/crawl.js';
+import baseOptions from './src/options.js';
+import closedCaptions from './src/closed-captions/closed-captions.js';
+import chapters from './src/chapters/chapters.js';
+import annotations from './src/annotations/annotations.js';
+import crawl from './src/crawl.js';
 
 const mp4Video = {
   id: '1',
@@ -37,7 +37,7 @@ const dashVideo = {
 const audio = {
   id: '1',
   title: 'Audio',
-  src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+  src: "https://www.soundhelix.com/src/mp3/SoundHelix-Song-1.mp3",
   type: "audio/mp3",
   poster: "https://placehold.co/600x400?text=Audio",
 };
