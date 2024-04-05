@@ -21,6 +21,12 @@
 
 7. [Types (Flow syntax)](#types-flow-syntax)
 
+8. [Advanced Encryption Standard (AES) example](#aes)
+
+9. [Digital Rights Management (DRM) examples](#drm)
+   - [Widevine](#widevine)
+   - [Playready](#playready)
+   - [Fairplay](#fairplay)
 
 ## 1. <a id="installation"></a>Installation
 
@@ -74,16 +80,19 @@ const player = new RavnurMediaPlayer(element, styles);
 
 ## 3. <a id="setup"></a>Setup
 
-After initialization, set up the player with a video source and additional options.
+After initialization, set up the player with a media source and additional options.
 
 ```
-// Object containing video source information. See Main Types section below.
-let video = { ... }; // Player$Source type
+// Object containing media source information. See Main Types section below.
+let media = {
+   src: 'YOUR_MEDIA_SOURCE_URL',
+   type: "YOUR_MEDIA_MIME_TYPE",
+}; // Player$Source type
 
 // Object containing player options
 let options = { ... };
 
-player.setup(video, options); 
+player.setup(media, options); 
 ```
 
 ## <a id="player-demo-page"></a>Demo page
@@ -151,7 +160,11 @@ https://strmsdemo.z13.web.core.windows.net/
 | hlsjsURL | `https://cdn.jsdelivr.net/ hls.js/latest/hls.min.js` | `string` | URL to specific hls.js version |
 | flashPath | `/` | `string` | Path to specific Flash version |
 | savePlayTime | `false` | `boolean` | If enabled, the player will save the last watched time in the browser's local storage. This allows the player to resume playback from the saved time during the next visit. |
-| aesToken | `undefined` | `string` | AES Token value |
+| aesToken | `undefined` | `string` | AES Token value. [Example](#aes). |
+| widevineURL | `undefined` | `string` | Widevine license server URL. [Example](#widevine). |
+| playreadyURL | `undefined` | `string` | Playready license server URL. [Example](#playready). |
+| fairplayURL | `undefined` | `string` | Fairplay license server URL. [Example](#fairplay). |
+| fairplayCertificateUrl | `undefined` | `string` | Fairplay license certificate URL. |
 | playbackRates | `[0.5, 0.8, 1, 1.5, 2, 3, 5]` | Array of numbers | Custom playback rate options: an array of numbers from 0.01 to 5. For example, `[0.25, 0.50, 1, 1.75]`. Option 1 is always present as "Standard", and option 5 is hidden for audio-only media.|
 
 ## <a id="player-events"></a>Events
@@ -266,7 +279,7 @@ type Player$TimeDataSource = {
 type Player$Source = {
    id: string;
    src: string,
-   type: string,
+   type: string, // 'application/x-mpegURL', 'video/mp4' and etc.
    title: string,
    annotations?: Player$TimeDataSource[],
    chapters?: Player$TimeDataSource[],
@@ -396,4 +409,72 @@ type Player$Translation = {
    'no-flash'      : string,
    'playlist-count-of': string
 }
+```
+
+## <a id="aes"></a>Advanced Encryption Standard (AES) example
+
+In order to enable AES encryption, you need to pass the AES token along with other options before loading the source. It is important to note that you should only pass the token value itself without any modifications such as 'Bearer'. Moreover, please keep in mind that the AES implementation won't work on IOS devices. To make it work, you will need to implement your own proxy.
+
+```
+let media = {
+   src: 'YOUR_MEDIA_SOURCE',
+   type: "YOUR_MEDIA_MIME_TYPE",
+};
+
+let options = {
+   aesToken: 'YOUR_AES_TOKEN'
+};
+
+player.setup(media, options); 
+```
+
+## <a id="drm"></a> Digital Rights Management (DRM) examples
+
+### <a id="widevine"></a>Widevine 
+
+
+```
+let media = {
+   src: 'YOUR_MEDIA_SOURCE',
+   type: "YOUR_MEDIA_MIME_TYPE",
+};
+
+let options = {
+   widevineURL: 'YOUR_WIDEVINE_LICENSE_SERVER_URL'
+};
+
+player.setup(media, options); 
+```
+
+### <a id="playready"></a>Playready 
+
+
+```
+let media = {
+   src: 'YOUR_MEDIA_SOURCE',
+   type: "YOUR_MEDIA_MIME_TYPE",
+};
+
+let options = {
+   playreadyURL: 'YOUR_PLAYREADY_LICENSE_SERVER_URL'
+};
+
+player.setup(media, options); 
+```
+
+### <a id="fairplay"></a>Fairplay 
+
+
+```
+let media = {
+   src: 'YOUR_MEDIA_SOURCE',
+   type: "YOUR_MEDIA_MIME_TYPE",
+};
+
+let options = {
+   fairplayURL: 'YOUR_FAIRPLAY_LICENSE_SERVER_URL',
+   fairplayCertificateUrl: 'YOUR_FAIRPLAY_LICENSE_CERTIFICATE_URL',
+};
+
+player.setup(media, options); 
 ```
