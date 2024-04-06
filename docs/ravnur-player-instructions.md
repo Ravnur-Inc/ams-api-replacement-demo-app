@@ -115,7 +115,7 @@ https://strmsdemo.z13.web.core.windows.net/
 | showTOC | `true` | `boolean` | Shows chapters |
 | showAnnotations | `true` | `boolean` | Shows annotations |
 | showQuality | `true` | `boolean` | Shows quality levels |
-| showAudioTracks | `true` | `boolean` | Shows audio tracks |
+| showAudioTracks | `false` | `boolean` | Shows audio tracks |
 | showPoster | `true` | `boolean` | Shows poster image |
 | showPlaceholder | `true` | `boolean` | Adds play button as overlay |
 | showPlaybackRate | `true` | `boolean` | Shows playback rate option in settings |

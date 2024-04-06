@@ -10,7 +10,7 @@ export default {
   // Enabled by default
   showPlay: true,
   showProgress: true,
-  showAudioTracks: true,
+  showAudioTracks: false,
   showPoster: true,
   showPlaceholder: true,
   showForward: true,
