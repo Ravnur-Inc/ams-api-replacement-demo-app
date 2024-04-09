@@ -67,9 +67,15 @@ import { RavnurMediaPlayer } from 'ravnur-player-public';
 
 To use Ravnur Media Player, initiate a new instance by providing the target element and styles:
 
+HTML
 ```
-// Replace 'yourElementId' with the ID of the HTML element where you want the player.
-const element = document.getElementById('yourElementId');
+<div id="player" style="max-width: 720px; height: 400px;"></div>
+```
+JavaScript
+
+```
+// HTML element in which we will initialize the player
+const element = document.getElementById('player');
 
 // Object containing custom styling options (Optional)
 const styles = { ... }; // Player$Styles type
