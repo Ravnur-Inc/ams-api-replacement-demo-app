@@ -47,8 +47,17 @@ namespace VodCreatorApp
 
             authResponse.EnsureSuccessStatusCode();
 
-            string token = await authResponse.Content.ReadAsStringAsync();
-            return new AccessToken(token, DateTime.UtcNow.AddDays(1));
+            string _token = await authResponse.Content.ReadAsStringAsync();
+            
+            string tokenDataPart = _token[(_token.IndexOf('.') + 1)..];
+            tokenDataPart = tokenDataPart[..tokenDataPart.IndexOf('.')];
+            string tokenDataStr = Encoding.UTF8.GetString(Convert.FromBase64String(tokenDataPart.PadRight(4 * ((tokenDataPart.Length + 3) / 4), '=')));
+            
+            dynamic tokenData = JsonConvert.DeserializeObject<dynamic>(tokenDataStr);
+            
+            DateTime tokenValidTo = DateTime.UnixEpoch.AddSeconds((int)tokenData.exp);
+            
+            return new AccessToken(_token, tokenValidTo);
         }
 
         public class GetTokenRequest
