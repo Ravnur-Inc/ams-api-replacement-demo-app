@@ -1,7 +1,5 @@
 ### Configure and run the RMS API Demo Application for the Azure.Resource.Manager.Media SDK
 
-### Configure and run the RMS API Demo Application for the Microsoft.Azure.Management.Media SDK
-
 1. Open a command prompt in your working directory
 2. Clone the repo: ```git clone https://github.com/Ravnur-Inc/ams-api-replacement-demo-app.git```
 3. Go to app folder ```cd ams-api-replacement-demo-app/sdk-azure-resource-manager-demo```
