@@ -2,7 +2,8 @@
 
 Generate subtitles from the audio record of your videos now with the "Video indexer" service available. It can be configured in the RMS Console with the help of this guide.
 
-> [!NOTE] Currently this functionality is in beta version. If you face any issue with it. Do not hesitate to contact us.
+> [!NOTE]
+> Currently this functionality is in beta version. If you face any issue with it. Do not hesitate to contact us.
 
 ## Prerequisites
 
@@ -14,7 +15,8 @@ Generate subtitles from the audio record of your videos now with the "Video inde
 ## Grant RMS managed identity the Video Indexer "Contributor" role
 
 1. Go to the managed resource group and locate the “Managed Identity” section with the Managed Identity name. Copy it for later.
-    > [!NOTE] The format will always have a pattern of id-rms-{unique-suffix}
+    > [!NOTE]
+    > The format will always have a pattern of id-rms-{unique-suffix}
 
 2. Select your Azure AI Video Indexer
 
