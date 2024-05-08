@@ -18,10 +18,7 @@ The following sections provides step-by-step guide on how to connect your existi
 1. Go to the storage account you want to connect with Ravnur Media Services
 2. Navigate to Access Control (IAM) section
 3. Assign the following roles to the Managed Identity from the Ravnur Media Services managed resource group:
-- Reader
 - Storage Blob Data Contributor
-- Storage Blob Delegator
-- Storage Table Data Contributor
 
 The step-by-step guide on how to assign Azure roles using the Azure portal can be found in [Azure RBAC documentation](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
 
