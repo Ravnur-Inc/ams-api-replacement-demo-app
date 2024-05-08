@@ -16,7 +16,6 @@ Generate subtitles from the audio record of your videos now with the "Video inde
 
 1. Go to the managed resource group and locate the “Managed Identity” section with the Managed Identity name. Copy it for later.
 
-    > [!NOTE]
     > The format will always have a pattern of id-rms-{unique-suffix}
 
 2. Select your Azure AI Video Indexer
