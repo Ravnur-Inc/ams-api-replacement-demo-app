@@ -15,6 +15,7 @@ Generate subtitles from the audio record of your videos now with the "Video inde
 ## Grant Video Indexer "Contributor" role to RMS managed identity
 
 1. Go to the managed resource group and locate the “Managed Identity” section with the Managed Identity name. Copy it for later.
+
     > [!NOTE]
     > The format will always have a pattern of id-rms-{unique-suffix}
 
