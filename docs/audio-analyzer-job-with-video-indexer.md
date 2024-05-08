@@ -12,7 +12,7 @@ Generate subtitles from the audio record of your videos now with the "Video inde
 > [!NOTE]
 > Placing Video Indexer account in the RMS Managed Resource group leads to access issues. Video Indexer account, Video Indexer storage and the Managed Identity it employs for authorization should be located outside the RMS Managed Resource group.
 
-## Grant RMS managed identity the Video Indexer "Contributor" role
+## Grant Video Indexer "Contributor" role to RMS managed identity
 
 1. Go to the managed resource group and locate the “Managed Identity” section with the Managed Identity name. Copy it for later.
     > [!NOTE]
