@@ -28,9 +28,15 @@
    - [Playready](#playready)
    - [Fairplay](#fairplay)
 
-## 1. <a id="installation"></a>Installation
+10. [Time data](#timedata)
+      - [Closed Captions](#cc)
+      - [Annotations](#annotations)
+      - [Chapters](#chapters)
 
-### <a id="using-cdn"></a>Using CDN
+## 1. <a id="installation"></a>Installation
+___
+
+#### <a id="using-cdn"></a>Using CDN
 
 Include the Ravnur Media Player script in your HTML file by adding the following CDN link in the `<head>` section:
 
@@ -38,7 +44,7 @@ Include the Ravnur Media Player script in your HTML file by adding the following
 <script src=”https://unpkg.com/ravnur-player-public@latest/dist/cdn/RavnurMediaPlayer.min.js” ></script>
 ```
 
-### <a id="add-to-codebase"></a>Add to Codebase
+#### <a id="add-to-codebase"></a>Add to Codebase
 
 Alternatively, you can include the Ravnur Media Player script to your project's codebase. Ensure that you include the script in your HTML file:
 
@@ -46,7 +52,7 @@ Alternatively, you can include the Ravnur Media Player script to your project's 
 <script src="path/to/RavnurMediaPlayer.min.js"></script>
 ```
 
-### <a id="using-private-npm-registry"></a>Using NPM registry
+#### <a id="using-private-npm-registry"></a>Using NPM registry
 
 You can also install Ravnur Media Player using the npm registry. 
 
@@ -64,6 +70,7 @@ import { RavnurMediaPlayer } from 'ravnur-player-public';
 
 
 ## 2. <a id="initialization"></a>Initialization
+___
 
 To use Ravnur Media Player, initiate a new instance by providing the target element and styles:
 
@@ -85,6 +92,7 @@ const player = new RavnurMediaPlayer(element, styles);
 ```
 
 ## 3. <a id="setup"></a>Setup
+___
 
 After initialization, set up the player with a media source and additional options.
 
@@ -102,10 +110,13 @@ player.setup(media, options);
 ```
 
 ## <a id="player-demo-page"></a>Demo page
+___
 
-https://strmsdemo.z13.web.core.windows.net/
+To help you get started and see these features in action, we've included two dedicated demo pages ([first](https://strmsdemo.z13.web.core.windows.net/) and [second](https://strmsdemo.z13.web.core.windows.net/html-demo/index.html)) within our documentation. These pages provide interactive examples demonstrating how the player works. Additionally, you'll find code examples for the most popular JS frameworks, as well as vanilla JS, [here](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/tree/main/player-demos). These examples can be referenced and adapted to implement Ravnur Media Player within your own project.
+
 
 ## <a id="player-options"></a>Options
+___
 
 | Property | Default value | Type | Description |
 | :--- | :----: | :---: | :--- |
@@ -118,6 +129,7 @@ https://strmsdemo.z13.web.core.windows.net/
 | showFullScreen | `true` | `boolean` | Shows full screen button |
 | showTheaterMode | `false` | `boolean` | Shows theater mode button |
 | showClosedCaptions | `true` | `boolean` | Shows captions |
+| showCaptionSearch | `false` | `boolean` | Shows captions search menu item |
 | showTOC | `true` | `boolean` | Shows chapters |
 | showAnnotations | `true` | `boolean` | Shows annotations |
 | showQuality | `true` | `boolean` | Shows quality levels |
@@ -174,6 +186,7 @@ https://strmsdemo.z13.web.core.windows.net/
 | playbackRates | `[0.5, 0.8, 1, 1.5, 2, 3, 5]` | Array of numbers | Custom playback rate options: an array of numbers from 0.01 to 5. For example, `[0.25, 0.50, 1, 1.75]`. Option 1 is always present as "Standard", and option 5 is hidden for audio-only media.|
 
 ## <a id="player-events"></a>Events
+___
 
 You can listen to player events using the `player.on()` method. Additionally, the player supports all HTMLMediaElement events. For details, refer to the MDN documentation: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
 
@@ -201,6 +214,7 @@ You can listen to player events using the `player.on()` method. Additionally, th
 
 
 ## <a id="player-emits"></a>Emits
+___
 
 You have the option to manually trigger these events. For instance, you can use the following example: `player.bus.emit('fullscreenchanging', false);`
 
@@ -216,6 +230,7 @@ You have the option to manually trigger these events. For instance, you can use 
 |changesource|`Player$Source`|Changes the current media source|
 
 ## <a id="player-methods"></a>Methods
+___
 
 Example of usage: `player.controller.getCurrentTime();`.
 
@@ -251,6 +266,7 @@ Example of usage: `player.controller.getCurrentTime();`.
 
 
 ## <a id="types-flow-syntax"></a>Types (Flow syntax)
+---
 
 ```
 type Player$LoggerFn = (...args: Array<mixed>) => void
@@ -418,6 +434,7 @@ type Player$Translation = {
 ```
 
 ## <a id="aes"></a>Advanced Encryption Standard (AES) example
+___
 
 In order to enable AES encryption, you need to pass the AES token along with other options before loading the source. It is important to note that you should only pass the token value itself without any modifications such as 'Bearer'. Moreover, please keep in mind that the AES implementation won't work on IOS devices. To make it work, you will need to implement your own proxy.
 
@@ -435,8 +452,9 @@ player.setup(media, options);
 ```
 
 ## <a id="drm"></a> Digital Rights Management (DRM) examples
+___
 
-### <a id="widevine"></a>Widevine 
+#### <a id="widevine"></a>Widevine 
 
 
 ```
@@ -452,7 +470,7 @@ let options = {
 player.setup(media, options); 
 ```
 
-### <a id="playready"></a>Playready 
+#### <a id="playready"></a>Playready 
 
 
 ```
@@ -468,7 +486,7 @@ let options = {
 player.setup(media, options); 
 ```
 
-### <a id="fairplay"></a>Fairplay 
+#### <a id="fairplay"></a>Fairplay 
 
 
 ```
@@ -480,6 +498,117 @@ let media = {
 let options = {
    fairplayURL: 'YOUR_FAIRPLAY_LICENSE_SERVER_URL',
    fairplayCertificateUrl: 'YOUR_FAIRPLAY_LICENSE_CERTIFICATE_URL',
+};
+
+player.setup(media, options); 
+```
+
+## <a id="timedata"></a>Time data example
+___
+
+Ravnur media player lets you customize your videos and audio. Use chapters, annotations, and closed captions (CC) – all based on the [`Player$TimeDataSource`](#types-flow-syntax) type. Chapters break content into sections for easy navigation,  annotations let you include notes, commentary, or links at specific moments, and CC makes your content accessible with a text transcript of the audio. You can find example [here](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/player-demos/html-demo/app.js)
+
+#### <a id="cc"></a>Closed Captions 
+
+[Example VTT file](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/player-demos/html-demo/src/closed-captions/cc_en.vtt)
+
+```
+var closedCaptions = [
+   {
+      src: "/en.vtt",
+      label: "English",
+      kind: "captions",
+      srclang: "en-us",
+      default: true,
+   },
+   {
+      src: "/ge.vtt",
+      label: "German",
+      kind: "captions",
+      srclang: "ge",
+   }
+];
+
+let media = {
+   src: 'YOUR_MEDIA_SOURCE',
+   type: "YOUR_MEDIA_MIME_TYPE",
+   cc: closedCaptions
+};
+
+let options = {
+   // Enabled by default, disabled for audio
+   showClosedCaptions: true,
+
+   // Disabled by default. Enables a cc search menu item
+   showCaptionSearch: true,
+
+   // Enabled by default, disabled for mobile devices.
+   // Shows captions location option in captions settings - below the video or overlaid.
+   // Default location is overlaid.
+   showCCLayout: true,
+};
+
+player.setup(media, options); 
+```
+
+#### <a id="annotations"></a>Annotations
+
+[Example JSON file](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/player-demos/html-demo/src/annotations/annotations.json)
+
+```
+var annotations = [
+      {
+        src: "/en.json",
+        label: "English",
+        srclang: "en-us",
+      },
+      {
+        src: '/ge.json',
+        label: 'German',
+        srclang: 'ge'
+      }
+    ];
+
+let media = {
+   src: 'YOUR_MEDIA_SOURCE',
+   type: "YOUR_MEDIA_MIME_TYPE",
+   annotations: annotations
+};
+
+let options = {
+   showAnnotations: true, // Enabled by default, disabled for audio
+};
+
+player.setup(media, options); 
+```
+
+#### <a id="chapters"></a>Chapters
+
+[Example VTT file](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/player-demos/html-demo/src/chapters/chapters_en.vtt)
+
+```
+var chapters = [
+  {
+    src: "/en.vtt",
+    label: "English",
+    srclang: "en-us",
+    default: true,
+  },
+  {
+    src: "/ge.vtt",
+    label: "German",
+    srclang: "ge"
+  },
+];
+
+let media = {
+   src: 'YOUR_MEDIA_SOURCE',
+   type: "YOUR_MEDIA_MIME_TYPE",
+   chapters: chapters
+};
+
+let options = {
+   showTOC: true, // Enabled by default, disabled for audio
 };
 
 player.setup(media, options); 
