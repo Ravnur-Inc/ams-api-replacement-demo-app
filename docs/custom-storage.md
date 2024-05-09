@@ -2,7 +2,7 @@
 
 Ravnur Media Services allows you to continue using your existing storage accounts. Your current AMS account may have one or more storage accounts connected to it, and you can continue to use them. You will need to setup user-assigned managed identity access to your storage account to enable a secure connection between RMS and your storage account.
 
-The following sections provides step-by-step guide on how to connect your existing storage account(s) to Ravnur Media Services.
+The following section provides a step-by-step guide on how to connect your existing storage account(s) to Ravnur Media Services.
 
 ### Locate the User-Assigned Managed Identity
 
@@ -26,13 +26,11 @@ The step-by-step guide on how to assign Azure roles using the Azure portal can b
 
 ### Add storage configuration to the Ravnur Media Services
 
-1. Navigate to the Ravnur Media Services management console
-
-> The URL to access the RMS management console will be unique for your specific deployment, however, it always follows a pattern *https://rms.\<unique-suffix\>.ravnur.net/console*
+1. Navigate to the Ravnur Media Services management console. Use the [following instructions](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/how-to-get-credentials.md).
 
 2. Click the "Manage" button for the corresponding account
 
-![Managing RMS account](img/console-manage-account.PNG)
+![Managing RMS account](img/manage-button.png)
 
 3. Add a new storage account record
 
@@ -40,11 +38,11 @@ The "Name" field should contain the name of the storage account you are connecti
 
 The "Managed Identity" field is automatically populated with the Client ID of the Managed Identity from Ravnur Media Services managed resource group.
 
-![Adding new storage to the RMS configuration](img/rms-console-add-new-storage.png)
+![Adding new storage to the RMS configuration](img/storage-add.png)
 
 4. Set the new storage account as Primary
 
-![Setting new storage as Primary in the RMS configuration](img/rms-console-set-primaty-storage.png)
+![Setting new storage as Primary in the RMS configuration](img/storage-primary.png)
 
 > **Important!**
 > It may take up to 10 minutes to propagate the change of the primary storage account throughout the system
