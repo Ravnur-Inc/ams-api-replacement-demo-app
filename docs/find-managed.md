@@ -7,6 +7,6 @@ Find it in the following way:
 
 2. Under the list of resources, go to the “Managed Identity” section
 
-> [Note!]
-> The name of the Managed Identity will be unique for your specific deployment, however, it always follows a pattern "id-<unique-suffix>" as highlighted below
-[pic](work/managed-identity-locate.png)
+> The name of the Managed Identity will be unique for your specific deployment, however, it always follows a pattern "id-rms-\<unique-suffix\>"
+
+![Managed Identity resource in the RMS deployment resource group](img/managed-identityv2.png)
