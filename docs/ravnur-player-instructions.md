@@ -506,7 +506,7 @@ player.setup(media, options);
 ## <a id="timedata"></a>Time data example
 ___
 
-Ravnur media player lets you customize your videos and audio. Use chapters, annotations, and closed captions (CC) – all based on the [`Player$TimeDataSource`](#types-flow-syntax) type. Chapters break content into sections for easy navigation,  annotations let you include notes, commentary, or links at specific moments, and CC makes your content accessible with a text transcript of the audio. You can find example [here](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/player-demos/html-demo/app.js)
+Ravnur media player lets you customize your media time data. Use chapters, annotations, and closed captions (CC) – all based on the [`Player$TimeDataSource`](#types-flow-syntax) type. Chapters break content into sections for easy navigation,  annotations let you include notes, commentary, or links at specific moments, and CC makes your content accessible with a text transcript of the audio. You can find example [here](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/player-demos/html-demo/app.js)
 
 #### <a id="cc"></a>Closed Captions 
 
