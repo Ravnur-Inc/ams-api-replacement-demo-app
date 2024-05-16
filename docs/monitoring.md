@@ -17,7 +17,7 @@ The detailed list of the job-related events, together with schema examples, can 
 
 > The name of the Event Grid Topic wll be unique for your specific deployment, however, it always follows a pattern "eg-topic-\<unique-suffix\>"
 
-![Event Grid topic resource in the RMS deployment resource group](img/event-grid-topic.png)
+![Event Grid topic resource in the RMS deployment resource group.png](img/event-grid-topic.png)
 
 ### Create Event Grid Topic Subscription
 
@@ -27,7 +27,7 @@ If you are familiar with the subscription creation in the AMS system topic, this
 2. On the **Event Grid topic page**, select **+ Event Subscription**
 3. Fill the details for your event subscirption and click **Create**
 
-![How to create new Event Subscription for Event Grid Topic](img/event-grid-topic-new-sub.png)
+![How to create new Event Subscription for Event Grid Topic.png](img/event-grid-topic-new-sub.png)
 
 You can find more details about [Subscription creation](https://learn.microsoft.com/en-us/azure/event-grid/custom-event-quickstart-portal#subscribe-to-custom-topic) and [example message endpoint](https://learn.microsoft.com/en-us/azure/event-grid/custom-event-quickstart-portal#subscribe-to-custom-topic) in the official documentation for Event Grid.
 
