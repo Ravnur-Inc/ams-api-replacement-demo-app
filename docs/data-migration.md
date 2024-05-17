@@ -17,6 +17,13 @@ This process is only a part of a bigger procedure of migration to RMS. That's wh
 1. You need to know your RMS host name and be able to login to the RMS console. You can find how to do that using [these instructions](how-to-get-credentials.md)
 2. Your AMS storage accounts need to be registered in your RMS instance. Use [these instructions](custom-storage.md) to do that.
 
+> [!NOTE]
+>  The procedure can be time-consuming in the following cases:
+> - you have AES-encrypted or DRM-encrypted streams
+> - you do not store old AMS v2 API assets
+>
+> Contact us for a tailored approach to optimize and speed up the process.
+
 ## Get AMS credentials
 
 1. Open the Azure Portal and navigate to the AMS account that needs to be migrated.
