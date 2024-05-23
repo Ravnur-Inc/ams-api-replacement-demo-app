@@ -6,6 +6,13 @@
 
 ✅ You have a Microsoft account with access to an Azure Tenant where the RMS instance is deployed.
 
+> [!Note]
+> Consider the following scenarios before starting:
+> 1. **Encrypted Videos (AES or DRM)**: If you have a large number of encrypted videos (AES or DRM) consider using the migration option to generate new keys instead of migrating existing ones. AMS API throttling will not allow you to migrate more than 1200 assets per hour if they have content keys. Contact us to turn on the key-generation option in the migration configuration for you.
+> 
+> 2. **Content Key Policies**: Check if you have a large number of content key policies in your AMS account (e.g., policy per asset). This is considered bad practice from AMS's perspective (see [Best Practices and Considerations](https://learn.microsoft.com/en-us/azure/media-services/latest/drm-content-key-policy-concept#best-practices-and-considerations)) and is limited by AMS throttling to 1200 requests per hour. There is an option to apply a single policy for all migrated streaming locators of the same encryption scheme. Contact us, and we will specify it in the migration configuration before you start.
+>
+
 ## Get RMS Connection Credentials
 
 How to get RMS connection credentials you can find [here](how-to-get-credentials.md)
