@@ -299,7 +299,7 @@ class VodProvider {
     return transform;
   }
 
-  async isUrl(url) {
+  isUrl(url) {
     return url.includes('http://') || url.includes('https://');
   }
 }
