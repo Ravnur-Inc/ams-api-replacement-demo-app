@@ -1,0 +1,65 @@
+{
+  "outputs": [
+    {
+      "preset": {
+        "odataType": "#Microsoft.Media.StandardEncoderPreset",
+        "codecs": [
+          {
+            "odataType": "#Microsoft.Media.AacAudio",
+            "channels": 2,
+            "samplingRate": 48000,
+            "bitrate": 128000,
+            "profile": "AacLc"
+          },
+          {
+            "odataType": "#Microsoft.Media.H264Video",
+            "keyFrameInterval": "PT2S",
+            "layers": [
+              {
+                "bitrate": 3600000,
+                "width": "1280",
+                "height": "720",
+                "label": "HD-3600kbps"
+              },
+              {
+                "bitrate": 1600000,
+                "width": "960",
+                "height": "540",
+                "label": "SD-1600kbps"
+              },
+              {
+                "bitrate": 600000,
+                "width": "640",
+                "height": "360",
+                "label": "SD-600kbps"
+              }
+            ]
+          },
+          {
+            "odataType": "#Microsoft.Media.PngImage",
+            "start": "25%",
+            "step": "25%",
+            "range": "80%",
+            "layers": [
+              {
+                "width": "50%",
+                "height": "50%"
+              }
+            ]
+          }
+        ],
+        "formats": [
+          {
+            "odataType": "#Microsoft.Media.Mp4Format",
+            "filenamePattern": "Video-{Basename}-{Label}-{Bitrate}{Extension}"
+          },
+          {
+            "odataType": "#Microsoft.Media.PngFormat",
+            "filenamePattern": "Thumbnail-{Basename}-{Index}{Extension}"
+          }
+        ]
+      }
+    }
+  ],
+  "description": "A simple custom encoding transform with 3 MP4 bitrates"
+}
