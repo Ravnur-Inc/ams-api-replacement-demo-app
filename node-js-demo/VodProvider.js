@@ -33,7 +33,7 @@ class VodProvider {
     return mediaService;
   }
 
-  async createAssetsAndUploadTheFile(mediaService, inputFile, inputAssetName, outputAssetName) {
+  async createAssetsAndUploadFile(mediaService, inputFile, inputAssetName, outputAssetName) {
     console.log('Creating input and output assets...');
     const inputAsset = await mediaService.assets.createOrUpdate(this.options.ResourceGroupName, this.options.MediaServicesAccountName, inputAssetName, {});
     console.log('Input asset created: ', inputAsset.name);
@@ -54,7 +54,7 @@ class VodProvider {
     return { inputAsset, outputAsset };
   }
 
-  async createTheJob(mediaService, jobName, inputAsset, outputAsset) {
+  async createJob(mediaService, jobName, inputAsset, outputAsset) {
     console.log('Creating job...');
 
     const jobInput = {
@@ -256,10 +256,10 @@ class VodProvider {
       await this.createTransform(mediaService, this.transformName);
 
       // Create input asset and upload file
-      const { inputAsset, outputAsset } = await this.createAssetsAndUploadTheFile(mediaService, filePath, inputAssetName, outputAssetName);
+      const { inputAsset, outputAsset } = await this.createAssetsAndUploadFile(mediaService, filePath, inputAssetName, outputAssetName);
 
       // Create the job and wait for it to finish
-      await this.createTheJob(mediaService, jobName, inputAsset, outputAsset);
+      await this.createJob(mediaService, jobName, inputAsset, outputAsset);
 
       // Create Streaming Locator
       const streamingEndpoint = await this.createStreamingLocator(mediaService, outputAsset, locatorName);
