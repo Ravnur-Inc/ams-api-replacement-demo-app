@@ -50,6 +50,11 @@ On the respective pages for the SDK version of the demo application, you can see
 > **TEST AND COMPARE RMS WITH AMS** You can also use the test application to connect to your AMS account to compare the responses. Because the RMS and AMS API are the same, all you need to do to connect it to AMS and upload a file is change rms to ams in the command: To test RMS use: ```dotnet run rms <your file>``` and to test AMS use: ```dotnet run ams <your file>```. This is also found in Step 8 of the respective SDK demo app instructions.
 
 ----
+## Node.js Demo App for RMS
+
+Introducing a Node.js demo app package designed to help you test Ravnur Media Services. This package contains code samples and instructions for updating your SDK to connect and interact with RMS. 
+
+For setup and detailed usage instructions, visit the [Node.js Demo App directory](/node-js-demo).
 
 ## What is Ravnur Media Services?
 
