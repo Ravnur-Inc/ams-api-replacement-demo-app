@@ -1,4 +1,5 @@
 using System.Configuration;
+using System.Drawing;
 using Azure;
 using Azure.Identity;
 using Azure.ResourceManager;
@@ -12,8 +13,9 @@ namespace VodCreatorApp
 {
     public class VodProvider
     {
-        private const string TransformName = "RmsTestTransform";
+        private const string TransformName = "RmsTestTransform22";
         private const string StreamingEndpointName = "default";
+        private const string LogoMaskLabel = "logoMask";
         private readonly AzureOptions? _azureOptions;
         private readonly RmsOptions _rmsOptions;
 
@@ -49,6 +51,7 @@ namespace VodCreatorApp
             // Creating a unique suffix for this test run
             string unique = Guid.NewGuid().ToString()[..13];
             string inputAssetName = $"input-{unique}";
+            string overlayInputAssetName = $"input-overlay-{unique}";
             string outputAssetName = $"output-{unique}";
             string jobName = $"job-{unique}";
             string locatorName = $"locator-{unique}";
@@ -71,13 +74,38 @@ namespace VodCreatorApp
                 var inputAsset = await CreateAsset(mediaService, inputAssetName);
                 Console.WriteLine($"Input asset created: {inputAsset.Data.Name} (container {inputAsset.Data.Container})");
 
+                // Create overlay input asset
+                var overlayInputAsset = await CreateAsset(mediaService, overlayInputAssetName);
+                Console.WriteLine($"Input asset created: {overlayInputAsset.Data.Name} (container {overlayInputAsset.Data.Container})");
+
                 // Upload video to asset
                 Console.WriteLine();
                 Console.WriteLine("Uploading video to input asset...");
                 await UploadFileToAsset(mediaService, inputAssetName, inputFile);
-                Console.WriteLine("Video upload completed!");
 
-                jobInput = new MediaJobInputAsset(assetName: inputAssetName);
+                Console.WriteLine("Uploading file to overlay input asset...");
+                await UploadFileToAsset(mediaService, overlayInputAssetName, "DefaultInput/tests.png");
+
+                Console.WriteLine("Video upload completed!");
+                //var jobInputs = new List<MediaJobInputBasicProperties>
+                //{
+                //    new MediaJobInputAsset(inputAsset.Data.Name),
+                //    new MediaJobInputAsset(assetName: overlayInputAsset.Data.Name)
+                //    {
+                //        Label =  LogoMaskLabel,
+                //    },
+                //};
+                jobInput = new MediaJobInputs
+                {
+                    Inputs =
+                    {
+                        new MediaJobInputAsset(inputAsset.Data.Name),
+                        new MediaJobInputAsset(assetName: overlayInputAsset.Data.Name)
+                        {
+                            Label =  LogoMaskLabel,
+                        },
+                    },
+                };
             }
 
             // Create output assets
@@ -169,7 +197,7 @@ namespace VodCreatorApp
             ContentKeyPolicyTokenRestriction restriction = (ContentKeyPolicyTokenRestriction)contentKeyPolicy.Data.Options.First().Restriction;
             ContentKeyPolicySymmetricTokenKey tokenKey = (ContentKeyPolicySymmetricTokenKey)restriction.PrimaryVerificationKey;
             var token = JWT.Encode(new Dictionary<string, object>
-                {                
+                {
                     { "exp", DateTimeOffset.UtcNow.AddHours(6).ToUnixTimeSeconds() },
                     { "nbf", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
                     { "iss", issuer },
@@ -431,7 +459,28 @@ namespace VodCreatorApp
                         {
                             new Mp4Format(filenamePattern: "Video-{Basename}-{Label}-{Bitrate}{Extension}"),
                             new JpgFormat(filenamePattern: "Thumbnail-{Basename}-{Label}-{Index}{Extension}"),
-                        })),
+                        })
+                    {
+                        Filters =new FilteringOperations
+                        {
+                            Overlays =
+                            {
+                                new VideoOverlay(LogoMaskLabel)
+                                {
+                                    Start = TimeSpan.FromSeconds(3),
+                                    End = TimeSpan.FromSeconds(10),
+                                    Position = new RectangularWindow
+                                    {
+                                        Left ="75%",
+                                        Top= "75%",
+                                        Width= "25%",
+                                        Height= "25%",
+                                    },
+                                    FadeInDuration = TimeSpan.FromSeconds(2),
+                                }
+                            }
+                        }
+                    }),
             };
 
             var tranformData = new MediaTransformData
