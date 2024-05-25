@@ -35,16 +35,17 @@
 
 7. The output of the program will look like this:
     ![image](../docs/img/demo-app-console-screentshot.png)
-    > [!NOTE]
-    > A job can stay in Queued state for a minute. The Ravnur-hosted RMS instance is shared, so potentially it can take even longer if all VMs in the pool are occupied. The encoding pool size is configurable, so if you need to support 20 concurrent encoding jobs, for example, you can set the pool size to meet your needs.
-8. Grab a streaming URL and test the playback in a player:
+
+> [!NOTE]
+> A job can stay in Queued state for a minute. The Ravnur-hosted RMS instance is shared, so potentially it can take even longer if all VMs in the pool are occupied. The encoding pool size is configurable, so if you need to support 20 concurrent encoding jobs, for example, you can set the pool size to meet your needs.
+9. Grab a streaming URL and test the playback in a player:
     https://hlsjs.video-dev.org/demo/ - for HLS
     https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
     https://strmsdemo.z13.web.core.windows.net/ - Ravnur Media Player (HLS) with option for AES-128 encryption
 
     > [!NOTE]
     > The RMS streaming URLs will not work with the Azure Media Player. It, too, is being retired, and we can't say we're sad to see it go. You will need to replace the AMP with a new player, and ideally you should test the streaming locator with your player of choice.<br>
-9. You can test to ensure that it works with your existing AMS account. To do that login to Azure and set environment variables:
+10. You can test to ensure that it works with your existing AMS account. To do that login to Azure and set environment variables:
 
     ```console
     az login
@@ -63,7 +64,7 @@
     dotnet run ams <local path or URL of a video/audio file>
     ```
 
-10. Inspect the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file. For example here you can find transform code which you can change to try your own settings.
+11. Inspect the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file. For example here you can find transform code which you can change to try your own settings.
 
     ```csharp
     var outputs = new List<TransformOutput>
