@@ -8,11 +8,19 @@ The tool that you're familiar with now works with Ravnur Media Services, and of 
 
 Ravnur Media Services (RMS) and its API have been engineered for Azure Media Services (AMS) customers seeking to transition away from AMS without significant modifications to their existing application code. The demo application in this repository will help you understand how RMS can seamlessly replace AMS with minimal changes to your existing code.
 
-We’ve created this console application to give you a quick and simple way to test and explore the Ravnur Media Services API. There are two versions of the demo application. Please select the version that corresponds to the way you use the Azure Media Services (AMS) v3 API:
+We’ve created this console application to give you a quick and simple way to test and explore the Ravnur Media Services API. There are two versions of the Dotnet demo application and a separate one for Node.js.
+
+Please select the dotnet demo version that corresponds to the way you use the Azure Media Services (AMS) v3 API:
 1.	If you're using the **Azure.ResourceManager.Media SDK**, please use this application: [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo).  
 2.	For those using the **Microsoft.Azure.Management.Media SDK**, please use this application: [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo).
 
-After selecting one of the links above, you’ll find instructions on installing and running the demo application and SDK specific code samples that highlight the code changes required for authentication and redirecting to RMS.
+After selecting one of the links above, you’ll find instructions on installing and running the demo application and SDK-specific code samples that highlight the code changes required for authentication and redirecting to RMS.
+
+## Node.js Demo App for RMS
+
+Introducing a Node.js demo app package designed to help you test Ravnur Media Services. This package contains code samples and instructions for updating your SDK to connect and interact with RMS. 
+
+For setup and detailed usage instructions, visit the [Node.js Demo App directory](/node-js-demo).
 
 ## What do I need to use the RMS API Demo Application to test the API?
 
@@ -24,37 +32,43 @@ To run the RMS demo application, you will need:
 
 ✅ The RMS API secret key. You will get this after deploying RMS from the marketplace, or from Ravnur support if you use Ravnur’s test environment.
 
-✅ Dotnet installed (both SDK and runtime, app is written on dotnet 6).
+✅ Dotnet installed for dotnet 6 Azure apps [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo) / [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo) (both SDK and runtime), 
+or Node.JS installed for [node-js-demo](/node-js-demo).
 
-✅ Azure CLI installed (only if you want to run the app using an existing AMS account to compare the output with RMS. Azure CLI is not required by RMS).
+✅ Azure CLI installed (only if you want to run the Azure apps [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo) / [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo) using an existing AMS account to compare the output with RMS. Azure CLI is not required by RMS).
+
+Azure CLI is not required for [node-js-demo](/node-js-demo).
 
 ## What can I test using the RMS Demo Application?
 
-The demo application will connect to the RMS v0.8.1 API and allow you to upload, encode and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the product roadmap below for upcoming features and availability dates.
+Any demo application, whether it is dotnet or Node.js, will connect to the RMS v0.8.1 API and allow you to upload, encode, and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the [product roadmap](rms-feature-roadmap) below for upcoming features and availability dates.
 
 Specifically, the RMS v0.8.1 API will enable you to:
 1.	Add a custom transform
 2.	Optionally add AES-128 encryption
-3.	Create input asset (if input is a local file)
+3.	Create an input asset (if the input is a local file)
 4.	Upload video/audio to the input asset (if input is a local file)
 5.	Create output asset
 6.	Initiate encoding job
 7.	Await completion of the encoding job
-8.	Create streaming locator
+8.	Create a streaming locator
 9.	Retrieve streaming and download URLs, and the AES-128 token if used in the transform
 10.	Monitor and act on all Event Grid job-related event types supported by Azure Media Services
 
 On the respective pages for the SDK version of the demo application, you can see a screenshot of the API responses.
 
 > [!NOTE]
-> **TEST AND COMPARE RMS WITH AMS** You can also use the test application to connect to your AMS account to compare the responses. Because the RMS and AMS API are the same, all you need to do to connect it to AMS and upload a file is change rms to ams in the command: To test RMS use: ```dotnet run rms <your file>``` and to test AMS use: ```dotnet run ams <your file>```. This is also found in Step 8 of the respective SDK demo app instructions.
+> **TEST AND COMPARE RMS WITH AMS**
+> 
+> You can also use your Azure apps [sdk-azure-resource-manager-demo](sdk-azure-resource-manager-demo) / [sdk-ms-azure-management-demo](sdk-ms-azure-management-demo) to connect to your AMS account to compare the responses. Because the RMS and AMS API are the same, all you need to do to connect it to AMS and upload a file is change RMS to AMS in the command:
+> - To test RMS use: ```dotnet run rms <your file>``` 
+> - To test AMS use: ```dotnet run ams <your file>```.
+>   
+> This is also found in Step 8 of the respective SDK demo app instructions.
+>
+>  Such an option is not available for [node-js-demo](/node-js-demo).
 
 ----
-## Node.js Demo App for RMS
-
-Introducing a Node.js demo app package designed to help you test Ravnur Media Services. This package contains code samples and instructions for updating your SDK to connect and interact with RMS. 
-
-For setup and detailed usage instructions, visit the [Node.js Demo App directory](/node-js-demo).
 
 ## What is Ravnur Media Services?
 
