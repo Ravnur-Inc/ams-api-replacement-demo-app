@@ -109,6 +109,12 @@ let options = { ... };
 player.setup(media, options); 
 ```
 
+You can use the destroy method to remove a player from the DOM and destroy it.
+
+```
+player.destroy();
+```
+
 ## <a id="player-demo-page"></a>Demo page
 ___
 
