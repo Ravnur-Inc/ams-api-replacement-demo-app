@@ -1,5 +1,4 @@
 using System.Configuration;
-using System.Drawing;
 using Azure;
 using Azure.Identity;
 using Azure.ResourceManager;
@@ -14,6 +13,7 @@ namespace VodCreatorApp
     public class VodProvider
     {
         private const string TransformName = "RmsTestTransform22";
+        private const string ContentKeyPolicyAes128Name = "RmsTestAes128ContentKeyPolicy";
         private const string StreamingEndpointName = "default";
         private const string LogoMaskLabel = "logoMask";
         private readonly AzureOptions? _azureOptions;
@@ -56,7 +56,7 @@ namespace VodCreatorApp
             string jobName = $"job-{unique}";
             string locatorName = $"locator-{unique}";
             string aes128locatorName = $"locator-{unique}-aes";
-            string contentKeyPolicyName = $"aeskeypolicy-{unique}";
+            string contentKeyPolicyName = ContentKeyPolicyAes128Name;
 
             // Get transform
             var transform = await mediaService.GetMediaTransforms().GetAsync(TransformName);
@@ -172,10 +172,10 @@ namespace VodCreatorApp
             }
 
             // Prepearing AES-128 encrypted HLS stream
-            string issuer = "ravnur";
+            string issuer = "ravnur"; // Use your values for issuer and audience here
             string audience = "rmstest";
             // Create Content Key Policy for AES-128 encryption
-            var contentKeyPolicy = await CreateContentKeyPolicyAsync(mediaService, contentKeyPolicyName, issuer, audience);
+            var contentKeyPolicy = await GetOrCreateContentKeyPolicyAsync(mediaService, contentKeyPolicyName, issuer, audience);
             // Create Streaming Locator with Content Key Policy
             var aesLocator = await CreateAES128StreamingLocatorAsync(mediaService, outputAsset.Data.Name, aes128locatorName, contentKeyPolicy.Data.Name);
             // List url for encrypted streaming
@@ -194,14 +194,16 @@ namespace VodCreatorApp
             }
 
             // Generate test token for AES-128 encryption
-            ContentKeyPolicyTokenRestriction restriction = (ContentKeyPolicyTokenRestriction)contentKeyPolicy.Data.Options.First().Restriction;
+            var propertiesWithSecrets = await contentKeyPolicy.GetPolicyPropertiesWithSecretsAsync();
+            ContentKeyPolicyTokenRestriction restriction = (ContentKeyPolicyTokenRestriction)propertiesWithSecrets.Value.Options.First().Restriction;
             ContentKeyPolicySymmetricTokenKey tokenKey = (ContentKeyPolicySymmetricTokenKey)restriction.PrimaryVerificationKey;
             var token = JWT.Encode(new Dictionary<string, object>
                 {
                     { "exp", DateTimeOffset.UtcNow.AddHours(6).ToUnixTimeSeconds() },
                     { "nbf", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
                     { "iss", issuer },
-                    { "aud", audience }
+                    { "aud", audience },
+                    { "urn:microsoft:azure:mediaservices:contentkeyidentifier", aesLocator.Data.ContentKeys.First(x => x.KeyType == StreamingLocatorContentKeyType.EnvelopeEncryption).Id },
                 },
                 tokenKey.KeyValue,
                 JwsAlgorithm.HS256);
@@ -357,24 +359,41 @@ namespace VodCreatorApp
             return asset.Value;
         }
 
-        private async Task<ContentKeyPolicyResource> CreateContentKeyPolicyAsync(
+        private async Task<ContentKeyPolicyResource> GetOrCreateContentKeyPolicyAsync(
             MediaServicesAccountResource mediaService,
             string policyName,
             string issuer,
             string audience)
         {
+            try
+            {
+                return (await mediaService.GetContentKeyPolicies().GetAsync(policyName)).Value;
+            }
+            catch (RequestFailedException ex) when (ex.Status == 404)
+            {
+                // Continue to create a new policy
+            }
+
             var contentKeyPolicyData = new ContentKeyPolicyData()
             {
                 Description = "Test Content Key Policy",
             };
 
+            // We use constant secret for testing purpose. Use RandoNumberGenerator.GetBytes(64) for production code
+            var keyValue = Convert.FromBase64String("8RyJAV6mc6kk7m7ywFeyO6oUp0Jam1UoqvxEs/UhjrRElWdoD15R6iBWi1Am+En1s6Lv3pbYN94+Nt+3BdxETw==");
+            var contentKeyRestriction = new ContentKeyPolicyTokenRestriction(
+                issuer: issuer,
+                audience: audience,
+                primaryVerificationKey: new ContentKeyPolicySymmetricTokenKey(keyValue),
+                restrictionTokenType: ContentKeyPolicyRestrictionTokenType.Jwt);
+            contentKeyRestriction.RequiredClaims.Add(new ContentKeyPolicyTokenClaim
+            {
+                ClaimType = "urn:microsoft:azure:mediaservices:contentkeyidentifier",
+            });
+            
             var aes128ContentKeyPolicyOption = new ContentKeyPolicyOption(
                     configuration: new ContentKeyPolicyClearKeyConfiguration(),
-                    restriction: new ContentKeyPolicyTokenRestriction(
-                        issuer: issuer,
-                        audience: audience,
-                        primaryVerificationKey: new ContentKeyPolicySymmetricTokenKey(Guid.NewGuid().ToByteArray()),
-                        restrictionTokenType: ContentKeyPolicyRestrictionTokenType.Jwt))
+                    restriction: contentKeyRestriction)
             {
                 Name = "ae128-option",
             };

@@ -9,12 +9,14 @@ using Microsoft.Rest.Azure.Authentication;
 using VodCreatorApp.Configuration;
 
 using Jose;
+using System.Net;
 
 namespace VodCreatorApp
 {
     public class VodProvider
     {
         private const string TransformName = "RmsTestTransform2";
+        private const string ContentKeyPolicyAes128Name = "RmsTestAes128ContentKeyPolicy";
         private const string StreamingEndpointName = "default";
         private const string LogoMaskLabel = "logoMask";
         private readonly AzureMediaServicesOptions _azureOptions;
@@ -69,7 +71,7 @@ namespace VodCreatorApp
             string jobName = $"job-{unique}";
             string locatorName = $"locator-{unique}";
             string aes128locatorName = $"locator-{unique}-aes";
-            string contentKeyPolicyName = $"aeskeypolicy-{unique}";
+            string contentKeyPolicyName = ContentKeyPolicyAes128Name;
 
             JobInput jobInput;
             if (IsUrl(inputFile))
@@ -172,10 +174,11 @@ namespace VodCreatorApp
             }
 
             // Prepearing AES-128 encrypted HLS stream
-            string issuer = "ravnur";
-            string audience = "rmstest";
             // Create Content Key Policy for AES-128 encryption
-            var contentKeyPolicy = await CreateContentKeyPolicyAsync(mediaService, resourceGroupName, accountName, contentKeyPolicyName, issuer, audience);
+            string issuer = "ravnur"; // Use your values for issuer and audience here
+            string audience = "rmstest";
+            ContentKeyPolicy contentKeyPolicy = await GetOrCreateContentKeyPolicyAsync(mediaService, resourceGroupName, accountName, contentKeyPolicyName, issuer, audience);
+
             // Create Streaming Locator with Content Key Policy
             var aesLocator = await CreateAES128StreamingLocatorAsync(mediaService, resourceGroupName, accountName, outputAsset.Name, aes128locatorName, contentKeyPolicy.Name);
             // List url for encrypted streaming
@@ -194,14 +197,16 @@ namespace VodCreatorApp
             }
 
             // Generate test token for AES-128 encryption
-            ContentKeyPolicyTokenRestriction restriction = (ContentKeyPolicyTokenRestriction)contentKeyPolicy.Options.First().Restriction;
+            ContentKeyPolicyProperties propertiesWithSecrets = await mediaService.ContentKeyPolicies.GetPolicyPropertiesWithSecretsAsync(resourceGroupName, accountName, contentKeyPolicyName);
+            ContentKeyPolicyTokenRestriction restriction = (ContentKeyPolicyTokenRestriction)propertiesWithSecrets.Options.First().Restriction;
             ContentKeyPolicySymmetricTokenKey tokenKey = (ContentKeyPolicySymmetricTokenKey)restriction.PrimaryVerificationKey;
             var token = JWT.Encode(new Dictionary<string, object>
                 {
                     { "exp", DateTimeOffset.UtcNow.AddHours(6).ToUnixTimeSeconds() },
                     { "nbf", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
-                    { "iss", issuer },
-                    { "aud", audience }
+                    { "iss", restriction.Issuer },
+                    { "aud", restriction.Audience },
+                    { "urn:microsoft:azure:mediaservices:contentkeyidentifier", aesLocator.ContentKeys.First(k => k.Type == StreamingLocatorContentKeyType.EnvelopeEncryption).Id}
                 },
                 tokenKey.KeyValue,
                 JwsAlgorithm.HS256);
@@ -363,7 +368,7 @@ namespace VodCreatorApp
             return asset;
         }
 
-        private async Task<ContentKeyPolicy> CreateContentKeyPolicyAsync(
+        private async Task<ContentKeyPolicy> GetOrCreateContentKeyPolicyAsync(
             AzureMediaServicesClient mediaService,
             string resourceGroupName,
             string accountName,
@@ -371,6 +376,18 @@ namespace VodCreatorApp
             string issuer,
             string audience)
         {
+            try
+            {
+                // Creating similar policy for each lcoator is a bad practice. Let's check if policy already exists
+                return await mediaService.ContentKeyPolicies.GetAsync(resourceGroupName, accountName, policyName);
+            }
+            catch (ErrorResponseException e) when (e.Response.StatusCode == HttpStatusCode.NotFound)
+            {
+                // Policy does not exist, create it
+            }
+
+            // We use constant secret for testing purpose. Use RandoNumberGenerator.GetBytes(64) for production code
+            var keyValue = Convert.FromBase64String("8RyJAV6mc6kk7m7ywFeyO6oUp0Jam1UoqvxEs/UhjrRElWdoD15R6iBWi1Am+En1s6Lv3pbYN94+Nt+3BdxETw==");
             var options = new ContentKeyPolicyOption[]
             {
                 new ContentKeyPolicyOption(
@@ -379,8 +396,12 @@ namespace VodCreatorApp
                     restriction: new ContentKeyPolicyTokenRestriction(
                         issuer: issuer,
                         audience: audience,
-                        primaryVerificationKey: new ContentKeyPolicySymmetricTokenKey(Guid.NewGuid().ToByteArray()),
-                        restrictionTokenType: ContentKeyPolicyRestrictionTokenType.Jwt)
+                        primaryVerificationKey: new ContentKeyPolicySymmetricTokenKey(keyValue),
+                        restrictionTokenType: ContentKeyPolicyRestrictionTokenType.Jwt,
+                        requiredClaims: new List<ContentKeyPolicyTokenClaim>
+                        {
+                            new ContentKeyPolicyTokenClaim("urn:microsoft:azure:mediaservices:contentkeyidentifier")
+                        })
                 )
             };
 
