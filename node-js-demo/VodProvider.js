@@ -97,7 +97,7 @@ class VodProvider {
     console.log('Creating streaming locator...');
     const locator = await mediaService.streamingLocators.create(this.options.ResourceGroupName, this.options.MediaServicesAccountName, locatorName, {
       assetName: outputAsset.name,
-      streamingPolicyName: 'Predefined_ClearStreamingOnly'
+      streamingPolicyName: 'Predefined_DownloadAndClearStreaming'
     });
 
     console.log(`Streaming locator created: ${locator.name}`)
