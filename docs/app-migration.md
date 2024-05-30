@@ -86,6 +86,25 @@ Azure Media Player was developed specifically for AMS streams and does not work 
 
 You can find developer guide how to setup Ravnur Media Player [here](ravnur-player-instructions.md).
 
+## Validation
+
+At this stage, you have completed the RMS compatibility changes in steps 2 and 3. Ensure the following:
+- your transforms work properly in RMS producing the expected output
+- videos are streamed according to your streaming and content key policies
+
+This validates the success of the Migration steps above.
+
+Additionally, the Streaming URL has been updated: the host name has been changed from the AMS endpoint to the RMS endpoint.
+
+Old URL: http://ams111-aaaa.streaming.media.azure.net/...
+
+New URL: http://fd-111a1aaaaa1-a1aaaaaaaaaaaaa.z02.azurefd.net/...
+
+This URL change proves the successful completion of backend compatibility. A change of the player, surely, would represent the completion of front-end changes.
+
+Please proceed with the remaining steps to fully complete the procedure.
+
+
 ## Change Event Grid Subscriptions
 
 RMS produces the same Event Grid events schema as AMS. Use [these instructions](monitoring.md) to change your current Event Grid subscriptions to listen to RMS events instead.
@@ -113,7 +132,8 @@ There are two way to use new domain:
 2. Reuse your existing CDN endpoint (which you use for AMS account) and map your custom domain to that endpoint.
    [Here](https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain) Microsoft gives instructions how to do this. After that your CDN endpoint should look like this:
    ![CDN before RMS migration](img/cdn-before-rms-migration.png)
-   > [!NOTE] We don't recommend this option because it is harder for release. There could be downtime after you switch it from AMS to RMS and purging CDN cache. It is better to create and test separate CDN endpoint and then just switch all video links to it.
+  > [!Note]
+> Second option makes releasing updates more difficult therefore is not recommended. There could be downtime after switching from AMS to RMS and purging the CDN cache. It's recommended to set up and test a separate CDN endpoint first, and then switch all video links to it.
 
 ### Specify the CDN domain as a new RMS streaming endpoint hostname
 
@@ -122,7 +142,9 @@ There are two way to use new domain:
 2. Remember the host name of your RMS streaming endpoint, as you will need to use it as the new origin for your CDN
 3. In the "Host Name" text box, specify your CDN domain name (for AMS, it's the AMS streaming endpoint hostname), and then click "Save"
    ![Change endpoint host name](img/endpoints-console-changed.PNG)
-   > [!NOTE] Without completing this step, your application may generate streaming links with the RMS origin domain instead of your CDN domain. It is because RMS API returns it to your application as a streaming endpoint hostname.
+   
+  > [!Note]
+> Without completing this step, your application may generate streaming links with the RMS origin domain instead of your CDN domain. It is because RMS API returns it to your application as a streaming endpoint hostname.
 
 ### Option 1: Create separate CDN enpoint which uses RMS as origin (recommended)
 
@@ -146,3 +168,5 @@ If for some reason you want to reuse existing CDN endpoint (you have some compli
    * Wait for the origin change to propagate in the CDN. This can take a while. To ensure that the new origin is available, you can check the URL in a browser: "https://{your custom CDN domain}/console".
 3. Purge your CDN cache.
    Your CDN contains cached AMS manifests with AMS segments URLs. And if some of segments are not in cache it will go to RMS which does not recognize such URLs. That's why please purge your CDN cache to ensure that all your VODs are correctly streamed.
+   
+   As a result, all video URLs will now be streamed from RMS. No need to update existing streaming links similar to [Option 1](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/app-migration.md#option-1-create-separate-cdn-enpoint-which-uses-rms-as-origin-recommended) - it's done automatically.
