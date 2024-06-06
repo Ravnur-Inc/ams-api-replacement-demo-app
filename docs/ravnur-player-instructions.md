@@ -131,33 +131,33 @@ ___
 | i18n |  | `Player$Translation` | Custom translations object |
 | showPlay | `true` | `boolean` | Shows play button |
 | showProgress | `true` | `boolean` | Shows progress bar |
-| showVolume | `true` | `boolean` | Shows volume control |
-| showFullScreen | `true` | `boolean` | Shows full screen button |
+| showVolume | `true` (`false` on mobile) | `boolean` | Shows volume control |
+| showFullScreen | `true` (`false` for audio) | `boolean` | Shows full screen button. |
 | showTheaterMode | `false` | `boolean` | Shows theater mode button |
-| showClosedCaptions | `true` | `boolean` | Shows captions |
+| showClosedCaptions | `true` (`false` for audio) | `boolean` | Shows captions |
 | showCaptionSearch | `false` | `boolean` | Shows captions search menu item |
-| showTOC | `true` | `boolean` | Shows chapters |
-| showAnnotations | `true` | `boolean` | Shows annotations |
-| showQuality | `true` | `boolean` | Shows quality levels |
+| showTOC | `true` (`false` for audio) | `boolean` | Shows chapters |
+| showAnnotations | `true` (`false` for audio) | `boolean` | Shows annotations |
+| showQuality | `true` (`false` on mobile and for audio) | `boolean` | Shows quality levels |
 | showAudioTracks | `false` | `boolean` | Shows audio tracks |
 | showPoster | `true` | `boolean` | Shows poster image |
 | showPlaceholder | `true` | `boolean` | Adds play button as overlay |
-| showPlaybackRate | `true` | `boolean` | Shows playback rate option in settings |
+| showPlaybackRate | `true` (`false` for Android) | `boolean` | Shows playback rate option in settings.|
 | showForward | `true` | `boolean` | Shows 10 sec forward button |
 | showBackward | `true` | `boolean` | Shows 10 sec backward button |
 | showSettings | `true` | `boolean` | Shows settings button |
 | showDownload | `true` | `boolean` | Shows download button |
-| showTitle | `true` | `boolean` | Shows media title |
+| showTitle | `true` (`false` on mobile) | `boolean` | Shows media title |
 | showNextFrame | `false` | `boolean` | Shows next frame button |
 | showPrevFrame | `false` | `boolean` | Shows prev frame button |
-| showCCLayout | `true` | `boolean` | Enables caption layout option in CC settings |
+| showCCLayout | `true` (`false` on mobile) | `boolean` | Enables caption layout option in CC settings |
 | showPrev? | `false` | `boolean` | Shows next track button in full screen mode |
 | showNext? | `false` | `boolean` | Shows prev track button in full screen mode |
 | showCrawl? | `false` | `boolean` | Shows crawl text |
 | crawl | `null` | `Player$CrawlOptions` | Crawl text configurations |
 | isProgressLiveStream | `false` |`boolean` | If `true`, disables progressbar click event and current time indicatior |
 | showSubtitles | `false` | `boolean` | Disables captions build in manifest |
-| isAudio | `false` | `boolean` | Turns on players audio mode |
+| isAudio | `false` (`true` for audio) | `boolean` | Turns on players audio mode |
 | timecode | `0` | `number` | Sets time code value |
 | frameRate | `23.976` | `number` | Sets frame rate value |
 | clip | `undefined` | `[number, number]` | Plays part of the media |
@@ -174,13 +174,13 @@ ___
 | hideplaylist | `false` | `boolean` | Hides playlist media previews |
 | showExtensions | `true` | `boolean` | Shows custom extensions |
 | alwaysShowExtensions | `false` | `boolean` | Keeps showing extensions even if media is playing |
-| extensionsVisibilityTimeout | `2000` ms on the desktop and `4000` ms on mobile | `number` | Hides extensions if media is playing after this time. |
+| extensionsVisibilityTimeout | `2000` ms (`4000` ms on mobile) | `number` | Hides extensions if media is playing after this time. |
 | skipDelta | `10` | `number` | Value in seconds which is used for media skip forward/backward functionality |
 | keyboardListeners | `{}` | `{ [keyCode]: (player) => void }` | List of key codes with custom handle functions |
 | globalKeyboardListeners | `false` | `boolean` | Controls whether keyboard events are listened to globally across the entire webpage or just within the specific player element |
 | isHandlingKeyboardEvents | `true` | `boolean` | Enables keyboard event handling |
 | bufferingTimeout | `200` | `number` | Specifies the delay, in milliseconds, before displaying the processing spinner during buffering |
-| isMobile | `true` on mobile devices | `boolean` | Enables mobile mode in the player |
+| isMobile | `false` (`true` on mobile devices) | `boolean` | Enables mobile mode in the player |
 | hlsjsURL | `https://cdn.jsdelivr.net/ hls.js/latest/hls.min.js` | `string` | URL to specific hls.js version |
 | flashPath | `/` | `string` | Path to specific Flash version |
 | savePlayTime | `false` | `boolean` | If enabled, the player will save the last watched time in the browser's local storage. This allows the player to resume playback from the saved time during the next visit. |
