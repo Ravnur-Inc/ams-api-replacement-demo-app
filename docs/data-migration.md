@@ -10,7 +10,7 @@ Entities to be migrated:
 - Streaming Locators
 
 Assets contents are not going to be copied or moved from the storage only its metadata will be migrated.
-This process is only a part of a bigger procedure of migration to RMS. That's why we recommened to [read it](docs/app-migration.md) before starting it.
+This process is only a part of a bigger procedure of migration to RMS. That's why we recommened to [read it](app-migration.md) before starting it.
 
 ## Pre requisites
 
