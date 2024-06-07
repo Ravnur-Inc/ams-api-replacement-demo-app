@@ -74,39 +74,35 @@ namespace VodCreatorApp
                 var inputAsset = await CreateAsset(mediaService, inputAssetName);
                 Console.WriteLine($"Input asset created: {inputAsset.Data.Name} (container {inputAsset.Data.Container})");
 
-                // Create overlay input asset
-                var overlayInputAsset = await CreateAsset(mediaService, overlayInputAssetName);
-                Console.WriteLine($"Input asset created: {overlayInputAsset.Data.Name} (container {overlayInputAsset.Data.Container})");
-
                 // Upload video to asset
                 Console.WriteLine();
                 Console.WriteLine("Uploading video to input asset...");
                 await UploadFileToAsset(mediaService, inputAssetName, inputFile);
 
-                Console.WriteLine("Uploading file to overlay input asset...");
-                await UploadFileToAsset(mediaService, overlayInputAssetName, "DefaultInput/tests.png");
-
                 Console.WriteLine("Video upload completed!");
-                //var jobInputs = new List<MediaJobInputBasicProperties>
-                //{
-                //    new MediaJobInputAsset(inputAsset.Data.Name),
-                //    new MediaJobInputAsset(assetName: overlayInputAsset.Data.Name)
-                //    {
-                //        Label =  LogoMaskLabel,
-                //    },
-                //};
-                jobInput = new MediaJobInputs
-                {
-                    Inputs =
-                    {
-                        new MediaJobInputAsset(inputAsset.Data.Name),
-                        new MediaJobInputAsset(assetName: overlayInputAsset.Data.Name)
-                        {
-                            Label =  LogoMaskLabel,
-                        },
-                    },
-                };
+
+                jobInput = new MediaJobInputAsset(inputAsset.Data.Name);
             }
+
+            // Create overlay input asset
+            var overlayInputAsset = await CreateAsset(mediaService, overlayInputAssetName);
+            Console.WriteLine($"Input asset created: {overlayInputAsset.Data.Name} (container {overlayInputAsset.Data.Container})");
+
+            Console.WriteLine("Uploading file to overlay input asset...");
+            await UploadFileToAsset(mediaService, overlayInputAssetName, "DefaultInput/tests.png");
+
+            // Add overlay
+            jobInput = new MediaJobInputs
+            {
+                Inputs =
+                {
+                    jobInput,
+                    new MediaJobInputAsset(assetName: overlayInputAssetName)
+                    {
+                        Label =  LogoMaskLabel,
+                    }
+                },
+            };
 
             // Create output assets
             var outputAsset = await CreateAsset(mediaService, outputAssetName);
