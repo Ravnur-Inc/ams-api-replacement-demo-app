@@ -8,6 +8,7 @@ The following section provides a step-by-step guide on how to connect your exist
 
 1. Go to the managed resource group created by the Ravnur Media Services deployment
 2. Under the list of resources, go to the “Managed Identity” section
+3. Copy its name to use in steps further
 
 > The name of the Managed Identity will be unique for your specific deployment, however, it always follows a pattern "id-rms-\<unique-suffix\>"
 
@@ -17,7 +18,7 @@ The following section provides a step-by-step guide on how to connect your exist
 
 1. Go to the storage account you want to connect with Ravnur Media Services
 2. Navigate to Access Control (IAM) section
-3. Assign the following roles to the Managed Identity from the Ravnur Media Services managed resource group:
+3. Assign the following role to the Managed Identity (Step 3 [above](#locate-the-user-assigned-managed-identity)) from the Ravnur Media Services managed resource group:
 - Storage Blob Data Contributor
 
 The step-by-step guide on how to assign Azure roles using the Azure portal can be found in [Azure RBAC documentation](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
