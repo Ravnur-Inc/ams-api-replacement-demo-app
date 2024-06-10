@@ -21,6 +21,10 @@ How to get RMS connection credentials you can find [here](how-to-get-credentials
 
 How to register custom storage account with RMS you can find [here](custom-storage.md)
 
+> [!Note]
+> Before migrating, it is essential to include all storage accounts associated with your AMS account in the RMS Console. If any storage accounts are not listed, the migration process will not initiate. Additionally, ensure that each storage account has
+> a Managed Identity assigned with the appropriate role as described on this page.
+
 ## Migrate Your Application
 
 The RMS API mirrors the AMS API, meaning no significant code changes are required. You can continue using your existing SDK and logic without modifications. However, RMS uses a different authentication scheme, so you will need to update your code to use the new credentials. You can copy them from the following sources:
