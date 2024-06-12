@@ -8,7 +8,7 @@ Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) 
 First of all, you need to configure your EZDRM Widevine account. Enter https://[rms_domain]/drmservice/widevine as Authorization URL.
 ![screenshot](img/widevine-ezdrm-acc.png)
 
-1. Create Content Key Policy with Widevine option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims cam be added in Required Claims array if needed.
+1. Create Content Key Policy with Widevine option. Set appropriate Issuer, Audience and KeyValue(Base64-encoded string). Additional claims can be added in Required Claims array if needed.
 ```JSON
 {
     "properties": {
@@ -53,7 +53,7 @@ WidevineTemplate field contains streaming restrictions in Json format, details a
 
 ![screenshot](img/widevine-shaka-drm.png)
 
-ezdrm_widevine_profile_id - get from Widevine DRM profile in your EZDRM Account (last 6 characters in Porofile Id):
+ezdrm_widevine_profile_id - get from Widevine DRM profile in your EZDRM Account (last 6 characters in Proofile Id):
 ![screenshot](img/widevine-ezdrm-id.png)
 
 locator_id - ID of Streaming Locator you have created on step 2.
