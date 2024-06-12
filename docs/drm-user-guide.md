@@ -53,7 +53,7 @@ WidevineTemplate field contains streaming restrictions in Json format, details a
 
 ![screenshot](img/widevine-shaka-drm.png)
 
-ezdrm_widevine_profile_id - get from Widevine DRM profile in your EZDRM Account (last 6 characters in Proofile Id):
+ezdrm_widevine_profile_id - get from Widevine DRM profile in your EZDRM Account (last 6 characters in Profile Id):
 ![screenshot](img/widevine-ezdrm-id.png)
 
 locator_id - ID of Streaming Locator you have created on step 2.
