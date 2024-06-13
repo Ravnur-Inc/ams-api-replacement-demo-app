@@ -10,13 +10,12 @@ Entities to be migrated:
 - Streaming Locators
 
 Assets contents are not going to be copied or moved from the storage only its metadata will be migrated.
-This process is only a part of a bigger procedure of migration to RMS. That's why we recommened to [read it](app-migration.md) before starting it.
+This process is only a part of a bigger procedure of migration to RMS. That's why we recommend to [read it](app-migration.md) before starting it.
 
 ## Pre requisites
 
 1. You need to know your RMS host name and be able to login to the RMS console. You can find how to do that using [these instructions](how-to-get-credentials.md)
-2. Your AMS storage accounts need to be registered in your RMS instance. Use [these instructions](custom-storage.md) to do that.
-
+2. Your AMS storage accounts need to be registered in your RMS instance and selected as "Primary". Use [these instructions](custom-storage.md) to do that. This is a mandatory step.
 
 ## Get AMS credentials
 
