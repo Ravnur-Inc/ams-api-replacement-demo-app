@@ -14,9 +14,9 @@ This process is only a part of a bigger procedure of migration to RMS. That's wh
 
 ## Pre requisites
 
-1. You need to know your RMS host name and be able to login to the RMS console. You can find how to do that using [these instructions](how-to-get-credentials.md)
-2. Your AMS storage accounts need to be registered in your RMS instance
-3. The AMS storage account you need to migrate data from, must be selected as "Primary". Use [these instructions](custom-storage.md) to do that. This is a mandatory step.
+1. You need to know your RMS host name and be able to login to the RMS console. You can find how to do that using [these instructions](how-to-get-credentials.md).
+2. Your AMS storage accounts need to be registered in your RMS instance.  Use [these instructions](custom-storage.md) to do that.
+3. The AMS storage account you need to migrate data from, must be selected as "Primary". This is a mandatory step.
 
 ## Get AMS credentials
 
