@@ -3,20 +3,17 @@
 To enable the continued playback of media stored in your AMS storage account with RMS, follow the migration procedure outlined below. This process involves copying the  necessary entities from your AMS account to the RMS database.
 
 Entities to be migrated:
-- Transforms
-- Content Key Policies
-- Streaming Policies
-- Assets
-- Streaming Locators
-
-Assets contents are not going to be copied or moved from the storage only its metadata will be migrated.
-This process is only a part of a bigger procedure of migration to RMS. That's why we recommend to [read it](app-migration.md) before starting it.
+- Transforms: these are configurations for common tasks, like encoding or analyzing videos. Each Transform outlines a workflow for processing media files.
+- Content Key Policies: used to configure how a content key is delivered to media clients.
+- Streaming Policies: defines streaming protocols and encryption options for streaming locators
+- Assets: each Asset is a container holding all media-related files, such as videos, captions, and manifests. They serve various purposes, from storing video-on-demand content to live streaming outputs.
+- Streaming Locators: builds streaming URLs for client players to stream media from Assets. They can be associated with filters, streaming policies, and content key policies.
 
 ## Pre requisites
 
 1. You need to know your RMS host name and be able to login to the RMS console. You can find how to do that using [these instructions](how-to-get-credentials.md).
 2. Your AMS storage accounts need to be registered in your RMS instance.  Use [these instructions](custom-storage.md) to do that.
-3. The AMS storage account you need to migrate data from, must be selected as "Primary". This is a mandatory step.
+3. The AMS storage account you need to migrate data from, must be selected as "Primary" in [RMS Console](custom-storage.md). This is a mandatory step.
 
 ## Get AMS credentials
 
