@@ -9,6 +9,12 @@ Entities to be migrated:
 - Assets: each Asset is a container holding all media-related files, such as videos, captions, and manifests. They serve various purposes, from storing video-on-demand content to live streaming outputs.
 - Streaming Locators: builds streaming URLs for client players to stream media from Assets. They can be associated with filters, streaming policies, and content key policies.
 
+> [!Note]
+> Asset Filters: Filters are not migrated by default, but there is a way around it. Please contact Ravnur if this option should be included for you.
+
+Assets contents are not going to be copied or moved from the storage only its metadata will be migrated.
+This process is only a part of a bigger procedure of migration to RMS. That's why we recommend to [read it](app-migration.md) before starting migration.
+
 ## Pre requisites
 
 1. You need to know your RMS host name and be able to login to the RMS console. You can find how to do that using [these instructions](how-to-get-credentials.md).
