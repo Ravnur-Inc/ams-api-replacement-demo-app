@@ -84,22 +84,24 @@ namespace VodCreatorApp
                 var inputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, inputAssetName);
                 Console.WriteLine($"Input asset created: {inputAsset.Name} (container {inputAsset.Container})");
 
-                // Create overlay input asset
-                var overlayInputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, overlayInputAssetName);
-                Console.WriteLine($"Input asset created: {overlayInputAsset.Name} (container {overlayInputAsset.Container})");
-
                 // Upload video to asset
                 Console.WriteLine();
                 Console.WriteLine("Uploading video to input asset...");
                 await UploadFileToAsset(mediaService, resourceGroupName, accountName, inputAssetName, inputFile);
 
-                Console.WriteLine("Uploading overlay file to input asset...");
-                await UploadFileToAsset(mediaService, resourceGroupName, accountName, overlayInputAssetName, "DefaultInput/tests.png");
-
                 Console.WriteLine("Video upload completed!");
-                var jobInputs = new List<JobInput> { new JobInputAsset(inputAsset.Name), new JobInputAsset(overlayInputAsset.Name, label: LogoMaskLabel) };
-                jobInput = new JobInputs() { Inputs = jobInputs };
+                jobInput = new JobInputAsset(inputAsset.Name);
             }
+
+            // Create overlay input asset
+            var overlayInputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, overlayInputAssetName);
+            Console.WriteLine($"Input asset created: {overlayInputAsset.Name} (container {overlayInputAsset.Container})");
+
+            Console.WriteLine("Uploading overlay file to input asset...");
+            await UploadFileToAsset(mediaService, resourceGroupName, accountName, overlayInputAssetName, "DefaultInput/tests.png");
+
+            var jobInputs = new List<JobInput> { jobInput, new JobInputAsset(overlayInputAsset.Name, label: LogoMaskLabel) };
+            jobInput = new JobInputs() { Inputs = jobInputs };
 
             // Create output assets
             var outputAsset = await CreateAsset(mediaService, resourceGroupName, accountName, outputAssetName);
