@@ -4,6 +4,7 @@
 
 You need to create subscription to RMS/AMS event grid topic. Instrucitons how to do it for RMS you can find [here](../../docs/monitoring.md).
 This sample works with Storage Queue. That's why Service Bus subscription will not work.
+
 WARNING! It will consume all messages from specified queue. So use it only for your non-Prod environment as a POC.
 
 ## Set environment variables
