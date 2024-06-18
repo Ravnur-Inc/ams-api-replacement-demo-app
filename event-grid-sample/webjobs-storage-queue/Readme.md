@@ -35,5 +35,5 @@ To stop application press any key. Be aware that it will consume all messages fr
 
 ## Useful links
 
-[How to create Event Grid subscriptions](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-data-event-grid-manual)
-[Azure WebJobs SDK turtorial](https://learn.microsoft.com/en-us/azure/app-service/webjobs-sdk-get-started)
+* [How to create Event Grid subscriptions](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-data-event-grid-manual)
+* [Azure WebJobs SDK turtorial](https://learn.microsoft.com/en-us/azure/app-service/webjobs-sdk-get-started)
