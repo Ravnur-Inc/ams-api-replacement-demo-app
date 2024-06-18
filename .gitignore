@@ -300,6 +300,12 @@ __pycache__/
 # Project specific files
 *.local.json
 
+# Keys and certificates
+*.pem
+*.p12
+*.key
+*.cer
+
 NuGet.Config
 *.orig
 appsettings.Debug.json
@@ -324,3 +330,4 @@ Source/Ravnur.Content.Migration/appsettings-CDCOE-Dev.json
 /Source/Ravnur.Content.Migration/appsettings-SDCOE-Dev.json
 sdk-ms-azure-management-demo/.vscode/launch.json
 sdk-ms-azure-management-demo/.vscode/tasks.json
+sdk-azure-resource-manager-demo/migratede-drm VOD.md
