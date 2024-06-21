@@ -37,8 +37,6 @@ The step-by-step guide on how to assign Azure roles using the Azure portal can b
 
 The "Name" field should contain the name of the storage account you are connecting.
 
-The "Managed Identity" field is automatically populated with the Client ID of the Managed Identity from Ravnur Media Services managed resource group.
-
 ![Adding new storage to the RMS configuration](img/storage-add.png)
 
 4. Set the new storage account as Primary
