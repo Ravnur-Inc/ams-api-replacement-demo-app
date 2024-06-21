@@ -31,7 +31,7 @@ This process is only a part of a bigger procedure of migration to RMS. That's wh
 3. Scroll down to the "Connect to Media Services API" section and select JSON view.
       ![Console credentials](img/data-migration-json.png)
 
-4. Retrieve the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET values using this [instruction](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/service-prin-aad-token#--provision-a-service-principal-in-azure-portal). Ensure the Token expiration is not less than one week because the migration process can take days, depending on the media count. Also, confirm that your AMS account has a Microsoft Entra Id (AAD) application assigned with the "Contributor" role.
+4. Retrieve the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET values using this [instruction](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/service-prin-aad-token#--provision-a-service-principal-in-azure-portal). Ensure the Token expiration is not less than one week because the migration process can take days, depending on the media count. Also, confirm that your AMS account has a Microsoft Entra Id  application assigned with the "Contributor" role.
       ![Console credentials](img/data-migration-iam.png)
    
 ## Start Migration
