@@ -124,6 +124,15 @@ At this point you have your storages registered in RMS and you ensured that your
 
 There is no migration of streaming endpoints from AMS to RMS. RMS does not support full streaming endpoints functionality. It contains only one hard-coded streaming endpoint which you can't remove. By default RMS streaming endpoint uses same domain name as API and Console. The only RMS streaming endpoint property which you can change is HostName which your code may require for producing streaming URLs (it concatenates Streaming Endpoint host name with Streaming Locator paths). If you are using CDN then you must specify your CDN domain name there (to verify it navigate to your Streaming Endpoint in Azure Portal). CDN migration instructions will tell you what actions are required from you in this case. If you do not want to use CDN but still want to use your custom domain name then please contact us and we will setup your custom domain in RMS for you.
 
+
+## Token-authorized AES-encrypted HLS streams work in Safari
+
+By default, videos are not playable on Safari for IOS devices. It is a known issue that is present for AMS as well. You have likely addressed this issue using the guide for [Token-authorized AES-encrypted HLS streams work in Safari](https://azure.microsoft.com/fr-fr/blog/how-to-make-token-authorized-aes-encrypted-hls-stream-working-in-safari/). 
+Otherwise, your current AMS videos won't play now in Safari on IOS.  
+
+To ensure continued functionality after migrating to RMS, please locate the proxy configuration used to handle AES encryption and token authorization. Update this configuration to use the RMS streaming endpoint instead of AMS.
+
+
 ## Update CDN configuration
 
 ### Change CDN domain
