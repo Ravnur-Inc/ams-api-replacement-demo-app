@@ -148,7 +148,7 @@ Ravnur Media Services (RMS) is the replacement for Azure Media Services (AMS), w
 
 The diagram below is the reference architecture for Ravnur Media Services (RMS). The Azure Services that provision RMS are deployed from the Azure Marketplace to a dedicated resource group in the customer’s Azure subscription. 
 
-![AKS_RMS DARK-drawio](./docs/img/AKS_RMS.png)
+![AKS_RMS DARK-drawio](./docs/img/rms-architecture-0624.png)
 
 
 The architecture of RMS is similar to AMS, and it provides scalability for encoding and streaming demands. Azure Front Door sits in front of the RMS API. The RMS API endpoints terminate in Azure Kubernetes Service. Streaming locators and asset metadata are stored in Azure SQL databases (primary and failover). Encoding jobs are processed by Azure VMs; the number and size can be configured during deployment. Output content assets (e.g. video files, thumbnails, manifest files, etc.) are stored in containers in Azure blob storage, and the account can be specified during deployment (e.g. connect an existing storage account or a new storage account). Streaming servers run in AKS and scale based on real-time monitoring. The connection to the Content Delivery Network is not shown on the diagram.
