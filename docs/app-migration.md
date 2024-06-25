@@ -128,7 +128,7 @@ There is no migration of streaming endpoints from AMS to RMS. RMS does not suppo
 ## Token-authorized AES-encrypted HLS streams work in Safari
 
 By default, videos are not playable on Safari for IOS devices. It is a known issue that is present for AMS as well. You have likely addressed this issue using the guide for [Token-authorized AES-encrypted HLS streams work in Safari](https://azure.microsoft.com/fr-fr/blog/how-to-make-token-authorized-aes-encrypted-hls-stream-working-in-safari/). 
-Otherwise, your current AMS videos won't play now in Safari on IOS.  
+Otherwise, your current AMS videos wouldn't play now in Safari on IOS.  
 
 To ensure continued functionality after migrating to RMS, please locate the proxy configuration used to handle AES encryption and token authorization. Update this configuration to use the RMS streaming endpoint instead of AMS.
 
