@@ -1,30 +1,30 @@
 # Post-migration checklist
 
-On this page, you can find the migration checklist explaining what has been prepared by following the [Complete Migration Guide to RMS](/ams-api-replacement-demo-app/blob/main/docs/app-migration.md). You will also get some insights on the recommended go-live approaches.
+On this page, you can find the migration checklist explaining what has been prepared by following the [Complete Migration Guide to RMS](/docs/app-migration.md). You will also get some insights on the recommended go-live approaches.
 
 
 ### **Migration checklist**
 
 The Azure Media Services (AMS) storage accounts are registered in the RMS system by following this step:
 
-1.  [Register Your AMS Storage Account(s) in RMS](/ams-api-replacement-demo-app/blob/main/docs/custom-storage.md) ✅
+1.  [Register Your AMS Storage Account(s) in RMS](/docs/custom-storage.md) ✅
     
 
 All RMS compatibility code changes are done:
 
-2.  [Connect your application to RMS](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/app-migration.md#migrate-your-application) ✅
+2.  [Connect your application to RMS](/docs/app-migration.md#migrate-your-application) ✅
     
-3.  [Replace Azure Media Player with Another Player](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/app-migration.md#replace-azure-media-player-with-another-player) ✅  
+3.  [Replace Azure Media Player with Another Player](/docs/app-migration.md#replace-azure-media-player-with-another-player) ✅  
     
 
 The AMS metadata is migrated to the RMS system by following this step:
 
-4.  [AMS Account Data Migration to RMS](/ams-api-replacement-demo-app/blob/main/docs/data-migration.md) ✅
+4.  [AMS Account Data Migration to RMS](/docs/data-migration.md) ✅
     
 
 The Content Delivery Network (CDN) is configured for the RMS endpoint once you are done with:
 
-5.  [Update CDN configuration](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/app-migration.md#update-cdn-configuration) ✅
+5.  [Update CDN configuration](/docs/app-migration.md#update-cdn-configuration) ✅
     
 ---
 
@@ -45,7 +45,7 @@ For additional context, you may refer to the instructions:
 
 [HLS Proxy service for AES encrypted HLS stream](https://github.com/sdesyllas/hls-proxy-aes-service)
 
-*   **DRM configurations to protect your media content across different platforms and devices.** Navigate to “[How to configure and test the DRM feature](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/drm-user-guide.md)” to learn more.
+*   **DRM configurations to protect your media content across different platforms and devices.** Navigate to “[How to configure and test the DRM feature](/docs/drm-user-guide.md)” to learn more.
     
 *   **Encrypted AMS V2 assets decryption**
     
@@ -70,7 +70,7 @@ At this point, you've confirmed that your application operates properly with RMS
 *   **Modify the application to use RMS credentials**
     
 
-Ensure that the application can perform its tasks with RMS after the previous [User-Side Compatibility Configuration](https://ravnur.atlassian.net/wiki/spaces/RMP/pages/3848044580/Navigating+the+Final+Cutover+Post-Migration+Checklist#User-Side-Compatibility-Configuration%3A) is completed.
+Ensure that the application can perform its tasks with RMS after the previous [User-Side Compatibility Configuration](t#User-Side-Compatibility-Configuration) is completed.
 
 *   Optional - **Sync latest AMS changes:**
     
@@ -78,12 +78,12 @@ Ensure that the application can perform its tasks with RMS after the previous [U
 > [!NOTE]
 > If no videos/data were updated since the AMS metadata migration (the service was on freeze), there is no need for this step.
 
-1.  Access the migration panel in the [RMS Console](/ams-api-replacement-demo-app/blob/main/docs/how-to-get-credentials.md) and press the “Data migration" button.
+1.  Access the migration panel in the [RMS Console](/docs/how-to-get-credentials.md) and press the “Data migration" button.
     
 2.  Press the "Sync Latest Changes" button to migrate recent changes made since the previous migration run.
     
 
-![screenshot](rms-console.png)
+![screenshot](img/rms-console.png)
 
  It triggers the migration process to synchronize any new items from the source Azure Media Services (AMS) account since the previous migration run. This ensures that any additions made to the source AMS account after the last migration are captured and migrated to the destination RMS account.
 
