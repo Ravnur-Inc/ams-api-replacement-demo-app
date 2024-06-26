@@ -124,15 +124,6 @@ At this point you have your storages registered in RMS and you ensured that your
 
 There is no migration of streaming endpoints from AMS to RMS. RMS does not support full streaming endpoints functionality. It contains only one hard-coded streaming endpoint which you can't remove. By default RMS streaming endpoint uses same domain name as API and Console. The only RMS streaming endpoint property which you can change is HostName which your code may require for producing streaming URLs (it concatenates Streaming Endpoint host name with Streaming Locator paths). If you are using CDN then you must specify your CDN domain name there (to verify it navigate to your Streaming Endpoint in Azure Portal). CDN migration instructions will tell you what actions are required from you in this case. If you do not want to use CDN but still want to use your custom domain name then please contact us and we will setup your custom domain in RMS for you.
 
-
-## Token-authorized AES-encrypted HLS streams work in Safari
-
-By default, videos are not playable on Safari for IOS devices. It is a known issue that is present for AMS as well. You have likely addressed this issue using the guide for [Token-authorized AES-encrypted HLS streams work in Safari](https://azure.microsoft.com/fr-fr/blog/how-to-make-token-authorized-aes-encrypted-hls-stream-working-in-safari/). 
-Otherwise, your current AMS videos wouldn't play now in Safari on IOS.  
-
-To ensure continued functionality after migrating to RMS, please locate the proxy configuration used to handle AES encryption and token authorization. Update this configuration to use the RMS streaming endpoint instead of AMS.
-
-
 ## Update CDN configuration
 
 ### Change CDN domain
@@ -183,4 +174,14 @@ You need to do this in both cases: Option 1 and Option 2.
    ![Change endpoint host name](img/endpoints-console-changed.PNG)
    
   > [!Note]
-> Without completing this step, your application may generate streaming links with the RMS origin domain instead of your CDN domain. It is because RMS API returns it to your application as a streaming endpoint hostname.
+> Without completing this step, your application may generate streaming links with the RMS origin domain instead of your CDN domain. The reason is that RMS API returns it to your application as a streaming endpoint hostname.
+
+
+## Verification and troubleshooting
+
+Congratulations on completing the migration process! You successfully transferred the data, configurations, and streaming infrastructure from Azure Media Services (AMS) to Ravnur Media Services (RMS). Now, your existing storage, application connections, and media
+playback seamlessly integrate with RMS. All your video URLs are now streaming directly from RMS, resulting in a smooth performance for your viewers.
+
+You can now initiate your [Post-migration Release Procedure](/docs/golive.md). Check this document for valuable recommendations to help you finalize your media service application migration to RMS.
+
+If you require additional guidance, please contact Ravnur for help.
