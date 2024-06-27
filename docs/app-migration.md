@@ -132,7 +132,7 @@ The AMS streaming domain will be deleted immediately after the AMS account is de
 It means that all your existing streaming links should be updated from the AMS streaming endpoint domain to your own custom domain instead.
 There are two way to use new domain:
 
-1. Create separate CDN enpoint which is pointed to RMS streaming enpoint. It is a prefferable option.
+1. Create separate CDN enpoint which is pointed to RMS streaming enpoint. It is the preferred option.
 2. Reuse your existing CDN endpoint (which you use for AMS account) and map your custom domain to that endpoint.
    [Here](https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain) Microsoft gives instructions how to do this. After that your CDN endpoint should look like this:
    ![CDN before RMS migration](img/cdn-before-rms-migration.png)
