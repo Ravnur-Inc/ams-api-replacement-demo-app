@@ -41,8 +41,6 @@ For additional context, you may refer to the instructions:
 
 [Token-authorized AES-encrypted HLS streams work in Safari](https://azure.microsoft.com/fr-fr/blog/how-to-make-token-authorized-aes-encrypted-hls-stream-working-in-safari/) (Azure blog)
 
-[Token-authorized AES encrypted HLS stream working in Safari](https://github.com/AzureMediaServicesSamples/HLSSafariProxy) (Azure GitHub Samples)
-
 [HLS Proxy service for AES encrypted HLS stream for RMS](https://github.com/Ravnur-Inc/hls-proxy-aes-service)
 
 *   **DRM configurations to protect your media content across different platforms and devices.** Navigate to “[How to configure and test the DRM feature](/docs/drm-user-guide.md)” to learn more.
