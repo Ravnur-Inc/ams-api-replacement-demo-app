@@ -141,7 +141,7 @@ There are two way to use new domain:
 
 ### Option 1: Create separate CDN enpoint which uses RMS as origin (recommended)
 
-1. Create and enpoint specifying RMS streaming domain as origin (it matches the RMS API endpoint domain)
+1. Create an endpoint specifying your RMS streaming domain as the origin (it matches the RMS API endpoint domain)
    ![Create CDN endpoint](img/cdn-create.png)
 2. Wait for the origin change to propagate in the CDN. This can take a while. To ensure that the new origin is available, you can check the URL in a browser: "https://{your custom CDN domain}/console".
 3. Then. To complete migration you just need to:
