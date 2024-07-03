@@ -1,18 +1,23 @@
-# Azure web job for listening RMS events from storage queue
+# Azure web job for listening to RMS events from the Storage Queue
 
 ## Pre-requisites
 
-You need to create subscription to RMS/AMS event grid topic. Instrucitons how to do it for RMS you can find [here](../../docs/monitoring.md).
-This sample works with Storage Queue. That's why Service Bus subscription will not work.
+- a created subscription to RMS/AMS Event Grid topic. Learn more [here](../../docs/monitoring.md).
 
-WARNING! It will consume all messages from specified queue. So use it only for your non-Prod environment as a POC.
+## Usage
+This sample demonstrates one way to use Event Grid with Storage Queue subscriptions. Please note that this is not the only possible approach for using Event Grid with RMS.
+
+A Service Bus subscription is incompatible with this application.
+>
+> [!Note]
+> WARNING! The start of the application will consume all messages from the specified queue. So use it only for your non-production environment as a Proof of concept.
 
 ## Set environment variables
 
-It requires 2 variables to be setup:
+It is required to set 2 variables:
 
-* "AzureWebJobsStorage" - it should contain your storage connection string
-* "JobMonitoringQueueName" - it should contain your storage queue name
+* `AzureWebJobsStorage` - it should contain your storage connection string
+* `JobMonitoringQueueName` - it should contain your storage queue name
 
 ## Start application
 
@@ -20,19 +25,20 @@ It requires 2 variables to be setup:
 dotnet run
 ```
 
-If you want to monitor concrete job you need to specify arguments
+If you want to monitor a specific job, you need to specify arguments:
 
 ```console
 dotnet run <transform name> <job name>
 ```
 
-## Monitor
+## Monitor the queue
+The runtime listens for messages in the Storage Queue and prints them:
 
 ![example](example.png)
 
-## Stop
+## Stop the application
 
-To stop application press any key. Be aware that it will consume all messages from your queue.
+Press any key to stop the application. Be aware that all messages from your queue will disappear.
 
 ## Useful links
 
