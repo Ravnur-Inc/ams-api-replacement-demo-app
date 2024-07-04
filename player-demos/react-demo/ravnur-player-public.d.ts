@@ -1,1 +1,0 @@
-declare module 'ravnur-player-public';
