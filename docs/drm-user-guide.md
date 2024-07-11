@@ -520,14 +520,9 @@ The following JSON illustrates how the result can look with generated paths for 
     "downloadPaths": []
 }
 ```
-You have completed steps 2-4 and obtained a universal Content Key Policy and Streaming Locator, so go straight into step 5 of each corresponding guide: [Widevine](#widevine-drm), [PlayReady DRM](#playready-drm) and [FairPlay DRM](#fairplay-drm).
+5. You have completed steps 2-4 and obtained a universal Content Key Policy and Streaming Locator, so go straight into step 5 of each corresponding guide: [Widevine](#widevine-drm), [PlayReady DRM](#playready-drm) and [FairPlay DRM](#fairplay-drm).
 
-5. Paste a streaming URL to a demo player.
-6. Enable DRM and compose a corresponding link for each separate DRM option. 
-   For this step, you are guided to change some values of the URL to complete the setting.
-   
-   A single `locator_id` can be used for each link. Then, finish composing the link using each corresponding guide.
-
+6. A single `locator_id` is used for each link in this step. It will be identical for all three options. Then, finish composing the link using each corresponding guide.
 
 This optional path provides a simplified, all-in-one DRM configuration and testing solution.
 
