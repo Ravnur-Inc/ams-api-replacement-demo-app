@@ -30,12 +30,18 @@ You can create a single Content Key Policy with all the required DRM options. Yo
 Depending on the selected Streaming Policy, the locator's compatibility with Apple devices varies. For full compatibility, use DASH for Widevine and PlayReady, and HLS for FairPlay.
 ---
 
+> [!Note]
+>  __Steps such as creating a Content Key Policy (Step 2), creating a Streaming Locator (Step 3), obtaining streaming paths (Step 4), and generating an Authorization Token (a part of Step 6) are typically automated within client code. Users generally do not need
+>  to modify code manually for those steps.
+> For detailed instructions on the manual configuration of [Widevine DRM](#widevine-drm), [PlayReady DRM](#playready-drm), [FairPlay DRM](#fairplay-drm), and [Universal DRM Setup](#universal-drm-setup-optional-simplified-path), refer to the respective sections.__
+
+
 ## Widevine DRM
 Widevine DRM technology can be used on webkit browsers (Chrome, Opera, Firefox) on Windows and macOS, and Edge on Android.
 
 1. Configure your EZDRM Widevine account. Enter _**https://[rms_domain]/drmservice/widevine**_ as Authorization URL.
 > [!Note]
->  Make sure to replace **[rms_domain]** with your RMS streaming domain from RMS Console > Manage 
+>  If you use CDN or custom domain, make sure to replace **[rms_domain]** with your custom streaming domain from RMS Console > Manage 
 > ![screenshot](img/endpoints-console-origin.PNG)
 
 ![screenshot](img/widevine-ezdrm-acc.png)
@@ -139,7 +145,7 @@ PlayReady DRM technology can be used on Edge browsers on Windows. Learn more [he
 
 1. Configure your EZDRM PlayReady account. Enter _**https://[rms_domain]/drmservice/playready**_ as Authorization URL. 
 > [!Note]
->  Make sure to replace **[rms_domain]** with your RMS streaming domain from RMS Console > Manage 
+>  If you use CDN or custom domain, make sure to replace **[rms_domain]** with your custom streaming domain from RMS Console > Manage 
 > ![screenshot](img/endpoints-console-origin.PNG)
 
 ![screenshot](img/playready-ezdrm-acc.png)
@@ -279,7 +285,7 @@ Apple FairPlay technology can be used on Apple devices - iOS/iPadOS and with Saf
 Continue with DRM encryption configuration:
 1. Set _**https://[rms_domain]/drmservice/fairplay**_ as Authorization URL. 
 > [!Note]
->  Make sure to replace **[rms_domain]** with your RMS streaming domain from RMS Console > Manage 
+>  If you use CDN or custom domain, make sure to replace **[rms_domain]** with your custom streaming domain from RMS Console > Manage 
 > ![screenshot](img/endpoints-console-origin.PNG)
 
 ![screenshot](img/fairplay-ezdrm-acc.png)
