@@ -99,6 +99,7 @@ Ravnur includes a Console UI as part of the RMS management application. It allow
 | DRM stream encoding | Released |DRM instructions are [here](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/drm-user-guide/docs/drm-user-guide.md)  |
 | Smooth streaming | In development | This is a low priority because very few customers seem to use it. Actually, nobody. |
 | Custom Streaming Endpoints | Released | There is only one predefined streaming endpoint available. Its domain matches with a domain of the RMS API endpoint. However, you can create a custom host domain for the streaming endpoint. |
+| Account filters | Released | RMS supports the following account filters: `"property": "Name"`, `"property": "Type"`, `"property": "Bitrate"`, trimming:  `"startTimestamp" "endTimestamp"`.
 
 ## Ravnur Media Services FAQs
 
