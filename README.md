@@ -41,9 +41,9 @@ Azure CLI is not required for [node-js-demo](/node-js-demo).
 
 ## What can I test using the RMS Demo Application?
 
-Any demo application, whether it is dotnet or Node.js, will connect to the RMS v0.8.1 API and allow you to upload, encode, and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the [product roadmap](rms-feature-roadmap) below for upcoming features and availability dates.
+Any demo application, whether it is dotnet or Node.js, will connect to the RMS API and allow you to upload, encode, and stream a video. With each subsequent release of RMS, you will be able to test more functionality. Please see the [product roadmap](rms-feature-roadmap) below for upcoming features and availability dates.
 
-Specifically, the RMS v0.8.1 API will enable you to:
+Specifically, the RMS API will enable you to:
 1.	Add a custom transform
 2.	Optionally add AES-128 encryption
 3.	Create an input asset (if the input is a local file)
@@ -54,6 +54,7 @@ Specifically, the RMS v0.8.1 API will enable you to:
 8.	Create a streaming locator
 9.	Retrieve streaming and download URLs, and the AES-128 token if used in the transform
 10.	Monitor and act on all Event Grid job-related event types supported by Azure Media Services
+11.	Use the filter or order parameter to find the objects you're interested in
 
 On the respective pages for the SDK version of the demo application, you can see a screenshot of the API responses.
 
@@ -74,7 +75,7 @@ On the respective pages for the SDK version of the demo application, you can see
 
 Ravnur Media Services (RMS) replaces the most recent version of the Azure Media Services v3 API. This means AMS customers can continue to use their existing Azure SDK without making extensive code alterations. Because the RMS API is a mirror of the AMS v3 API, you can refer to the existing [Microsoft Azure Media Services (v3) documentation](https://learn.microsoft.com/en-us/rest/api/media/) for the comprehensive REST API description and documentation. With RMS, you do not need to reencode your content, and you can use your existing storage account because the output of RMS is identical to AMS. 
 
-Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release, RMS v0.6.0, implemented the core AMS functionality for VOD encoding and streaming. The current version, RMS v0.8.1 includes additional functionality, such as support for custom transforms, CDN tokenization, AES-128 encryption, content key policies, and streaming policies.
+Please refer to the RMS roadmap for guidance on which endpoints have already been implemented and which endpoints are planned in coming releases. The initial release implemented the core AMS functionality for VOD encoding and streaming. The current version includes additional functionality, such as support for custom transforms, filtering, CDN tokenization, AES-128 encryption, content key policies, and streaming policies.
 
 ## How can I get Ravnur Media Services?
 
@@ -95,10 +96,11 @@ Ravnur includes a Console UI as part of the RMS management application. It allow
 | Event Grid support | Released | Supported all job-related event types. More details about Event Grid support can be found on [this page](docs/monitoring.md) |
 | Automatic migration of AMS assets/locators to RMS | Released | Migration instructions can be found on [this page](docs/data-migration.md) |
 | Custom Streaming Policy | Released | |
-| AES stream encoding | Released | HLS Proxy service for RMS is [here](https://github.com/Ravnur-Inc/hls-proxy-aes-service).| 
+| AES stream encoding | Released | HLS Proxy service for RMS is [here](https://github.com/Ravnur-Inc/hls-proxy-aes-service)| 
 | DRM stream encoding | Released |DRM instructions are [here](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/drm-user-guide/docs/drm-user-guide.md)  |
-| Smooth streaming | In development | This is a low priority because very few customers seem to use it. Actually, nobody. |
-| Custom Streaming Endpoints | Released | There is only one predefined streaming endpoint available. Its domain matches with a domain of the RMS API endpoint. However, you can create a custom host domain for the streaming endpoint. |
+| Smooth streaming | In development | This is a lower priority feature due to limited customer usage |
+| Custom Streaming Endpoints | Released | There is only one predefined streaming endpoint available. Its domain matches the domain of the RMS API endpoint. However, you can create a custom host domain for the streaming endpoint |
+| Filtering, ordering, and paging | Released | RMS fully supports OData query filtering and ordering options, learn more [in the official documentation](https://learn.microsoft.com/en-us/azure/media-services/latest/filter-order-page-entities-how-to#filtering-and-ordering-options-of-entities) |
 | Account filters | Released | RMS supports the following account filters: `"property": "Name"`, `"property": "Type"`, `"property": "Bitrate"`, trimming:  `"startTimestamp" "endTimestamp"`.
 
 ## Ravnur Media Services FAQs
