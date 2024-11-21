@@ -27,6 +27,19 @@ namespace rms_live_demo_app
             // Create a new instance of the Media Services account
             MediaServicesAccountResource mediaService = CreateRmsClient();
 
+            Console.WriteLine("Please select live ingest type:");
+            Console.WriteLine("1. RTMP/RTMPS");
+            Console.WriteLine("2. SRT");
+
+            byte liveIngestType = 0;
+            while (!byte.TryParse(Console.ReadLine(), out liveIngestType) ||
+                    liveIngestType < 1 ||
+                    liveIngestType > 2)
+            {
+                Console.WriteLine("Please select 1 or 2");
+            }
+
+
             Console.WriteLine("Please select live output type:");
             Console.WriteLine("1. Passthrough");
             Console.WriteLine("2. Adaptive bitrate 720p");
@@ -40,12 +53,13 @@ namespace rms_live_demo_app
             }
 
             //Create Live Event
-            var liveEvent = await GetOrCreateLiveEvent(mediaService, liveOutputType, $"liveevent-test-{liveOutputType}");
+            var liveEvent = await GetOrCreateLiveEvent(mediaService, liveIngestType, liveOutputType);
 
             // Create output Asset
             var outputAsset = await CreateAsset(mediaService, $"livearchive-{unique}");
             Console.WriteLine();
-            Console.WriteLine($"Live archive Asset created: {outputAsset.Data.Name} (container {outputAsset.Data.Container})");
+            Console.WriteLine($"Live archive Asset created: {outputAsset.Data.Name}");
+            Console.WriteLine($"Storage Account: {outputAsset.Data.StorageAccountName}, Container: {outputAsset.Data.Container}");
 
             // Create live Output
             var liveOutput = await CreateLiveOutput(liveEvent, outputAsset.Data.Name, $"liveoutput-{unique}");
@@ -74,7 +88,7 @@ namespace rms_live_demo_app
             // Stream vido file to ingest endpoint using ffmpeg
             Console.WriteLine();
             Console.WriteLine($"Starting ffmpeg streaming of local file {inputFile}");
-            StartFfmpegStreaming(inputFile, liveEvent);
+            Process ffmpegProcess = StartFfmpegStreaming(inputFile, liveEvent);
 
             var paths = streamingLocator.GetStreamingPaths();
             string hlsPath = paths.Value.StreamingPaths.First(p => p.StreamingProtocol == StreamingPolicyStreamingProtocol.Hls).Paths[0];
@@ -91,6 +105,7 @@ namespace rms_live_demo_app
             // Stop the Live Event
             Console.WriteLine();
             Console.WriteLine("Stopping the Live Event, please wait...");
+            ffmpegProcess.Kill();
             await liveEvent.StopAsync(WaitUntil.Completed, new LiveEventActionContent());
             
             Console.WriteLine();
@@ -104,8 +119,16 @@ namespace rms_live_demo_app
 
             // Get VOD streaming URLs
             paths = streamingLocator.GetStreamingPaths();
-            hlsPath = paths.Value.StreamingPaths.First(p => p.StreamingProtocol == StreamingPolicyStreamingProtocol.Hls).Paths[0];
-            dashPath = paths.Value.StreamingPaths.First(p => p.StreamingProtocol == StreamingPolicyStreamingProtocol.Dash).Paths[0];
+            if (paths.Value.StreamingPaths[0].Paths.Any())
+            {
+                hlsPath = paths.Value.StreamingPaths.First(p => p.StreamingProtocol == StreamingPolicyStreamingProtocol.Hls).Paths[0];
+                dashPath = paths.Value.StreamingPaths.First(p => p.StreamingProtocol == StreamingPolicyStreamingProtocol.Dash).Paths[0];
+            }
+            else
+            {
+                Console.WriteLine("No record found in live archive");
+                return;
+            }
 
             // Get VOD streaming endpoint
             var streamingEndpoint = (await mediaService.GetStreamingEndpoints().GetAsync(StreamingEndpointName)).Value;
@@ -138,9 +161,11 @@ namespace rms_live_demo_app
 
         private static async Task<MediaLiveEventResource> GetOrCreateLiveEvent(
             MediaServicesAccountResource mediaService,
-            byte liveOutputType,
-            string liveEventName)
+            byte liveIngestType,
+            byte liveOutputType)
         {
+            string liveEventName = $"liveevent-{(liveIngestType == 1 ? "rtmp" : "srt")}-{(liveOutputType == 1 ? "pstr" : "abr")}";
+
             try
             {
                 return (await mediaService.GetMediaLiveEventAsync(liveEventName)).Value;
@@ -160,7 +185,7 @@ namespace rms_live_demo_app
                      EncodingType = liveOutputType == 2 ? LiveEventEncodingType.Standard : LiveEventEncodingType.PassthroughStandard,
                      PresetName = liveOutputType == 2 ? "Default720p" : null,
                 },
-                Input = new LiveEventInput(LiveEventInputProtocol.Rtmp)
+                Input = new LiveEventInput(liveIngestType == 1 ? LiveEventInputProtocol.Rtmp : new LiveEventInputProtocol("SRT"))
                 {
                     KeyFrameIntervalDuration = TimeSpan.FromSeconds(2),
                 },
@@ -225,19 +250,39 @@ namespace rms_live_demo_app
             return locator.Value;
         }
 
-        private static void StartFfmpegStreaming(string inputFile, MediaLiveEventResource liveEvent)
+        private static Process StartFfmpegStreaming(string inputFile, MediaLiveEventResource liveEvent)
         {
+            // Waita bit to be sure that Live Event is ready to get ingest stream
             Thread.Sleep(5000);
 
             // Get the Ingest URL and Access Token(Streaming Key) to use in streaming app
-            string ingestUrl = liveEvent.Data.Input.Endpoints[0].Uri.AbsoluteUri;
+            string ingestEndpoint = liveEvent.Data.Input.Endpoints[0].Uri.AbsoluteUri;
             string accessToken = liveEvent.Data.Input.AccessToken;
+            
+            string ingestUrl = "";
+            string forwardCommand = "";
+
+            if (liveEvent.Data.Input.StreamingProtocol == LiveEventInputProtocol.Rtmp)
+            {
+                ingestUrl = $"{ingestEndpoint}/{accessToken}";
+                forwardCommand = "-f flv -flvflags no_duration_filesize";
+            }
+            else // SRT
+            {
+                // Azure SDK does not support SRT related properties, so we pass them via Tags
+                string passphrase = liveEvent.Data.Tags["IngestOptions.SrtPassphrase"];
+                int latency = int.Parse(liveEvent.Data.Tags["IngestOptions.SrtLatency"]);
+                int maxBandwidth = int.Parse(liveEvent.Data.Tags["IngestOptions.SrtMaxBW"]);
+
+                ingestUrl = $"{ingestEndpoint}?streamid={accessToken}&passphrase={passphrase}&mode=caller&latency={latency}&pbkeylen=16&encrypt=1&maxbw={maxBandwidth}";
+                forwardCommand = "-f mpegts";
+            }
 
             string ffmpegPath = Path.Combine(Directory.GetCurrentDirectory(), "ffmpeg/ffmpeg.exe");
             string inputFilePath = Path.Combine(Directory.GetCurrentDirectory(), inputFile);
             
-            string ffmpegCommand = $"-re -i {inputFilePath} -c:v libx264 -s 1280x720  -pix_fmt yuv420p -r 30 -profile high -b:v 5000k -maxrate:v 5000k -bufsize 10000k " +
-                $"-preset fast -tune zerolatency -g 60 -keyint_min 60 -c:a aac -b:a 128k -ar 44100 -ac 2 -f flv -flvflags no_duration_filesize {ingestUrl}/{accessToken}";
+            string ffmpegCommand = $"-re -stream_loop -1 -i {inputFilePath} -c:v libx264 -s 1280x720  -pix_fmt yuv420p -r 30 -profile high -b:v 5000k -maxrate:v 5000k -bufsize 10000k " +
+                $"-preset fast -tune zerolatency -g 60 -keyint_min 60 -c:a aac -b:a 128k -ar 44100 -ac 2 {forwardCommand} {ingestUrl}";
 
             Process p = new Process();
             p.StartInfo.CreateNoWindow = false;
@@ -247,6 +292,8 @@ namespace rms_live_demo_app
             p.StartInfo.Arguments = ffmpegCommand;
 
             p.Start();
+
+            return p;
         }
     }
 }
