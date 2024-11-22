@@ -3,7 +3,7 @@
 1. Open a command prompt in your working directory
 2. Clone the repo: ```git clone https://github.com/Ravnur-Inc/ams-api-replacement-demo-app.git```
 3. Go to app folder ```cd ams-api-replacement-demo-app/rms-live-demo-app```
-4. Get your RMS instance credentials using [these instructions]([../docs/how-to-get-credentials.md](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/how-to-get-credentials.md))
+4. Get your RMS instance credentials using [these instructions](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/how-to-get-credentials.md)
 5. To configure the RMS connection, set the following environment variables (if you use the Ravnur-hosted RMS POC instance, contact us to get those credentials):
 
 ```
@@ -15,7 +15,7 @@
 ```
     
 > [!NOTE]
-> The storage must be connected via *Api Key* ([learn how to locate Api Key]([../docs/how-to-get-credentials.md](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/how-to-get-credentials.md))). The Managed Identity connection is not supported. 
+> The storage must be connected via *Api Key* ([learn how to locate Api Key](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/how-to-get-credentials.md)). The Managed Identity connection is not supported. 
 > - If you are using the default RMS storage, no additional setup is required — it works out of the box.
 > - If you want to use a custom storage account, you need to retrieve an Access Key from the Azure Portal:
 >
@@ -131,7 +131,7 @@ The [RavPlayer](https://github.com/Ravnur-Inc/ravplayer) Demo: https://strmsdemo
 
 When you manually stop the stream, live archive links are generated. The demo application automatically uses the RMS storage account created with your RMS instance. No additional configuration is required unless you prefer to use a custom storage account.
 
-But if you prefer to use your own storage account for DVR, you will need to provide the storage account key to the Ravnur team.
+But if you prefer to use your own storage account for DVR, you will need to provide the [storage account key](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/tree/live-demo/rms-live-demo-app#:~:text=instance%20API%20key%3E%22-,Note,-The%20storage%20must) to the Ravnur team.
     
 
 ### AMS to RMS code changes explanation
