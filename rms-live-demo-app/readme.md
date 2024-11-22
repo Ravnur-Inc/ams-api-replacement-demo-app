@@ -15,13 +15,14 @@
 ```
     
 > [!NOTE]
-> The storage must be connected via *Api Key* ([learn how to locate Api Key](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/how-to-get-credentials.md)). The Managed Identity connection is not supported. 
 > - If you are using the default RMS storage, no additional setup is required — it works out of the box.
 > - If you want to use a custom storage account, you need to retrieve an Access Key from the Azure Portal:
 >
 >   - Navigate to Storage Account > Security + Networking > Access keys.
 > 
 >   - Share the key with the Ravnur team, and we will configure it for you.
+>  
+>   The Managed Identity connection is not supported. 
 
 
   For Linux/Mac use the "export" command. If it is more convenient for you, you can set the corresponding settings in the appsettings.json file. If you prefer using your IDE, then the launchSettings.json file will be more convenient for you.
