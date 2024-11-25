@@ -59,18 +59,16 @@ The elements  in the application interface:
 | 14 | Exit prompt           | Instructs the user to press any key to quit the application.                                    |
 8. Start interaction from the first prompt. Choose the live ingest  type:
    
-`1`: RTMP  – Standard protocol for live streaming workflows.
+Press `1` to choose RTMP  – Standard protocol for live streaming workflows.
 
-`2`: SRT – Secure protocol with encryption option.
-
-
+Press `2` to choose SRT – Secure protocol with encryption option.
 
   
 9. Choose the live output type:
     
-`1`: Passthrough – Streams the original quality without modification.
+Press `1` to choose Passthrough – Streams the original quality without modification.
 
-`2`: Adaptive Bitrate (720p) – Dynamically adjusts quality based on network conditions.
+Press `2` to choose Adaptive Bitrate (720p) – Dynamically adjusts quality based on network conditions.
 
 > [!NOTE]
 > Performance impact:
