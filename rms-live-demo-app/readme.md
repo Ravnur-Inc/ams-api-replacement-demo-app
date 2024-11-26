@@ -33,7 +33,7 @@
 
 8. The output of the program will look like this:
 ![screenshot](live-app-demo.png)
-Check the description for the UI elements [here](https://github.com/ams-api-replacement-demo-app/live-demo/rms-live-demo-app/readme.md#the-elements-in-the-application-interface).
+Check the description for the UI elements [here](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/live-demo/rms-live-demo-app/readme.md#the-elements-in-the-application-interface).
 
 9. Start interaction from the first prompt. Choose the live ingest  type:
    
