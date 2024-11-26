@@ -14,7 +14,7 @@
     set Ravnur__ApiKey=<RMS instance API key>
     ```
 
-    For Linux/Mac use the "export" command. If it is more convenient for you, you can set corresponding settings in the appsettings.json file. If you prefer using your IDE, then the launchSettings.json file will be more convinient for you.
+    For Linux/Mac use the "export" command. If it is more convenient for you, you can set the corresponding settings in the appsettings.json file. If you prefer using your IDE, then the launchSettings.json file will be more convenient for you.
 6. Build and run the application:
 
     ```console
@@ -22,27 +22,30 @@
     dotnet run
     ```
 
-    If you start the application without any command line arguments, it will encode the default video that is included in the package using the configured RMS instance. However, you probably will want to upload and encode your own videos, so you can specify the video file to encode as a command line argument:
+    If you start the application without any command line arguments, it will encode the default video included in the package using the configured RMS instance. However, you probably will want to upload and encode your own videos, so you can specify the video file to encode as a command line argument:
 
     ```console
     dotnet run rms <local path or URL of a video/audio file>
     ```
-    If you're uploading from your loacal machine, a very large file may trigger a timeout after 100 seconds. This is caused by the testing app, not RMS. Using a URL transfers files faster.
+    If you're uploading from your local machine, a very large file may trigger a timeout after 100 seconds. This is caused by the testing app, not RMS. Using a URL transfers files faster.
 
     If for some reason you need test videos, this link has several: https://gist.github.com/jsturgis/3b19447b304616f18657<br>
-    The app creates simple custom transform which generates: 3 video qualities, 1 audio quality and several thumbnail images.<br>
-    Then it applies to your video and make two streaming locators: 1 - unencrypted HLS/DASH streaming locator with downloads enabled, 2 - AES-128 encrypted HLS streaming locator.
+    The app creates a simple custom transform that generates: 3 video qualities, 1 audio quality, and several thumbnail images.<br>
+    Then it applies to your video and make two streaming locators:
+   1 - unencrypted HLS/DASH streaming locator with downloads enabled,
+   2 - AES-128 encrypted HLS streaming locator.
 
-7. The output of the program will look like this:
+8. The output of the program will look like this:
     ![image](../docs/img/demo-app-console-screentshot.png)
-    > [!NOTE] A job can stay in the Queued state for two or three minutes. The Ravnur-hosted RMS instance used for testing is shared, so potentially it can take even longer if all VMs in the pool are occupied. The encoding pool size is configurable, so if you need to support 20 concurrent encoding jobs, for example, you can set the pool size to meet your needs.
+> [!NOTE]
+> A job can stay in the Queued state for two or three minutes. The Ravnur-hosted RMS instance used for testing is shared, so potentially it can take even longer if all VMs in the pool are occupied. The encoding pool size is configurable, so if you need to support 20 concurrent encoding jobs, for example, you can set the pool size to meet your needs.
 8. Grab a streaming URL and test the playback in a player:
     https://hlsjs.video-dev.org/demo/ - for HLS
     https://reference.dashif.org/dash.js/latest/samples/dash-if-reference-player/index.html - for DASH<br>
-    https://strmsdemo.z13.web.core.windows.net/ - Ravnur Media Player (HLS) with option for AES-128 encryption
+    https://strmsdemo.z13.web.core.windows.net/ - Ravnur Media Player (HLS) with an option for AES-128 encryption
 
-    > [!NOTE]
-    > The RMS streaming URLs will not work with the Azure Media Player. It, too, is being retired, and we can't say we're sad to see it go. You will need to replace the AMP with a new player, and ideally you should test the streaming locator with your player of choice.<br>
+> [!NOTE]
+> The RMS streaming URLs will not work with the Azure Media Player. It, too, is being retired, and we can't say we're sad to see it go. You will need to replace the AMP with a new player, and ideally, you should test the streaming locator with your player of choice.<br>
 9. You can test to ensure that it works with your existing AMS account. To do that login to Azure and set environment variables:
 
     ```console
@@ -56,13 +59,13 @@
     set=Azure__ClientSecret=<AMS AAD Client Secret>
     ```
 
-    then run command:
+    then run the command:
 
     ```console
     dotnet run ams <local path or URL of a video/audio file>
     ```
 
-10. Inspect the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file. For example here you can find transform code which you can change to try your own settings.
+10. Inspect the code to ensure that it shares the same SDK instructions (except for the connection/credentials part). This code is in [VodProvider.cs](VodProvider.cs) file. For example, you can find transform code and change with your settings.
 
     ```csharp
     var outputs = new MediaTransformOutput[]
@@ -141,7 +144,7 @@
 
 ### AMS to RMS code changes explanation
 
-To repoint the AMS SDK to the RMS instance, you need to create a custom implementation of the TokenCredentials class (see [RmsApiKeyCredentials.cs](RmsApiKeyTokenCredentials.cs)).
+To repoint the AMS SDK to the RMS instance, you need to create a custom implementation of the TokenCredentials class (see [RmsApiKeyCredentials.cs](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/sdk-azure-resource-manager-demo/RmsApiKeyCredentials.cs)).
 
 This is the code which you need to connect the SDK to AMS:
 
