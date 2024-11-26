@@ -92,11 +92,13 @@ Check the description for the UI elements [here](https://github.com/Ravnur-Inc/a
 
 11. Validation
     
-    Test the HLS and DASH playback links using one of the following tools:
+    Test the HLS playback links using one of the following tools:
     
     - [The HLS.js player](https://hlsjs.video-dev.org/demo/).
     
     - The [Ravnur Demo Player](https://strmsdemo.z13.web.core.windows.net/). The source code for the player is available in the [RavPlayer repository](https://github.com/Ravnur-Inc/ravplayer).
+   
+    Test the DASH playback links using [Shaka Demo Player](https://v1-6-5-dot-shaka-player-demo.appspot.com/).
 
 12. Live archive
 
