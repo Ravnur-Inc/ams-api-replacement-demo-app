@@ -1,12 +1,12 @@
 🚀 **Azure Media Services Explorer for Ravnur Media Services is now available!** 🚀  
-The tool that you're familiar with now works with Ravnur Media Services, and of course, it does because RMS is a mirror of AMS. Just connect the AMSE to RMS and you can do everything with RMS that you can do with AMS. Download the RMS version of AMSE here: [AMSE for Ravnur Media Services](https://github.com/Ravnur-Inc/Azure-Media-Services-Explorer/releases)
+The tool that you're familiar with now works with Ravnur Media Services (RMS), and of course, it does because RMS is a mirror of Azure Media Services (AMS). Just connect the AMSE to RMS and you can do everything with RMS that you can do with AMS. Download the RMS version of AMSE here: [AMSE for Ravnur Media Services](https://github.com/Ravnur-Inc/Azure-Media-Services-Explorer/releases)
 
 > [!NOTE]
 > This is a console application to help you test the Ravnur Media Services API. It is not the repo for Ravnur Media Services. Contact Ravnur at info@ravnur.com to deploy the RMS managed application from the Azure Marketplace, or to gain access to Ravnur’s test environment
 
 ## What is the Ravnur Media Services API Demo Application?
 
-Ravnur Media Services (RMS) and its API have been engineered for Azure Media Services (AMS) customers seeking to transition away from AMS without significant modifications to their existing application code. The demo application in this repository will help you understand how RMS can seamlessly replace AMS with minimal changes to your existing code.
+Ravnur Media Services (RMS) and its API have been engineered for AMS customers seeking to transition away from AMS without significant modifications to their existing application code. The demo application in this repository will help you understand how RMS can seamlessly replace AMS with minimal changes to your existing code.
 
 We’ve created this console application to give you a quick and simple way to test and explore the Ravnur Media Services API. There are two versions of the Dotnet demo application and a separate one for Node.js.
 
@@ -68,6 +68,29 @@ On the respective pages for the SDK version of the demo application, you can see
 > This is also found in Step 8 of the respective SDK demo app instructions.
 >
 >  Such an option is not available for [node-js-demo](/node-js-demo).
+
+## What Demo Offers Testing of RMS Live Streaming?
+The [RMS Live Demo App](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/tree/main/rms-live-demo-app) is designed to help developers test live streaming workflows with the RMS API. 
+
+It will enable you to:
+
+✅ Create a live event.
+
+✅ Offer streaming type options:
+
+  - SRT (Secure Reliable Transport).
+  
+  - RTMP (Real-Time Messaging Protocol).
+  
+✅Each type of stream can be started as:
+
+  - Passthrough stream.
+  
+  - ABR (Adaptive Bitrate) stream.
+
+Requirement for using the Demo: An active RMS account. 
+
+Check the [RMS Live Demo App](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/tree/main/rms-live-demo-app) for detailed instructions on setup and usage.
 
 ----
 
