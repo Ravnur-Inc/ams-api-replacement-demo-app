@@ -4,14 +4,14 @@
 
 By default, RMS has two domain names that can be used in streaming links: the RMS front door domain and the RMS origin streaming endpoint domain. The front door endpoint acts as a CDN, and RMS uses it by default (Streaming Endpoint Host Name). It is not recommended to use the RMS origin domain directly for streaming, but you can map your custom CDN to it.
 
-### How to Get the RMS Front Door Domain?
+### How to Get the RMS Front Door Domain? {#rms-front-door-domain}
 
 The RMS front door domain name looks like this: "fd-{unique string}.{AFD DNS subdomain}.azurefd.net".
 You can find it in your RMS resource group. Its name is "fd-{unique string}" and it is the only front door in your resource group.
 It contains only one default endpoint:
 ![RMS Console endpoints](img/portal-RMS-front-door-endpoint.jpg)
 
-### How to Obtain the RMS Origin Domain?
+### How to Obtain the RMS Origin Domain? {#rms-origin-domain}
 
 The RMS origin domain looks like this: "i-rms.{unique string}.ravnur.net".
 You can find the exact name by locating your RMS DNS zone in your RMS resource group. There is only one DNS zone resource in your RMS resource group.
@@ -19,7 +19,7 @@ You can find the exact name by locating your RMS DNS zone in your RMS resource g
 
 ## How to Use a Custom Domain with the RMS Front Door?
 
-* Create a CNAME record for the alias host domain so that it points to the RMS native front door endpoint: "fd-{unique string}.{AFD DNS subdomain}.azurefd.net". Documentation on how to create and map a CNAME is here: Add a custom domain to Azure Front Door.
+* Create a CNAME record for the alias host domain so that it points to the RMS native front door endpoint: "fd-{unique string}.{AFD DNS subdomain}.azurefd.net". How to Get the RMS Front Door Domain you can find [here]({#rms-front-door-domain}). Documentation on how to create and map a CNAME is here: [Add a custom domain to Azure Front Door](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-custom-domain#create-a-cname-dns-record).
 * Make an RMS support request (by email) to add your custom domain name to the RMS front door. Provide RMS support with your domain name and RMS resource group.
 
 ## How to Update the RMS Streaming Domain Name?
