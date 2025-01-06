@@ -19,7 +19,7 @@ You can find the exact name by locating your RMS DNS zone in your RMS resource g
 
 ## How to Use a Custom Domain with the RMS Front Door?
 
-* Create a CNAME record for the alias host domain so that it points to the RMS native front door endpoint: "fd-{unique string}.{AFD DNS subdomain}.azurefd.net". How to Get the RMS Front Door Domain you can find [here]({#how-to-get-the-rms-front-door-domain}). Documentation on how to create and map a CNAME is here: [Add a custom domain to Azure Front Door](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-custom-domain#create-a-cname-dns-record).
+* Create a CNAME record for the alias host domain so that it points to the RMS native front door endpoint: "fd-{unique string}.{AFD DNS subdomain}.azurefd.net". How to Get the RMS Front Door Domain you can find [here](#how-to-get-the-rms-front-door-domain). Documentation on how to create and map a CNAME is here: [Add a custom domain to Azure Front Door](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-custom-domain#create-a-cname-dns-record).
 * Make an RMS support request (by email) to add your custom domain name to the RMS front door. Provide RMS support with your domain name and RMS resource group.
 
 ## How to Update the RMS Streaming Domain Name?
