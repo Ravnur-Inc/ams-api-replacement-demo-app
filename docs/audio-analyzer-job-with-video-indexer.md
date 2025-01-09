@@ -48,8 +48,6 @@ As a result, this Managed Identity has access to the Video Indexer.
 
     ![Video Indexer credentials](img/vi-creds.png)
 
-2. Open the RMS Console and click **Manage** button.
-
-3. Enter the credentials and select **Add** in the RMS Console.
+2.  Request Ravnur support via support@ravnur.com to add a Video Indexer account by providing all the data from step 1.
 
 This is it. Now you can run jobs for AudioAnalyzer preset.
