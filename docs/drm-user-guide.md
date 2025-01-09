@@ -3,8 +3,8 @@ RMS is compatible with Google Widevine, Microsoft PlayReady, and Apple FairPlay 
 
 ## Prerequisites
 1. Get an account with [EZDRM](https://www.ezdrm.com). It is also available in the [Azure Marketplace](https://azuremarketplace.microsoft.com/en/marketplace/apps/ezdrminc1602008397687.ezdrm_azure?tab=Overview). 
-2. Configure DRM settings within the RMS Console. To do this, navigate to 'Manage' on your account, enter your EZDRM Username and Password, and then click 'Save'.
-![screenshot](img/drm-console.png)
+2. Configure DRM settings within the [RMS Console](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/how-to-get-credentials.md). To do this, navigate to the Account settings tab, select a pencil icon, enter your EZDRM Username and Password, and Save.
+![screenshot](img/drm-console2.png)
 Note that these values are cached for 30 min.
 
 ## Select an Approach for DRM Configuration
