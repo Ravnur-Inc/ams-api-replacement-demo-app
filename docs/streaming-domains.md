@@ -18,10 +18,6 @@ You can find the RMS DNS zone in your RMS resource group. By default, there is o
 > * If you use Azure Front Door or Azure Standard CDN (classic), we can make this endpoint private for you and hide it from public access.
 > * If you use another CDN provider, the endpoint cannot be private. However, we are working on a solution and plan to implement it before the Azure Standard CDN end-of-life.
 
-> **Note:**
-> It is not recommended to map your custom CDN/Azure Front Door to the RMS Front Door Endpoint.
-> If you migrated from Azure Media Services with your own CDN, you likely mapped it to Azure Front Door. Please map it to the Streaming Origin Endpoint instead.
-
 ## Front Door Endpoint
 
 The Front Door Endpoint provides you with:
@@ -30,6 +26,9 @@ The Front Door Endpoint provides you with:
 
 The Front Door Endpoint domain name looks like this: `fd-{unique string}.{AFD DNS subdomain}.azurefd.net`. It is the default hostname of the Streaming Endpoint in the RMS Console. However, if you have already changed it, you can find it in your RMS resource group. Its name is `fd-{unique string}`, and it is the only front door in your resource group.
 ![RMS Console endpoints](img/portal-RMS-front-door-endpoint.jpg)
+
+> **Note:**
+> It is not recommended to map your custom CDN/Azure Front Door to the RMS Front Door Endpoint. It is bad practice according to Microsoft [official documentation](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-faq#can-i-deploy-another-cdn-from-an-external-vendor-behind-or-in-front-of-front-door)
 
 ## Questions and Answers
 
