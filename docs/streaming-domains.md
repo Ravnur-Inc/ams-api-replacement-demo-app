@@ -49,7 +49,7 @@ Yes, Ravnur can take care of this. It is the most cost-effective way to set up a
 
 ### How to Use a Custom Domain with the RMS Front Door?
 
-1. Create a CNAME record for the alias host domain to point to the RMS native Front Door Endpoint: `fd-{unique string}.{AFD DNS subdomain}.azurefd.net`. Refer to the guidelines for [obtain the RMS Front Door domain](#how-to-update-the-rms-streaming-endpoint-host-name) and the instructions to [create and map a CNAME in Azure Front Door](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-custom-domain#create-a-cname-dns-record).
+1. [Create a CNAME record](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-custom-domain#create-a-cname-dns-record) for the alias host domain to point to the RMS native Front Door Endpoint: `fd-{unique string}.{AFD DNS subdomain}.azurefd.net`. Refer to the guidelines to [obtain the RMS Front Door domain](#how-to-update-the-rms-streaming-endpoint-host-name).
 2. Submit an [RMS support request](mailto:support@ravnur.com) to add your custom domain name to the RMS Front Door.  When contacting RMS support, provide:
 * Your domain name.
 * The RMS resource group.
