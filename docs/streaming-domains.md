@@ -3,20 +3,28 @@
 ## Overview
 
 By default, an RMS cluster exposes two endpoints for video-on-demand (VOD) streaming:
-* Streaming Origin Endpoint
-* Front Door Endpoint
+* [Streaming Origin Endpoint](#streaming-origin-endpoint)
+* [Front Door Endpoint](#front-door-endpoint)
 
 ## Streaming Origin Endpoint
 
 The Streaming Origin Endpoint is a streaming server load balancer.
 The Streaming Origin domain follows this format: `i-rms.{RMS DNS zone}`.
-You can locate the __RMS DNS zone__ in your __RMS resource group__, , which typically contains a single DNS zone resource.
-![RMS Console endpoints](img/portal-RMS-origin-domain.jpg)
 
+You can find your RMS DNS zone in the Azure portal:
+
+1. Navigate to your RMS resource group
+
+2. In the resource list, use the Type filter and select __DNS zone__
+
+3. The DNS zone resource name is your RMS DNS zone
+
+RMS resource group typically contains a single DNS zone resource.
+![RMS Console endpoints](img/portal-RMS-origin-domain.jpg)
 > **Important:**
 > The Streaming Origin Endpoint is public, however, direct usage is not recommended. This method uses the public internet for transport, which causes latency and security issues. Instead, use the [__Front Door Endpoint__](#front-door-endpoint) or a __CDN endpoint__ mapped to the RMS Streaming Origin.
 > * If you use Azure Front Door or Azure Standard CDN (classic), Ravnur can configure the private endpoint, and make it not accessible publicly.
-> * If you use another CDN provider, the endpoint cannot be private. Our team is actively working on a solution to support private endpoints before the Azure Standard CDN end-of-life.
+> * If you use another CDN provider, the endpoint cannot be private. Our team is actively working on a solution to support private endpoints before the Azure Standard CDN end-of-life on [September 30, 2027](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-cdn-comparison).
 
 ## Front Door Endpoint
 
@@ -24,14 +32,24 @@ The Front Door Endpoint provides you with:
 * Efficient routing to the Streaming Origin Endpoint using the Azure network, bypassing the public internet.
 * Advanced configuration options, such as caching, compression, Web Application Firewall (WAF) rules, and managed SSL certificates for custom domains.
 
-The Front Door Endpoint domain name follows this format: `fd-{unique string}.{AFD DNS subdomain}.azurefd.net`. It is the default hostname of the Streaming Endpoint in the RMS Console. 
+The Front Door Endpoint domain name follows this format: `fd-{unique string}.{AFD DNS subdomain}.azurefd.net`. 
+It is the default hostname of the Streaming Endpoint in the RMS Console: 
+![RMS Console endpoint](img/FD%20endpoint.png)
 
-If you have already changed hostname, you can locate the Front Door Endpoint in your RMS resource group. Look for the resource named `fd-{unique string}`, which is the only Front Door in your resource group.
+* If you have already changed hostname, you can locate the Front Door Endpoint in your RMS resource group:
+
+1. Navigate to your RMS resource group
+    
+2. Look for the resource named `fd-{unique string}`
+    
+3. This will be the only Front Door resource in your resource group
+
+
 
 ![RMS Console endpoints](img/portal-RMS-front-door-endpoint.jpg)
 
 > **Note:**
-> It is not recommended to map your custom CDN/Azure Front Door to the RMS Front Door Endpoint. According to [Microsoft's documentation](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-faq#can-i-deploy-another-cdn-from-an-external-vendor-behind-or-in-front-of-front-door), this is considered bad practice. 
+> It is not recommended to map your custom CDN/Azure Front Door to the RMS Front Door Endpoint. According to [Microsoft's documentation](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-faq#can-i-deploy-another-cdn-from-an-external-vendor-behind-or-in-front-of-front-door), this is considered a bad practice. 
 
 ## Questions and Answers
 
@@ -42,7 +60,7 @@ Yes, Ravnur can take care of this. It is the most cost-effective way to set up a
 ### How to Integrate a Custom CDN with the RMS Streaming Endpoint?
 
 * Map your CDN to the Streaming Origin Endpoint.
-* Do not map it to the RMS Front Door Endpoint; according to [Microsoft's documentation](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-faq#can-i-deploy-another-cdn-from-an-external-vendor-behind-or-in-front-of-front-door), this is considered bad practice. 
+* Do not map it to the RMS Front Door Endpoint; according to [Microsoft's documentation](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-faq#can-i-deploy-another-cdn-from-an-external-vendor-behind-or-in-front-of-front-door), this is considered a bad practice. 
 * Use the **Ignore Query String** option.
 * No other configurations are required.
 * [Update the Streaming Endpoint Host Name in the RMS Console](#how-to-update-the-rms-streaming-endpoint-host-name).
@@ -102,4 +120,4 @@ Based on infrastructure requirements, we suggest the following options:
 
 
 ___
-Contact Ravnur Support at support@ravnur.com or visit our [Knowledge Base](https://docs.ravnur.com/hc/en-us/categories/16039972389778-Ravnur-Media-Services-RMS).
+Have more questions? Contact Ravnur Support at support@ravnur.com or visit our [Knowledge Base](https://docs.ravnur.com/hc/en-us/categories/16039972389778-Ravnur-Media-Services-RMS).
