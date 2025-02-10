@@ -6,12 +6,18 @@ By default, an RMS cluster exposes two endpoints for video-on-demand (VOD) strea
 * [Streaming Origin Endpoint](#streaming-origin-endpoint)
 * [Front Door Endpoint](#front-door-endpoint)
 
+Both endpoints are located in the RMS Console, under Account Settings > Streaming Endpoints:  
+![hostname1](img/consolehostname1.png)
+
 ## Streaming Origin Endpoint
 
 The Streaming Origin Endpoint is a streaming server load balancer.
-The Streaming Origin domain follows this format: `i-rms.{RMS DNS zone}`.
+To locate it, go to RMS Console > Account Settings tab > Streaming Endpoints:
+ ![hostname2](img/consolehostname2.png)
 
-You can find your RMS DNS zone in the Azure portal:
+The Streaming Origin domain follows this format: `i-rms.{RMS DNS zone}`, `where {RMS DNS zone}` is your unique DNS identifier visible in the Streaming Endpoints settings. 
+
+Alternatively, find your RMS DNS zone in the Azure portal:
 
 1. Navigate to your RMS resource group
 
@@ -33,8 +39,9 @@ The Front Door Endpoint provides you with:
 * Advanced configuration options, such as caching, compression, Web Application Firewall (WAF) rules, and managed SSL certificates for custom domains.
 
 The Front Door Endpoint domain name follows this format: `fd-{unique string}.{AFD DNS subdomain}.azurefd.net`. 
+
 It is the default hostname of the Streaming Endpoint in the RMS Console: 
-![RMS Console endpoint](img/FD%20endpoint.png)
+![hostname](img/consolehostname.png)
 
 * If you have already changed hostname, you can locate the Front Door Endpoint in your RMS resource group:
 
@@ -78,7 +85,7 @@ Yes, Ravnur can take care of this. It is the most cost-effective way to set up a
 1. Go to the RMS Console.
 2. Choose your account -> Manage -> Streaming Endpoints.
 3. Change the **Host Name** property field and press the **Save** button:
-   ![RMS Console endpoints new console](img/console-SE-change-domain-new.jpg)
+   ![consolehostname4](img/consolehostname4.png)
    For the old console:
    ![RMS Console endpoints old console](img/console-SE-change-domain.jpg)
 
