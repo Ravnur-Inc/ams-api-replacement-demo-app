@@ -1,21 +1,23 @@
 ## Configure and run the Live streaming RMS API Demo Application for the Azure Media SDK
-The RMS Live Demo App is designed to help developers test live streaming workflows with the RMS API.
+The RMS Live Streaming Demo App enables developers to test live streaming workflows using the RMS API. When executed, the application uses FFMPEG to generate an RTMP stream from a local file and transmits it to RMS. The stream is then ingested, processed, and output URLs are generated for playback in a demo player.
 
-It will enable you to:
+The application code leverages the Azure SDK and demonstrates how to interact with the RMS API.
+
+The RMS Live Streaming Demo App will enable you to:
 
 ✅ Create a live event.
 
-✅ Offer streaming type options:
+✅ Ingest different streaming protocols:
 
-    SRT (Secure Reliable Transport).
+    SRT (Secure Reliable Transport)
 
-    RTMP (Real-Time Messaging Protocol).
+    RTMP (Real-Time Messaging Protocol) and RTMPS
 
-✅Each type of stream can be run as:
+✅Select your desired encoding:
 
-    Passthrough stream.
+    Passthrough streaming
 
-    ABR (Adaptive Bitrate) stream.
+    Adaptive Bitrate (ABR) streaming
 
 Requirement for using the Demo: An active RMS account.
 
