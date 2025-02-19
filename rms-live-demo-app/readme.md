@@ -15,9 +15,9 @@ The RMS Live Streaming Demo App will enable you to:
 
 ✅Select your desired encoding:
 
-    Passthrough streaming
+    Passthrough streaming (no encoding)
 
-    Adaptive Bitrate (ABR) streaming
+    Adaptive Bitrate (ABR) streaming (720p or 1080p)
 
 Requirement for using the Demo: An active RMS account.
 
