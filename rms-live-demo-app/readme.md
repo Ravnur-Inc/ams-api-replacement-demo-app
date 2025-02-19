@@ -21,6 +21,8 @@ The RMS Live Streaming Demo App will enable you to:
 
 **NOTE**: You must have an active RMS account to run the application.
 
+## Installation instructions
+
 1. Open a command prompt in your working directory
 2. Clone the repo: ```git clone https://github.com/Ravnur-Inc/ams-api-replacement-demo-app.git```
 3. Go to app folder ```cd ams-api-replacement-demo-app/rms-live-demo-app```
