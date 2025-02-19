@@ -19,7 +19,7 @@ The RMS Live Streaming Demo App will enable you to:
 
     Adaptive Bitrate (ABR) streaming (720p or 1080p)
 
-Requirement for using the Demo: An active RMS account.
+**NOTE**: You must have an active RMS account to run the application.
 
 1. Open a command prompt in your working directory
 2. Clone the repo: ```git clone https://github.com/Ravnur-Inc/ams-api-replacement-demo-app.git```
