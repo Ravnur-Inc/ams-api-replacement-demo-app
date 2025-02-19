@@ -12,7 +12,7 @@ The RMS Live Streaming Demo App will enable you to:
     SRT (Secure Reliable Transport - contact Ravnur Support to add SRT as a streaming protocol)
 
     RTMP and RTMPS (Real-Time Messaging Protocol)
-✅Select your desired encoding:
+✅Select your desired encoding mode:
 
     Passthrough streaming (no encoding)
 
