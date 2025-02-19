@@ -9,7 +9,7 @@ The RMS Live Streaming Demo App will enable you to:
 
 ✅ Ingest different streaming protocols:
 
-    SRT (Secure Reliable Transport) (requires initial configuration by Ravnur Support)
+    SRT (Secure Reliable Transport) (contact Ravnur Support to add SRT as a streaming protocol)
 
     RTMP (Real-Time Messaging Protocol) and RTMPS
 
