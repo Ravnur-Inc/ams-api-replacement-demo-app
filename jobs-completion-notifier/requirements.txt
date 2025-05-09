@@ -1,0 +1,6 @@
+azure-identity
+azure-mgmt-media
+azure-servicebus
+azure-eventgrid
+python-dotenv
+aiohttp

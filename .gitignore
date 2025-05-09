@@ -331,3 +331,5 @@ Source/Ravnur.Content.Migration/appsettings-CDCOE-Dev.json
 sdk-ms-azure-management-demo/.vscode/launch.json
 sdk-ms-azure-management-demo/.vscode/tasks.json
 sdk-azure-resource-manager-demo/migratede-drm VOD.md
+
+**/.env
