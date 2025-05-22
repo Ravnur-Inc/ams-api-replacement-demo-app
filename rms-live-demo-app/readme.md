@@ -2,16 +2,16 @@
 
 1. Open a command prompt in your working directory
 2. Clone the repo: ```git clone https://github.com/Ravnur-Inc/ams-api-replacement-demo-app.git```
-3. Go to app folder ```cd ams-api-replacement-demo-app/rms-live-demo-app```
+3. Go to app folder ```cd ams-api-replacement-demo-app/rms-live-demo-app/rms-live-demo-app```
 4. Get your RMS instance credentials using [these instructions](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/blob/main/docs/how-to-get-credentials.md)
 5. To configure the RMS connection, set the following environment variables (if you use the Ravnur-hosted RMS POC instance, contact us to get those credentials):
 
-    ```json
-        "SubscriptionId": "<RMS account subscription ID>",
-        "ResourceGroupName": "<RMS account resource group name>",
-        "MediaServicesAccountName": "<RMS account name>",
-        "ApiEndpoint": "<RMS instance API endpoint>",
-        "ApiKey": "<RMS instance API key>"
+    ```console
+    set Ravnur__SubscriptionId=<RMS account subscription ID>
+    set Ravnur__ResourceGroupName=<RMS account resource group name>
+    set Ravnur__MediaServicesAccountName=<RMS account name>
+    set Ravnur__ApiEndpoint=<RMS instance API endpoint>
+    set Ravnur__ApiKey=<RMS instance API key>
     ```
         
     > - If you are using the default RMS storage, no additional setup is required — it works out of the box.
