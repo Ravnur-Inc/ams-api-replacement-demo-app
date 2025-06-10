@@ -1,57 +1,136 @@
-// First of all, you need to get access to RMS with ApiKey for any existing account.
-ArmClient armClient = new ArmClient(
-    new RmsApiKeyCredentials(
-        authorityUri: new Uri(_rmsOptions.ApiEndpoint),
-        subscriptionId: _rmsOptions.SubscriptionId ?? throw new Exception("Rms SubscriptionId is missing"),
-        apiKey: _rmsOptions.ApiKey),
-    _rmsOptions.SubscriptionId,
-    new ArmClientOptions
-    {
-        Environment = new ArmEnvironment(new Uri(_rmsOptions.ApiEndpoint), "test"),
-    });
+# Azure SDK Account Management Guide
 
-var sub = armClient.GetDefaultSubscription();
-var resourceGroup = sub.GetResourceGroup(_rmsOptions.ResourceGroupName).Value;
+This page educates on how to create and manage new accounts using the Azure SDK through third-party sites/portals, allowing your users to control account creation and usage.
 
-// Now you can make create media service account request. AzureLocation can be any.
-var res = resourceGroup.GetMediaServicesAccounts().CreateOrUpdateAsync(
-    waitUntil: WaitUntil.Completed,
-    accountName: "newAccount",
-    data: new MediaServicesAccountData(AzureLocation.WestEurope)
-    {
-        StorageAccounts =
-        {
-            // Here you need to place name existing storage account that is accessible from current RMS deployment
-            new MediaServicesStorageAccount(MediaServicesStorageAccountType.Primary) { Id = new ResourceIdentifier("storage_name") },
-        },
-        Location = AzureLocation.WestEurope
-    }).GetAwaiter().GetResult();
+## Prerequisites
 
-// This is how you can obtain ApiKey for new account. Strongly recomended to save it in your DB right after retreiving, there is no way to get it later, only to create new one from RMS Console. Note that ApiKey that was used for creating accounty won't allow to work with it.
-var key = res.Value.Data.Tags["DefaultApiKey"];
+⚠️ **Important**: By default, RMS allows account creation only via [RMS Console](https://docs.ravnur.com/hc/en-us/articles/24542769095698-RMS-Console-Start-Guide). You must **request Ravnur to enable account creation via SDK first** before using this functionality.
 
-// Now you can create new client for new account with its ApiKey.
-ArmClient armClient2 = new ArmClient(
-    new RmsApiKeyCredentials(
-        authorityUri: new Uri(_rmsOptions.ApiEndpoint),
-        subscriptionId: _rmsOptions.SubscriptionId ?? throw new Exception("Rms SubscriptionId is missing"),
-        apiKey: key),
-    _rmsOptions.SubscriptionId,
-    new ArmClientOptions
-    {
-        Environment = new ArmEnvironment(new Uri(_rmsOptions.ApiEndpoint), "test"),
-    });
+## Step 1: Authorization
 
-var sub2 = armClient2.GetDefaultSubscription();
-var resourceGroup2 = sub2.GetResourceGroup(_rmsOptions.ResourceGroupName).Value;
-// Load newly created account
+Before creating new accounts, you must authenticate with an existing account. Every environment has at least one **default** account that can be used for this purpose.
+
+```csharp
+ArmClient armClient = new ArmClient(
+   new RmsApiKeyCredentials(
+       authorityUri: new Uri(_rmsOptions.ApiEndpoint),
+       subscriptionId: _rmsOptions.SubscriptionId
+                       ?? throw new Exception("RMS SubscriptionId is missing"),
+       apiKey: _rmsOptions.ApiKey),
+   _rmsOptions.SubscriptionId,
+   new ArmClientOptions
+   {
+       Environment = new ArmEnvironment(new Uri(_rmsOptions.ApiEndpoint), "prod"),
+   });
+
+var sub = armClient.GetDefaultSubscription();
+var resourceGroup = sub.GetResourceGroup(_rmsOptions.ResourceGroupName).Value;
+```
+
+## Step 2: Creating a New Media Services Account
+
+```csharp
+var createResponse = resourceGroup.GetMediaServicesAccounts()
+   .CreateOrUpdateAsync(
+       waitUntil: WaitUntil.Completed,
+       accountName: "newAccount",
+       data: new MediaServicesAccountData(AzureLocation.WestEurope)
+       {
+           StorageAccounts =
+           {
+               // Provide the resource identifier of an existing storage account.
+               // RMS accesses it through managed identity—no extra attachment steps required.
+               new MediaServicesStorageAccount(MediaServicesStorageAccountType.Primary)
+               {
+                   Id = new ResourceIdentifier("storage_name")
+               },
+           },
+           Location = AzureLocation.WestEurope
+       })
+   .GetAwaiter().GetResult();
+```
+
+### Key Points:
+- `AzureLocation`: Can be any valid Azure location
+- `storage_name`: Must be replaced with an actual StorageAccount name
+- The storage account must have **Managed Identity with Storage Blob Data Contributor** role for accessibility from the current RMS deployment. See steps 1 nd 2 of [this instruction](https://docs.ravnur.com/hc/en-us/articles/18503446766226-How-to-grant-storage-access-for-RMS).
+
+## Step 3: Retrieving the API Key (Critical Step)
+
+⚠️ **One-Time Opportunity**: This is your only chance to retrieve the API key programmatically.
+
+```csharp
+var accountApiKey = createResponse.Value.Data.Tags["DefaultApiKey"];
+```
+
+### Note:
+- **Save immediately**: Store this key in your database right after retrieval. There's no way to retrieve this key later through code
+- **Alternative**: You can only create a new key [from the RMS Console](https://docs.ravnur.com/hc/en-us/articles/18429515005330-RMS-Console-API-Key-Management)
+- **Important**: Each API key works only with its specific account. The key from your original account can create new accounts, but cannot manage them. You need the new account's own key to work with it.
+
+## Step 4: Connecting to the New Account
+
+Create a new `new ArmClient` using the retrieved API key. It will be necessary to work with the newly created account:
+
+```csharp
+ArmClient accountClient = new ArmClient(
+   new RmsApiKeyCredentials(
+       authorityUri: new Uri(_rmsOptions.ApiEndpoint),
+       subscriptionId: _rmsOptions.SubscriptionId
+                       ?? throw new Exception("RMS SubscriptionId is missing"),
+       apiKey: accountApiKey),
+   _rmsOptions.SubscriptionId,
+   new ArmClientOptions
+   {
+       Environment = new ArmEnvironment(new Uri(_rmsOptions.ApiEndpoint), "prod"),
+   });
+
+var accountSub = accountClient.GetDefaultSubscription();
+var accountRg  = accountSub.GetResourceGroup(_rmsOptions.ResourceGroupName).Value;
+var account    = accountRg.GetMediaServicesAccount(createResponse.Value.Data.Name).Value;
+```
+
+## Step 5: Managing the New Account
+
+Generate a reference to the new account for further management operations:
+
+```csharp
 var newAcc = resourceGroup2.GetMediaServicesAccount(res.Value.Data.Name).Value;
+```
 
-// Now you can use it for any rms functionalty, like creating assets.
-newAcc.GetMediaAssets().CreateOrUpdateAsync(
+## Step 6: Using RMS Functionality
+
+Once you have the account reference, you can perform  RMS operations:
+
+### Creating Assets
+```csharp
+account.GetMediaAssets().CreateOrUpdateAsync(
     waitUntil: WaitUntil.Completed,
-    assetName: "testasset",
-    data: new MediaAssetData()).GetAwaiter().GetResult();
+    assetName: "welcome-video",
+    data: new MediaAssetData())
+    .GetAwaiter().GetResult();
+```
 
-// You also can delete account
-newAcc.DeleteAsync(WaitUntil.Completed).GetAwaiter().GetResult();
+### Deleting Account
+```csharp
+account.DeleteAsync(WaitUntil.Completed).GetAwaiter().GetResult();
+```
+
+## Important Notes
+
+- This code is for **educational purposes only** and doesn't include necessary production configurations
+- Always implement proper error handling in production code
+- Store API keys securely
+
+## Summary
+
+1. **Authorization**: Use existing account credentials to create `armClient`
+2. **Account Creation**: Create a new account using `armClient`
+3. **Key Retrieval**: Get the new account's API key (one-time only!)
+4. **New Connection**: Create `new ArmClient` with the new key
+5. **Account Management**: Use `new ArmClient` for all operations on the new account
+
+## Restrictions for Keys
+
+- Each API key works only with its own account. One Exception: an account's key can create new accounts, but cannot manage them
+- You cannot use Account A's key to manage Account B's resources
