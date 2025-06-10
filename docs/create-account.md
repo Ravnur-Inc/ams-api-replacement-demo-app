@@ -53,7 +53,7 @@ var createResponse = resourceGroup.GetMediaServicesAccounts()
 ### Key Points:
 - `AzureLocation`: Can be any valid Azure location
 - `storage_name`: Must be replaced with an actual StorageAccount name
-- The storage account must have **Managed Identity with Storage Blob Data Contributor** role for accessibility from the current RMS deployment. See steps 1 nd 2 of [this instruction](https://docs.ravnur.com/hc/en-us/articles/18503446766226-How-to-grant-storage-access-for-RMS).
+- The storage account must have **Managed Identity with Storage Blob Data Contributor** role for accessibility from the current RMS deployment. See steps 1 and 2 of [this instruction](https://docs.ravnur.com/hc/en-us/articles/18503446766226-How-to-grant-storage-access-for-RMS).
 
 ## Step 3: Retrieving the API Key (Critical Step)
 
@@ -87,7 +87,7 @@ ArmClient accountClient = new ArmClient(
 
 var accountSub = accountClient.GetDefaultSubscription();
 var accountRg  = accountSub.GetResourceGroup(_rmsOptions.ResourceGroupName).Value;
-var account    = accountRg.GetMediaServicesAccount(createResponse.Value.Data.Name).Value;
+
 ```
 
 ## Step 5: Managing the New Account
@@ -95,7 +95,7 @@ var account    = accountRg.GetMediaServicesAccount(createResponse.Value.Da
 Generate a reference to the new account for further management operations:
 
 ```csharp
-var newAcc = resourceGroup2.GetMediaServicesAccount(res.Value.Data.Name).Value;
+var account  = accountRg.GetMediaServicesAccount(createResponse.Value.Data.Name).Value;
 ```
 
 ## Step 6: Using RMS Functionality
