@@ -223,7 +223,7 @@ namespace VodCreatorApp
             ArmClient armClient = new ArmClient(
                 new RmsApiKeyCredentials(
                     authorityUri: new Uri(_rmsOptions.ApiEndpoint),
-                    subscriptionId: _rmsOptions.SubscriptionId ?? throw new ConfigurationErrorsException("Rms SubscriptionId is missing"),
+                    subscriptionId: _rmsOptions.SubscriptionId ?? throw new Exception("Rms SubscriptionId is missing"),
                     apiKey: _rmsOptions.ApiKey),
                 _rmsOptions.SubscriptionId,
                 new ArmClientOptions
