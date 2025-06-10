@@ -66,7 +66,7 @@ var accountApiKey = createResponse.Value.Data.Tags["DefaultApiKey"];
 ### Note:
 - **Save immediately**: Store this key in your database right after retrieval. There's no way to retrieve this key later through code
 - **Alternative**: You can only create a new key [from the RMS Console](https://docs.ravnur.com/hc/en-us/articles/18429515005330-RMS-Console-API-Key-Management)
-- **Important**: Each API key works only with its specific account. The key from your original account can create new accounts, but cannot manage them. You need the new account's own key to work with it.
+- **Important**: Each API key works only with its specific account. The only exception is the creation of new accounts.
 
 ## Step 4: Connecting to the New Account
 
@@ -132,5 +132,5 @@ account.DeleteAsync(WaitUntil.Completed).GetAwaiter().GetResult();
 
 ## Restrictions for Keys
 
-- Each API key works only with its own account. One Exception: an account's key can create new accounts, but cannot manage them
-- You cannot use Account A's key to manage Account B's resources
+- Each API key works only with its own account. One Exception: creation of new accounts.
+- A key grants management access only to its corresponding account.
