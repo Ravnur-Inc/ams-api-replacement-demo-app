@@ -1,4 +1,5 @@
-﻿namespace VodCreatorApp.Configuration
+﻿#nullable disable
+namespace VodCreatorApp.Configuration
 {
     public class RmsOptions : MediaServicesOptionsBase
     {
