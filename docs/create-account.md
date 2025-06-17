@@ -1,4 +1,4 @@
-# Azure SDK Account Management Guide
+# How to create RMS account through Azure SDK
 
 This page educates on how to create and manage new accounts using the Azure SDK through third-party sites/portals, allowing your users to control account creation and usage.
 
