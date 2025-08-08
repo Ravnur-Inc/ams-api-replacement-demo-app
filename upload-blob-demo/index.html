@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Azure Blob REST Uploader (Simple PUT)</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial, sans-serif;
+        margin: 2rem;
+        max-width: 1000px;
+      }
+      .muted {
+        color: #666;
+        font-size: 0.95rem;
+      }
+      .box {
+        border: 1px solid #999;
+        border-radius: 12px;
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+      input[type="file"] {
+        padding: 10px;
+        border: 1px dashed #888;
+        border-radius: 10px;
+        width: 300px;
+      }
+      progress {
+        width: 100%;
+        height: 16px;
+      }
+      .log {
+        white-space: pre-wrap;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        background: rgba(127, 127, 127, 0.1);
+        border: 1px solid #999;
+        border-radius: 8px;
+        padding: 0.75rem;
+        min-height: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>RMS Blob Uploader</h2>
+    <p class="muted">
+      Simple browser uploader using only REST API. Select a file to start upload.
+    </p>
+
+    <div class="box">
+      <input id="fileInput" type="file" />
+    </div>
+
+    <div class="box">
+      <div class="muted" style="margin-bottom: 0.5rem">Progress</div>
+      <progress id="progressBar" value="0" max="100"></progress>
+    </div>
+
+    <div class="box">
+      <div class="muted" style="margin-bottom: 0.5rem">Log</div>
+      <div id="log" class="log"></div>
+    </div>
+
+    <script>
+      const fileInputEl = document.getElementById("fileInput");
+      const progressBar = document.getElementById("progressBar");
+      const logEl = document.getElementById("log");
+
+      let abortController = null;
+
+      // ======== SAS Builder Configuration ========
+      const ACCOUNT_NAME = "YOUR_STORAGE_ACCOUNT_NAME";
+      const CONTAINER_NAME = "YOUR_CONTAINER_NAME";
+      // Provided base64 account key ( Shared Key ).
+      const ACCOUNT_KEY_BASE64 = "YOUR_KEY";
+
+      function log(msg) {
+        const t = new Date().toLocaleTimeString();
+        logEl.textContent += `[${t}] ${msg}\n`;
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+
+      function ensureHeader(headers, name, value) {
+        if (!headers.has(name)) headers.set(name, value);
+      }
+
+      function bytesToMb(bytes) {
+        return (bytes / (1024 * 1024)).toFixed(2);
+      }
+
+      // ======== Utilities for SAS Signing ========
+      function toIsoNoMs(date) {
+        const pad = (n) => String(n).padStart(2, "0");
+        const y = date.getUTCFullYear();
+        const m = pad(date.getUTCMonth() + 1);
+        const d = pad(date.getUTCDate());
+        const hh = pad(date.getUTCHours());
+        const mm = pad(date.getUTCMinutes());
+        const ss = pad(date.getUTCSeconds());
+        return `${y}-${m}-${d}T${hh}:${mm}:${ss}Z`;
+      }
+
+      function base64ToBytes(b64) {
+        const bin = atob(b64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        return bytes;
+      }
+
+      function bytesToBase64(bytes) {
+        let bin = "";
+        for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+        return btoa(bin);
+      }
+
+      async function hmacSha256Base64(keyBase64, stringToSign) {
+        const keyBytes = base64ToBytes(keyBase64);
+        const cryptoKey = await crypto.subtle.importKey(
+          "raw",
+          keyBytes,
+          { name: "HMAC", hash: "SHA-256" },
+          false,
+          ["sign"]
+        );
+        const sigBuf = await crypto.subtle.sign(
+          "HMAC",
+          cryptoKey,
+          new TextEncoder().encode(stringToSign)
+        );
+        return bytesToBase64(new Uint8Array(sigBuf));
+      }
+
+      // Build a Service SAS for a specific blob (signed with Account Key)
+      async function buildBlobServiceSas({
+        accountName,
+        containerName,
+        blobName,
+        permissions = "cw", // create + write for PUT Blob
+        expiryMinutes = 60,
+        protocol = "https",
+        version = "2021-12-02",
+        startSkewMinutes = 5,
+      }) {
+        const now = new Date();
+        const st = new Date(now.getTime() - startSkewMinutes * 60 * 1000);
+        const se = new Date(now.getTime() + expiryMinutes * 60 * 1000);
+        const stStr = toIsoNoMs(st);
+        const seStr = toIsoNoMs(se);
+
+        // Canonicalized resource per Azure docs
+        // For blob: /blob/{account}/{container}/{blob}
+        const canonicalizedResource = `/blob/${accountName}/${containerName}/${blobName}`;
+
+        // Service SAS string-to-sign (Blob) — fields in exact order
+        // sp\nst\nse\ncr\nsi\nsip\nspr\nsv\nsr\nsnapshot\nsecpolicy\nrscc\nrscd\nrsce\nrscl\nrsct
+        const sr = "b"; // resource: blob
+        const stringToSign = [
+          permissions,
+          stStr,
+          seStr,
+          canonicalizedResource,
+          "", // signedIdentifier (si)
+          "", // signedIP (sip)
+          protocol,
+          version,
+          sr,
+          "", // snapshot time
+          "", // encryption scope
+          "", // rscc
+          "", // rscd
+          "", // rsce
+          "", // rscl
+          "", // rsct
+        ].join("\n");
+
+        const sig = await hmacSha256Base64(ACCOUNT_KEY_BASE64, stringToSign);
+        const params = new URLSearchParams({
+          sv: version,
+          spr: protocol,
+          sr,
+          sp: permissions,
+          st: stStr,
+          se: seStr,
+          sig: sig, // will be URL-encoded by URLSearchParams
+        });
+        return params.toString();
+      }
+
+      async function uploadDirectPutBlob(urlObj, file, headers) {
+        log(`Direct PUT Blob → ${urlObj.href}`);
+        ensureHeader(headers, "x-ms-blob-type", "BlockBlob");
+        ensureHeader(
+          headers,
+          "Content-Type",
+          file.type || "application/octet-stream"
+        );
+
+        // Use XMLHttpRequest for progress during upload
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("PUT", urlObj.href, true);
+          headers.forEach((v, k) => {
+            try {
+              xhr.setRequestHeader(k, v);
+            } catch {
+              /* ignore */
+            }
+          });
+
+          xhr.upload.onprogress = (evt) => {
+            if (evt.lengthComputable) {
+              const pct = Math.floor((evt.loaded / evt.total) * 100);
+              progressBar.value = pct;
+            }
+          };
+
+          xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              progressBar.value = 100;
+              log(`PUT Blob completed: HTTP ${xhr.status}`);
+              resolve();
+            } else {
+              log(
+                `PUT Blob failed: HTTP ${xhr.status} — ${
+                  xhr.responseText || xhr.statusText
+                }`
+              );
+              reject(new Error(`PUT failed: ${xhr.status}`));
+            }
+          };
+
+          xhr.onerror = () => reject(new Error("Network error during PUT"));
+          xhr.onabort = () => reject(new Error("Upload cancelled"));
+
+          // Support cancellation
+          abortController = { abort: () => xhr.abort() };
+          xhr.send(file);
+        });
+      }
+      
+      function buildHeaders(file) {
+        const headers = new Headers();
+
+        if (file && file.type && !headers.has("Content-Type")) {
+          headers.set("Content-Type", file.type);
+        }
+        return headers;
+      }
+
+      async function onFileSelected() {
+        logEl.textContent = "";
+        progressBar.value = 0;
+        const file = fileInputEl.files?.[0];
+        if (!file) return;
+
+        const blobName = file.name; // use file name as blob name
+        const sas = await buildBlobServiceSas({
+          accountName: ACCOUNT_NAME,
+          containerName: CONTAINER_NAME,
+          blobName,
+          permissions: "cw", // create + write
+          expiryMinutes: 60,
+          protocol: "https",
+          version: "2021-12-02",
+        });
+        const encodedBlobName = encodeURIComponent(blobName);
+        const BLOB_PUT_URL = `https://${ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}/${encodedBlobName}?${sas}`;
+
+        try {
+          const urlObj = new URL(BLOB_PUT_URL);
+          const headers = buildHeaders(file);
+          await uploadDirectPutBlob(urlObj, file, headers);
+          log("Done.");
+        } catch (err) {
+          log(`Error: ${err && err.message ? err.message : err}`);
+        }
+      }
+
+      fileInputEl.addEventListener("change", onFileSelected);
+    </script>
+  </body>
+</html>
