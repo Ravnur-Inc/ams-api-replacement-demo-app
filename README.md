@@ -129,7 +129,7 @@ Ravnur includes a Console UI as part of the RMS management application. It allow
 ## Ravnur Media Services FAQs
 
 1.	**HOW CLOSELY DOES YOUR API'S ARCHITECTURE MIRROR THAT OF AMS IN TERMS OF REQUEST/RESPONSE PATTERNS, URL STRUCTURES, AND DATA MODELS?**
-The RMS API structure is a 100% mirror of the AMS API structure. The endpoints delivered so far (January 2024) are Assets, Jobs, Streaming Locators, Streaming Endpoints, Transforms and Content Key Policies.
+The RMS API structure is a 100% mirror of the AMS API structure. 
 
 2.	**DO I NEED TO RE-ENCODE ALL MY VIDEOS?**
 No, you do not need to re-encode any videos. RMS can work with existing AMS assets without any issues.
@@ -149,7 +149,7 @@ Yes, custom transforms are supported.
 9.	**HOW WOULD YOU MIGRATE THE STREAMING FUNCTIONALITY FOR MY CURRENT AMS ASSETS?**
 The overall migration process consists of replacing the AMS connection with RMS in your application code, registering your storage accounts in RMS, and triggering the AMS migration job in the RMS Console. If you use Event Grid subscriptions or CDN you have to configure them as well. All these are described in detail in our [complete migration guide](docs/app-migration.md) and [AMS metadata migration guide](docs/data-migration.md) as a part of it.
 10.	**DO YOU PROVIDE ANY MIGRATION TOOLS FOR TRANSITIONING FROM AMS TO YOUR PLATFORM?**
-Yes, RMS has a special console UI that allows you to perform different maintenance actions including migration of your existing AMS account. It allows you to register your AMS storage account and trigger the migration process which will copy your AMS metadata to RMS: transforms, streaming policies, content key policies, assets, and locators. You can find instructions on how to do it [here](docs/data-migration.md).
+Yes, RMS has a special console UI that allows you to manage the API, storage accounts, DRM, CDN, users and permissions and perform the range of tasks enabled by the RMS API.
 11.	**WHERE IS THE MEDIA CONTENT STORED, AND CAN IT INTEGRATE SEAMLESSLY WITH MY CURRENT STORAGE ACCOUNT?**
 All media content is stored in your Azure Storage Account, following the existing AMS structure. No data copying is required.
 To register your existing AMS storage in RMS use [these instructions](docs/custom-storage.md). Note that the RMS instance should be deployed to the same region as your existing AMS storage account.
