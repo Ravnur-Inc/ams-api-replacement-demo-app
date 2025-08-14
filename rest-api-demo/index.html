@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RMS Blob Uploader</title>
+  </head>
+  <body>
+    <h2>RMS Blob Uploader</h2>
+    <p class="muted">
+      Simple browser uploader using only REST API. Select a file to start upload.
+    </p>
+    <div class="box">
+      <input id="fileInput" type="file" />
+    </div>
+
+    <div class="box">
+      <div class="muted" style="margin-bottom: 0.5rem">Progress</div>
+      <progress id="progressBar" value="0" max="100"></progress>
+    </div>
+
+    <div class="box">
+      <div class="muted" style="margin-bottom: 0.5rem">Log</div>
+      <div id="log" class="log"></div>
+    </div>
+
+    <div id="player" class="player"></div>
+  </body>
+  <script src="https://unpkg.com/ravnur-player-public@latest/dist/cdn/RavnurMediaPlayer.min.js"></script>
+  <script type="module" src="/src/main.js"></script>
+</html>
