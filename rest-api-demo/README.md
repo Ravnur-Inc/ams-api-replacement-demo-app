@@ -63,4 +63,3 @@ The `main.js` file handles the full media lifecycle in Ravnur Media Service (RMS
 
 > This flow covers the complete lifecycle of media in the app: **upload → process → stream**.
 >
-> <img width="1920" height="5225" alt="gitmind rms api demo" src="https://github.com/user-attachments/assets/04f715a0-5791-42f8-ac8d-ead35f0dde22" />
