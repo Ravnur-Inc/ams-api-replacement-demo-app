@@ -2,6 +2,12 @@
 
 import { log } from "../utils";
 
+/**
+ * Creates an asset
+ * @param {string} assetName - The name of the asset
+ * @param {string} token - Authentication token
+ * @returns {Promise<Object>} The created asset
+ */
 export async function createAsset(assetName, token) {
   const storageAccountName = import.meta.env.VITE_STORAGE_ACCOUNT_NAME;
   const apiEndpoint = import.meta.env.VITE_RAVNUR_API_ENDPOINT;

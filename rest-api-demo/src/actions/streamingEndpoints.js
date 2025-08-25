@@ -1,5 +1,10 @@
 import { log } from "../utils";
 
+/**
+ * Gets a streaming endpoint
+ * @param {string} token - Authentication token
+ * @returns {Promise<Object>} The streaming endpoint
+ */
 export async function getStreamingEndpoint(token) {
   const apiEndpoint = import.meta.env.VITE_RAVNUR_API_ENDPOINT;
   const subscriptionId = import.meta.env.VITE_AZURE_SUBSCRIPTION_ID;

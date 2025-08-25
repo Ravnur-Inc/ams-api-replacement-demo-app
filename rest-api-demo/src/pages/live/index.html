@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RMS Live Streaming</title>
+    <link rel="stylesheet" href="../../../styles/main.css" />
+    <link rel="stylesheet" href="./live.css" />
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../../index.html" class="back-link">← Back to Home</a>
+      <h2>RMS Live Streaming</h2>
+      <p class="muted">
+        Create and manage live streaming events with RMS API
+      </p>
+      
+      <!-- Create Live Event Form -->
+      <div class="box">
+        <h3>Create Live Event</h3>
+        <form id="liveEventForm" class="form">
+          <!-- Basic Information -->
+          <div class="form-group">
+            <label for="eventName">Event Name *</label>
+            <input type="text" id="eventName" placeholder="Enter a name for the event" required>
+          </div>
+
+          <div class="form-group">
+            <label for="eventDescription">Event Description</label>
+            <textarea id="eventDescription" placeholder="Enter a description for the event" maxlength="1000"></textarea>
+          </div>
+
+          <!-- Streaming Configuration -->
+          <div class="form-group">
+            <label for="encodingType">Encoding Type *</label>
+            <select id="encodingType" required>
+              <option value="PassthroughStandard">Standard Passthrough</option>
+              <option value="Standard">Standard 720p</option>
+              <option value="Premium1080P">Premium 1080p</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ingestProtocol">Ingest Protocol *</label>
+            <select id="ingestProtocol" required>
+              <option value="RTMP">RTMP</option>
+              <option value="SRT">SRT</option>
+              <option value="RTSPPull">RTSP Pull</option>
+              <option value="RTSPPush">RTSP Push</option>
+            </select>
+          </div>
+
+          <!-- RTSP-specific fields -->
+          <div id="rtspFields" class="rtsp-fields">
+            <div class="form-group">
+              <label for="rtspPullUrl">RTSP Pull URL *</label>
+              <input type="url" id="rtspPullUrl" placeholder="rtsp://example.com/stream" maxlength="200">
+            </div>
+
+            <div class="form-group">
+              <label for="rtspMode">RTSP Mode *</label>
+              <select id="rtspMode">
+                <option value="tcp_udp">TCP Preferred</option>
+                <option value="rtsp_http">RTSP over HTTP</option>
+                <option value="tcp">TCP Only</option>
+                <option value="udp">UDP Only</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Low Latency Option -->
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="enableLowLatency">
+              <span class="checkmark"></span>
+              Enable Low Latency
+            </label>
+          </div>
+
+          <button type="button" id="createEventBtn" class="btn btn-primary">Create Live Event</button>
+          <button type="button" id="stopEventBtn" class="btn btn-danger" style="display: none;">Stop Live Event</button>
+        </form>
+      </div>
+
+      <!-- Live Event Ingest Information -->
+      <div id="ingestInfo" class="box" style="display: none;">
+        <h3>Contribution feed encoder settings        </h3>
+        <div class="ingest-info-grid">          
+          <div class="form-group">
+            <label for="rtmpUrl">Ingest URL (RTMP)</label>
+            <div class="url-container">
+              <input type="text" id="rtmpUrl" class="url-input" readonly>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="rtmpsUrl">Ingest URL (RTMPS)</label>
+            <div class="url-container">
+              <input type="text" id="rtmpsUrl" class="url-input" readonly>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="streamKey">Stream Key</label>
+            <div class="url-container">
+              <input type="text" id="streamKey" class="url-input" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="rtspIngestInfo" class="box" style="display: none;">
+        <h3>RTSP Contribution feed encoder settings</h3>
+        <div class="ingest-info-grid">
+          <div class="form-group">
+            <label for="rtspIngestUrl">RTSP URL</label>
+            <div class="url-container">
+              <input type="text" id="rtspIngestUrl" class="url-input" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SRT-specific Ingest Information -->
+      <div id="srtIngestInfo" class="box" style="display: none;">
+        <h3>SRT Contribution feed encoder settings</h3>
+        
+        <div class="form-group">
+          <label for="srtUrl">SRT URL (Complete)</label>
+          <div class="url-container">
+            <input type="text" id="srtUrl" class="url-input" readonly>
+          </div>
+        </div>
+      </div>
+
+      <!-- Streaming URLs -->
+      <div id="streamingUrlsInfo" class="box" style="display: none;">
+        <h3>Streaming URLs</h3>
+        <div id="streamingUrlsContent">
+          <div class="form-group" id="liveStreamUrlGroup" style="display: none;">
+            <label for="liveStreamUrl">Live Stream URL (HLS)</label>
+            <div class="url-container">
+              <input type="text" id="liveStreamUrl" class="url-input" readonly>
+            </div>
+          </div>
+          
+          <div class="form-group" id="dvrPlaybackUrlGroup" style="display: none;">
+            <label for="dvrPlaybackUrl">DVR Playback URL</label>
+            <div class="url-container">
+              <input type="text" id="dvrPlaybackUrl" class="url-input" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Log -->
+      <div class="box">
+        <div class="muted" style="margin-bottom: 0.5rem">Log</div>
+        <div id="log" class="log"></div>
+      </div>
+
+      <!-- Video Player -->
+      <div id="playerContainer" class="box" style="display: none;">
+        <h3>Ravnur Media Player</h3>
+        <div id="player" class="player"></div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/ravnur-player-public@latest/dist/cdn/RavnurMediaPlayer.min.js"></script>
+    <script type="module" src="./live.js"></script>
+  </body>
+</html>

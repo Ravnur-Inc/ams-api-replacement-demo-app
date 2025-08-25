@@ -2,6 +2,10 @@
 
 import { log } from "../utils";
 
+/**
+ * Gets an authentication token
+ * @returns {Promise<string>} The authentication token
+ */
 export default async function getToken() {
   const apiEndpoint = import.meta.env.VITE_RAVNUR_API_ENDPOINT;
   const subscriptionId = import.meta.env.VITE_AZURE_SUBSCRIPTION_ID;

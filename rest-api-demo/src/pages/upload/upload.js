@@ -1,13 +1,12 @@
-import './style.css'
-import { createAsset } from './actions/assets.js';
-import { createTransform } from './actions/transforms.js';
-import { createJob, jobStatusPolling } from './actions/jobs.js';
-import { getStreamingEndpoint } from "./actions/streamingEndpoints.js";
-import { uploadBlob } from "./actions/uploadBlob.js";
-import { initializeHlsPlayer } from "./actions/player.js";
-import { createStreamingLocator, listStreamingLocatorPaths } from "./actions/streamingLocators.js";
-import { clearLog } from "./utils.js";
-import getToken from './actions/getToken.js';
+import { createAsset } from '../../actions/assets.js';
+import { createTransform } from '../../actions/transforms.js';
+import { createJob, jobStatusPolling } from '../../actions/jobs.js';
+import { getStreamingEndpoint } from "../../actions/streamingEndpoints.js";
+import { uploadBlob } from "../../actions/uploadBlob.js";
+import { Player } from "../../actions/player.js";
+import { createStreamingLocator, listStreamingLocatorPaths } from "../../actions/streamingLocators.js";
+import { clearLog } from "../../utils.js";
+import getToken from '../../actions/getToken.js';
 
 const fileInputEl = document.getElementById("fileInput");
 const progressBar = document.getElementById("progressBar");
@@ -62,7 +61,8 @@ async function onFileSelected() {
   const hlsUrl = `https://${streamingEndpointHostName}${hlsPath.paths[0]}`;
 
   // Step 12: Initialize the player
-  initializeHlsPlayer(hlsUrl);
+  const player = new Player();
+  await player.initialize(hlsUrl);
 }
 
 fileInputEl.addEventListener("change", onFileSelected);

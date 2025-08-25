@@ -2,6 +2,13 @@
 
 import { log } from "../utils";
 
+/**
+ * Creates a streaming locator
+ * @param {string} streamingLocatorName - The name of the streaming locator
+ * @param {string} outputAssetName - The name of the output asset
+ * @param {string} token - Authentication token
+ * @returns {Promise<Object>} The created streaming locator
+ */
 export async function createStreamingLocator(streamingLocatorName, outputAssetName, token) {
   const apiEndpoint = import.meta.env.VITE_RAVNUR_API_ENDPOINT;
   const subscriptionId = import.meta.env.VITE_AZURE_SUBSCRIPTION_ID;
@@ -34,6 +41,12 @@ export async function createStreamingLocator(streamingLocatorName, outputAssetNa
   }
 }
 
+/**
+ * Lists the paths of a streaming locator
+ * @param {string} streamingLocatorName - The name of the streaming locator
+ * @param {string} token - Authentication token
+ * @returns {Promise<Object>} The streaming locator paths
+ */
 export async function listStreamingLocatorPaths(streamingLocatorName, token) {
   const apiEndpoint = import.meta.env.VITE_RAVNUR_API_ENDPOINT;
   const subscriptionId = import.meta.env.VITE_AZURE_SUBSCRIPTION_ID;

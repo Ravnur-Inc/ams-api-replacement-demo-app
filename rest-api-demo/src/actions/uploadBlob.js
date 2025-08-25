@@ -3,7 +3,19 @@ import { buildHeaders } from "../utils.js";
 
 let abortController = null;
 
-// Build a Service SAS for a specific blob (signed with Account Key)
+/**
+ * Builds a Service SAS for a specific blob (signed with Account Key)
+ * @param {Object} options - The options for the blob service SAS
+ * @param {string} options.accountName - The name of the storage account
+ * @param {string} options.containerName - The name of the asset
+ * @param {string} options.blobName - The name of the blob
+ * @param {string} options.permissions - The permissions for the blob
+ * @param {number} options.expiryMinutes - The expiry time in minutes
+ * @param {string} options.protocol - The protocol for the blob
+ * @param {string} options.version - The version of the blob
+ * @param {number} options.startSkewMinutes - The start skew time in minutes
+ * @returns {Promise<string>} The blob service SAS
+*/
 export async function buildBlobServiceSas({
   accountName,
   containerName,
@@ -59,6 +71,12 @@ export async function buildBlobServiceSas({
   return params.toString();
 }
 
+/**
+ * Uploads a blob to the storage account
+ * @param {File} file - The file to upload
+ * @param {string} containerName - The name of the asset
+ * @returns {Promise<void>}
+ */
 export async function uploadBlob(file, containerName) {
   const accountName = import.meta.env.VITE_STORAGE_ACCOUNT_NAME;
   const blobName = file.name; // use file name as blob name
@@ -84,6 +102,13 @@ export async function uploadBlob(file, containerName) {
   }
 }
 
+/**
+ * Uploads a blob to the storage account
+ * @param {URL} urlObj - The URL object for the blob
+ * @param {File} file - The file to upload
+ * @param {Object} headers - The headers for the upload
+ * @returns {Promise<void>}
+ */
 export async function upload(urlObj, file, headers) {
   log('Uploading blob...');
   ensureHeader(headers, "x-ms-blob-type", "BlockBlob");

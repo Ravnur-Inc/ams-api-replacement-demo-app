@@ -2,6 +2,12 @@
 
 import { log } from "../utils";
 
+/**
+ * Creates a transform
+ * @param {string} transformName - The name of the transform
+ * @param {string} token - Authentication token
+ * @returns {Promise<Object>} The created transform
+ */
 export async function createTransform(transformName, token) {
   const apiEndpoint = import.meta.env.VITE_RAVNUR_API_ENDPOINT;
   const subscriptionId = import.meta.env.VITE_AZURE_SUBSCRIPTION_ID;

@@ -2,6 +2,15 @@
 
 import { log } from "../utils";
 
+/**
+ * Creates a job
+ * @param {string} jobName - The name of the job
+ * @param {string} inputAssetName - The name of the input asset
+ * @param {string} outputAssetName - The name of the output asset
+ * @param {string} transformName - The name of the transform
+ * @param {string} token - Authentication token
+ * @returns {Promise<Object>} The created job
+ */
 export async function createJob(jobName, inputAssetName, outputAssetName, transformName, token) {
   const apiEndpoint = import.meta.env.VITE_RAVNUR_API_ENDPOINT;
   const subscriptionId = import.meta.env.VITE_AZURE_SUBSCRIPTION_ID;
@@ -45,6 +54,13 @@ export async function createJob(jobName, inputAssetName, outputAssetName, transf
   }
 }
 
+/**
+ * Gets a job
+ * @param {string} jobName - The name of the job
+ * @param {string} transformName - The name of the transform
+ * @param {string} token - Authentication token
+ * @returns {Promise<Object>} The job
+ */
 export async function getJob(jobName, transformName, token) {
   const apiEndpoint = import.meta.env.VITE_RAVNUR_API_ENDPOINT;
   const subscriptionId = import.meta.env.VITE_AZURE_SUBSCRIPTION_ID;
@@ -74,6 +90,13 @@ export async function getJob(jobName, transformName, token) {
   }
 }
 
+/**
+ * Polls the status of a job
+ * @param {string} jobName - The name of the job
+ * @param {string} transformName - The name of the transform
+ * @param {string} token - Authentication token
+ * @returns {Promise<Object>} The job
+ */
 export async function jobStatusPolling(jobName, transformName, token) {
   return new Promise(async (resolve, reject) => {
     try {
