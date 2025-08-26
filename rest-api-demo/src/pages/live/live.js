@@ -68,7 +68,14 @@ async function onCreateEvent() {
     const liveEvent = await createLiveEvent(eventName, config, token);
 
     // Check if DVR enabled
-    isDVRSource = liveEvent.properties.encoding.isDVRSource;
+    isDVRSource = liveEvent.properties.encoding.isDVRSource || false;
+
+    if (!isDVRSource) {
+      alert('DVR is not enabled. Please contact Ravnur team.');
+      createEventBtn.disabled = false;
+      createEventBtn.textContent = 'Create live event and start streaming server.';
+      return;
+    }
 
     log(`Live event created successfully: ${eventName}`);
 
@@ -219,15 +226,10 @@ async function getStreamingUrls() {
     if (hlsPath && hlsPath.paths && hlsPath.paths.length > 0) {
       const streamingUrl = hlsPath.paths[0];
       
-      if (isDVRSource) {
-        // For DVR sources, we get both live and DVR URLs
-        const dvrPlaybackUrl = streamingUrl;
-        const liveStreamUrl = streamingUrl.replace('_dvr.m3u8', '.m3u8');
-      
-        showUrlsAndLoadPlayer(liveStreamUrl, dvrPlaybackUrl);
-      } else {
-        showUrlsAndLoadPlayer(streamingUrl, null);
-      }
+      const dvrPlaybackUrl = streamingUrl;
+      const liveStreamUrl = streamingUrl.replace('_dvr.m3u8', '.m3u8');
+    
+      showUrlsAndLoadPlayer(liveStreamUrl, dvrPlaybackUrl);
     } else {
       log('No HLS streaming path found');
     }
