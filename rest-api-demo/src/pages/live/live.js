@@ -34,7 +34,6 @@ const rtspFieldsContainer = document.getElementById('rtspFields');
 
 // Global variables
 let statusPollingInterval = null;
-let isDVRSource = false;
 let eventName = null;
 let token = null;
 let locatorName = null;
@@ -67,41 +66,29 @@ async function onCreateEvent() {
     log(`Creating live event: ${eventName}`);
     const liveEvent = await createLiveEvent(eventName, config, token);
 
-    // Check if DVR enabled
-    isDVRSource = liveEvent.properties.encoding.isDVRSource || false;
-
-    if (!isDVRSource) {
-      alert('DVR is not enabled. Please contact Ravnur team.');
-      createEventBtn.disabled = false;
-      createEventBtn.textContent = 'Create live event and start streaming server.';
-      return;
-    }
-
     log(`Live event created successfully: ${eventName}`);
 
-    // #2 Prepare required resources for DVR recording
-    if (isDVRSource) {
-      // #2.1 Create asset
-      const assetName = `live-archive-${eventName}}`;
-      log(`Creating asset: ${assetName}`);
-      const asset = await createAsset(assetName, token);
+    // #2 Prepare required resources
+    // #2.1 Create asset
+    const assetName = `live-archive-${eventName}}`;
+    log(`Creating asset: ${assetName}`);
+    const asset = await createAsset(assetName, token);
 
-      if (!asset || !asset.name) {
-        throw new Error('Failed to create asset for DVR recording');
-      }
-
-      // #2.2 Create live output
-      const liveOutputName = `live-output-${eventName}`;
-      log(`Creating live output: ${liveOutputName}`);
-      await createLiveOutput(eventName, asset.name, liveOutputName, token);
-
-      // #2.3 Create streaming locator
-      locatorName = `live-locator-${eventName}`;
-      log(`Creating streaming locator: ${locatorName}`);
-      await createStreamingLocator(locatorName, asset.name, token);
-
-      log('DVR setup completed successfully');
+    if (!asset || !asset.name) {
+      throw new Error('Failed to create asset for DVR recording');
     }
+
+    // #2.2 Create live output
+    const liveOutputName = `live-output-${eventName}`;
+    log(`Creating live output: ${liveOutputName}`);
+    await createLiveOutput(eventName, asset.name, liveOutputName, token);
+
+    // #2.3 Create streaming locator
+    locatorName = `live-locator-${eventName}`;
+    log(`Creating streaming locator: ${locatorName}`);
+    await createStreamingLocator(locatorName, asset.name, token);
+
+    log('DVR setup completed successfully');
 
     createEventBtn.textContent = 'Starting...';
 
