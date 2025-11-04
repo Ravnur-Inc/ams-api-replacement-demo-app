@@ -94,9 +94,12 @@ namespace rms_live_demo_app
             string hlsPath = paths.Value.StreamingPaths.First(p => p.StreamingProtocol == StreamingPolicyStreamingProtocol.Hls).Paths[0];
             string dashPath = paths.Value.StreamingPaths.First(p => p.StreamingProtocol == StreamingPolicyStreamingProtocol.Dash).Paths[0];
 
+            // Get streaming endpoint
+            var streamingEndpoint = (await mediaService.GetStreamingEndpointAsync(StreamingEndpointName)).Value;
+
             Console.WriteLine();
-            Console.WriteLine($"HLS URL: {hlsPath}");
-            Console.WriteLine($"DASH URL: {dashPath}");
+            Console.WriteLine($"HLS URL: https://{streamingEndpoint.Data.HostName}{hlsPath}");
+            Console.WriteLine($"DASH URL: https://{streamingEndpoint.Data.HostName}{dashPath}");
 
             Console.WriteLine();
             Console.WriteLine("Press any key to stop the Live Event");
@@ -129,9 +132,6 @@ namespace rms_live_demo_app
                 Console.WriteLine("No record found in live archive");
                 return;
             }
-
-            // Get VOD streaming endpoint
-            var streamingEndpoint = (await mediaService.GetStreamingEndpoints().GetAsync(StreamingEndpointName)).Value;
 
             Console.WriteLine();
             Console.WriteLine($"Live Archive HLS URL: https://{streamingEndpoint.Data.HostName}{hlsPath}");
