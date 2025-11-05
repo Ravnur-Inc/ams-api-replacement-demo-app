@@ -98,8 +98,8 @@ namespace rms_live_demo_app
             var streamingEndpoint = (await mediaService.GetStreamingEndpointAsync(StreamingEndpointName)).Value;
 
             Console.WriteLine();
-            Console.WriteLine($"HLS URL: https://{streamingEndpoint.Data.HostName}{hlsPath}");
-            Console.WriteLine($"DASH URL: https://{streamingEndpoint.Data.HostName}{dashPath}");
+            Console.WriteLine($"HLS URL: {hlsPath}");
+            Console.WriteLine($"DASH URL: {dashPath}");
 
             Console.WriteLine();
             Console.WriteLine("Press any key to stop the Live Event");
