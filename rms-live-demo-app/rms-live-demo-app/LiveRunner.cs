@@ -52,8 +52,14 @@ namespace rms_live_demo_app
                 Console.WriteLine("Please select 1 or 2");
             }
 
-            //Create Live Event
+            // Create Live Event or get it if it was created previously
             var liveEvent = await GetOrCreateLiveEvent(mediaService, liveIngestType, liveOutputType);
+            
+            if (liveEvent.HasData && liveEvent.Data.ResourceState != LiveEventResourceState.Stopped)
+            {
+                // Probably, the previous launch of the application ended incorrectly and the live event is still running, we need to stop it.
+                await liveEvent.StopAsync(WaitUntil.Completed, new LiveEventActionContent());
+            }
 
             // Create output Asset
             var outputAsset = await CreateAsset(mediaService, $"livearchive-{unique}");
@@ -85,7 +91,7 @@ namespace rms_live_demo_app
             }
             Console.WriteLine($"Live Event '{liveEvent.Data.Name}' is running");
 
-            // Stream vido file to ingest endpoint using ffmpeg
+            // Stream video file to ingest endpoint using ffmpeg
             Console.WriteLine();
             Console.WriteLine($"Starting ffmpeg streaming of local file {inputFile}");
             Process ffmpegProcess = StartFfmpegStreaming(inputFile, liveEvent);
@@ -93,13 +99,13 @@ namespace rms_live_demo_app
             var paths = streamingLocator.GetStreamingPaths();
             string hlsPath = paths.Value.StreamingPaths.First(p => p.StreamingProtocol == StreamingPolicyStreamingProtocol.Hls).Paths[0];
             string dashPath = paths.Value.StreamingPaths.First(p => p.StreamingProtocol == StreamingPolicyStreamingProtocol.Dash).Paths[0];
-
+            
             // Get streaming endpoint
             var streamingEndpoint = (await mediaService.GetStreamingEndpointAsync(StreamingEndpointName)).Value;
 
             Console.WriteLine();
-            Console.WriteLine($"HLS URL: {hlsPath}");
-            Console.WriteLine($"DASH URL: {dashPath}");
+            Console.WriteLine($"HLS URL: https://{streamingEndpoint.Data.HostName}{hlsPath}");
+            Console.WriteLine($"DASH URL: https://{streamingEndpoint.Data.HostName}{dashPath}");
 
             Console.WriteLine();
             Console.WriteLine("Press any key to stop the Live Event");
