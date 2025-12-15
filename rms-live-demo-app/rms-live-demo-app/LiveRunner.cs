@@ -263,13 +263,14 @@ namespace rms_live_demo_app
 
             // Get the Ingest URL and Access Token(Streaming Key) to use in streaming app
             string ingestEndpoint = liveEvent.Data.Input.Endpoints[0].Uri.AbsoluteUri;
-            string accessToken = liveEvent.Data.Input.AccessToken;
             
             string ingestUrl = "";
             string forwardCommand = "";
 
             if (liveEvent.Data.Input.StreamingProtocol == LiveEventInputProtocol.Rtmp)
             {
+                string accessToken = liveEvent.Data.Input.AccessToken;
+
                 ingestUrl = $"{ingestEndpoint}/{accessToken}";
                 forwardCommand = "-f flv -flvflags no_duration_filesize";
             }
@@ -279,8 +280,9 @@ namespace rms_live_demo_app
                 string passphrase = liveEvent.Data.Tags["IngestOptions.SrtPassphrase"];
                 int latency = int.Parse(liveEvent.Data.Tags["IngestOptions.SrtLatency"]);
                 int maxBandwidth = int.Parse(liveEvent.Data.Tags["IngestOptions.SrtMaxBW"]);
+                string srtStreamId = liveEvent.Data.Tags["IngestOptions.SrtStreamId"];
 
-                ingestUrl = $"{ingestEndpoint}?streamid={accessToken}&passphrase={passphrase}&mode=caller&latency={latency}&pbkeylen=16&encrypt=1&maxbw={maxBandwidth}";
+                ingestUrl = $"\"{ingestEndpoint}?streamid={srtStreamId}&passphrase={passphrase}&mode=caller&latency={latency}&pbkeylen=16&encrypt=1&maxbw={maxBandwidth}\"";
                 forwardCommand = "-f mpegts";
             }
 
