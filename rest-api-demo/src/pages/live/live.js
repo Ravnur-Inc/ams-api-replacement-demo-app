@@ -19,6 +19,7 @@ import {
   IngestDisplayUtils,
   FormUtils
 } from './helpers.js';
+import { getStreamingEndpoint } from '../../actions/streamingEndpoints.js';
 
 // Form elements
 const eventNameInput = document.getElementById('eventName');
@@ -167,8 +168,13 @@ function startStatusPolling(eventName, token) {
     try {
       const status = await getLiveEventStatus(eventName, token);
 
+      const isPlayable = status.healthDescriptions
+        && status.healthDescriptions.length > 0
+        && !status.healthDescriptions.includes('Live manifest is not available.')
+        && status.state === 'Running';
+
       // Check if healthDescriptions has value (streaming is healthy)
-      if (status.healthDescriptions && status.healthDescriptions.length > 0) {
+      if (isPlayable) {
         log('Streaming is healthy');
         stopStatusPolling();
         
@@ -200,6 +206,9 @@ async function getStreamingUrls() {
 
   try {
     log('Fetching streaming URLs...');
+    // Get the streaming endpoint
+    const streamingEndpoint = await getStreamingEndpoint(token);
+    const streamingEndpointHostName = streamingEndpoint.properties.hostName;
     const streamingPaths = await listStreamingLocatorPaths(locatorName, token);
     
     if (!streamingPaths?.streamingPaths?.length) {
@@ -211,12 +220,9 @@ async function getStreamingUrls() {
     const hlsPath = streamingPaths.streamingPaths.find(path => path.streamingProtocol === 'Hls');
     
     if (hlsPath && hlsPath.paths && hlsPath.paths.length > 0) {
-      const streamingUrl = hlsPath.paths[0];
-      
-      const dvrPlaybackUrl = streamingUrl;
-      const liveStreamUrl = streamingUrl.replace('_dvr.m3u8', '.m3u8');
-    
-      showUrlsAndLoadPlayer(liveStreamUrl, dvrPlaybackUrl);
+      const streamingUrl = `https://${streamingEndpointHostName}${hlsPath.paths[0]}`;
+  
+      showUrlsAndLoadPlayer(streamingUrl);
     } else {
       log('No HLS streaming path found');
     }
@@ -226,12 +232,10 @@ async function getStreamingUrls() {
 }
 
 // Display streaming URLs in the UI and initialize player
-function showUrlsAndLoadPlayer(liveStreamUrl, dvrPlaybackUrl) {
+function showUrlsAndLoadPlayer(liveStreamUrl) {
   const streamingUrlsBox = document.getElementById('streamingUrlsInfo');
   const liveStreamUrlGroup = document.getElementById('liveStreamUrlGroup');
-  const dvrPlaybackUrlGroup = document.getElementById('dvrPlaybackUrlGroup');
   const liveStreamUrlInput = document.getElementById('liveStreamUrl');
-  const dvrPlaybackUrlInput = document.getElementById('dvrPlaybackUrl');
 
   // Show the streaming URLs box
   streamingUrlsBox.style.display = 'block';
@@ -240,14 +244,6 @@ function showUrlsAndLoadPlayer(liveStreamUrl, dvrPlaybackUrl) {
   if (liveStreamUrl) {
     liveStreamUrlInput.value = liveStreamUrl;
     liveStreamUrlGroup.style.display = 'block';
-  }
-
-  // Show DVR playback URL if available
-  if (dvrPlaybackUrl) {
-    dvrPlaybackUrlInput.value = dvrPlaybackUrl;
-    dvrPlaybackUrlGroup.style.display = 'block';
-  } else {
-    dvrPlaybackUrlGroup.style.display = 'none';
   }
 
   // Initialize player with the live stream URL
