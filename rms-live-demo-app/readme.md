@@ -124,7 +124,7 @@ Check the description for the UI elements [here](https://github.com/Ravnur-Inc/a
 
 12. Live archive
 
-    When you manually stop the stream, live archive links are generated. The demo application automatically uses the RMS storage account created with your RMS instance. No additional configuration is required unless you prefer to use a custom storage account.
+    After stopping the event, you can continue to watch the event recording from the live archive using the same playback links. The demo application automatically uses the RMS storage account created with your RMS instance. No additional configuration is required unless you prefer to use a custom storage account.
     
     But if you prefer to use your own storage account for DVR, you will need to provide the [storage account key](https://github.com/Ravnur-Inc/ams-api-replacement-demo-app/tree/live-demo/rms-live-demo-app#:~:text=instance%20API%20key%3E%22-,Note,-The%20storage%20must) to Ravnur support at support@ravnur.com.
     
@@ -186,8 +186,7 @@ private MediaServicesAccountResource CreateRmsClient()
 | 7  | Streaming locator creation         | Displays the name of the streaming locator generated (e.g., `locator-<unique-id>`).                     |
 | 8  | Live event status           | Confirms when the live event starts and logs the running state (e.g., `Live Event <name> is running`).   |
 | 9  | FFmpeg streaming log        | Indicates that FFmpeg has started streaming and provides the input file path.                           |
-| 10  | Playback URLs               | Displays HLS and DASH playback URLs for real-time viewing.                                              |
+| 10  | Playback URLs               | Displays HLS and DASH playback URLs for real-time and live archive viewing.                            |
 | 11  | Stop live event prompt      | Instructs the user to press any key to stop the live event.                                              |
 | 12 | Live event stopping log     | Logs the stopping process and confirms when the live event is stopped.                                  |
-| 13 | Live archive playback URLs           | After stopping, displays HLS and DASH URLs for archived (DVR) playback.                                 |
-| 14 | Exit prompt           | Instructs the user to press any key to quit the application.                                    |
+| 13 | Exit prompt           | Instructs the user to press any key to quit the application.                                    |
