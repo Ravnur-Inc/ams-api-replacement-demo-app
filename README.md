@@ -55,6 +55,8 @@ Specifically, the RMS API will enable you to:
 9.	Retrieve streaming and download URLs, and the AES-128 token if used in the transform
 10.	Monitor and act on all Event Grid job-related event types supported by Azure Media Services
 11.	Use the filter or order parameter to find the objects you're interested in
+12.	Stream live events
+13.	Store and playback their recordings as VOD
 
 On the respective pages for the SDK version of the demo application, you can see a screenshot of the API responses.
 
