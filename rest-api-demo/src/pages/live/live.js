@@ -4,7 +4,9 @@ import {
   getLiveEventStatus,
   startLiveEvent,
   createLiveOutput,
+  deleteLiveOutput,
   getLiveEvent,
+  listLiveEvents,
   LiveEventIngestProtocol,
   LiveEventRtspMode,
   LiveEventEncodingType
@@ -29,9 +31,14 @@ const ingestProtocolSelect = document.getElementById('ingestProtocol');
 const rtspPullUrlInput = document.getElementById('rtspPullUrl');
 const rtspModeSelect = document.getElementById('rtspMode');
 const lowLatencyCheckbox = document.getElementById('enableLowLatency');
+const liveSourceSelect = document.getElementById('liveSource');
+const liveCCCheckbox = document.getElementById('enableLiveCC');
+const liveCCLanguageSelect = document.getElementById('liveCCLanguage');
+const liveCCFieldsContainer = document.getElementById('liveCCFields');
 const createEventBtn = document.getElementById('createEventBtn')
 const stopEventBtn = document.getElementById('stopEventBtn');
 const rtspFieldsContainer = document.getElementById('rtspFields');
+const newEventFieldsContainer = document.getElementById('newEventFields');
 
 // Global variables
 let statusPollingInterval = null;
@@ -39,10 +46,12 @@ let eventName = null;
 let token = null;
 let locatorName = null;
 
-// Create live event and automatically start it
+// Create live event and automatically start it (or use existing one)
 async function onCreateEvent() {
   createEventBtn.disabled = true;
   createEventBtn.textContent = 'Creating...';
+
+  const useExisting = !!liveSourceSelect.value;
 
   try {
     // Get authentication token
@@ -52,26 +61,33 @@ async function onCreateEvent() {
       throw new Error('Failed to get authentication token');
     }
 
-    // Prepare configuration
-    const config = {
-      eventDescription: eventDescriptionInput.value.trim(),
-      encodingType: encodingTypeSelect.value,
-      ingestProtocol: ingestProtocolSelect.value,
-      rtspPullUrl: rtspPullUrlInput.value.trim(),
-      rtspMode: rtspModeSelect.value,
-      enableLowLatency: lowLatencyCheckbox.checked
-    };
+    if (useExisting) {
+      // Use existing live event
+      eventName = liveSourceSelect.value;
+      log(`Using existing live event: ${eventName}`);
+    } else {
+      // Prepare configuration for new event
+      const config = {
+        eventDescription: eventDescriptionInput.value.trim(),
+        encodingType: encodingTypeSelect.value,
+        ingestProtocol: ingestProtocolSelect.value,
+        rtspPullUrl: rtspPullUrlInput.value.trim(),
+        rtspMode: rtspModeSelect.value,
+        enableLowLatency: lowLatencyCheckbox.checked,
+        enableLiveCC: liveCCCheckbox.checked,
+        liveCCLanguage: liveCCLanguageSelect.value,
+      };
 
-    // #1 Create the live event
-    eventName = eventNameInput.value.trim();
-    log(`Creating live event: ${eventName}`);
-    const liveEvent = await createLiveEvent(eventName, config, token);
-
-    log(`Live event created successfully: ${eventName}`);
+      // #1 Create the live event
+      eventName = eventNameInput.value.trim();
+      log(`Creating live event: ${eventName}`);
+      await createLiveEvent(eventName, config, token);
+      log(`Live event created successfully: ${eventName}`);
+    }
 
     // #2 Prepare required resources
     // #2.1 Create asset
-    const assetName = `live-archive-${eventName}}`;
+    const assetName = `live-archive-${eventName}`;
     log(`Creating asset: ${assetName}`);
     const asset = await createAsset(assetName, token);
 
@@ -81,6 +97,7 @@ async function onCreateEvent() {
 
     // #2.2 Create live output
     const liveOutputName = `live-output-${eventName}`;
+    await deleteLiveOutput(eventName, liveOutputName, token);
     log(`Creating live output: ${liveOutputName}`);
     await createLiveOutput(eventName, asset.name, liveOutputName, token);
 
@@ -103,7 +120,7 @@ async function onCreateEvent() {
     // #5 Display encoder settings
     displayIngestInformation(eventDetails);
 
-    // #5 Start status polling and wait for streaming to start
+    // #6 Start status polling and wait for streaming to start
     log('Starting status polling...');
     log('Please start streaming now using contribution feed encoder settings above.');
     startStatusPolling(eventName, token);
@@ -134,6 +151,7 @@ function initializeForm() {
 
   // Hide RTSP fields initially
   toggleRtspFields();
+  toggleLiveSourceFields();
 }
 
 // Toggle RTSP-specific fields based on ingest protocol
@@ -147,6 +165,35 @@ function toggleRtspFields() {
     encodingTypeSelect.value,
     { encodingTypeSelect, lowLatencyCheckbox }
   );
+
+  updateLiveCCAvailability();
+}
+
+// Toggle Live CC fields — only available for RTMP without low latency
+function updateLiveCCAvailability() {
+  const isRTMP = ingestProtocolSelect.value === LiveEventIngestProtocol.RTMP;
+  const isLowLatency = lowLatencyCheckbox.checked;
+  const canEnableCC = isRTMP && !isLowLatency;
+
+  if (!canEnableCC) {
+    liveCCCheckbox.checked = false;
+    liveCCFieldsContainer.style.display = 'none';
+  }
+  liveCCCheckbox.disabled = !canEnableCC;
+}
+
+// Toggle Live CC language fields
+function toggleLiveCCFields() {
+  liveCCFieldsContainer.style.display = liveCCCheckbox.checked ? 'block' : 'none';
+}
+
+// Toggle new event fields based on live source selection
+function toggleLiveSourceFields() {
+  const useExisting = !!liveSourceSelect.value;
+  newEventFieldsContainer.style.display = useExisting ? 'none' : 'block';
+  createEventBtn.textContent = useExisting
+    ? 'Use existing live event and start streaming'
+    : 'Create live event and start streaming server';
 }
 
 // Update encoding type options and low latency availability
@@ -156,6 +203,8 @@ function updateLowLatencyAvailability() {
     encodingTypeSelect.value,
     { encodingTypeSelect, lowLatencyCheckbox }
   );
+
+  updateLiveCCAvailability();
 }
 
 // Start status polling
@@ -258,6 +307,26 @@ function displayIngestInformation(eventDetails) {
   IngestDisplayUtils.displayIngestInformation(eventDetails);
 }
 
+// Populate live sources dropdown from existing live events
+async function populateLiveSources() {
+  try {
+    const authToken = await getToken();
+    if (!authToken) return;
+
+    const events = await listLiveEvents(authToken);
+    if (!events?.value?.length) return;
+
+    for (const event of events.value) {
+      const option = document.createElement('option');
+      option.value = event.name;
+      option.textContent = event.name;
+      liveSourceSelect.appendChild(option);
+    }
+  } catch (error) {
+    log(`Could not load live sources: ${error.message}`);
+  }
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
   initializeForm();
@@ -265,6 +334,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Form change listeners
   ingestProtocolSelect.addEventListener('change', toggleRtspFields);
   encodingTypeSelect.addEventListener('change', updateLowLatencyAvailability);
+  liveCCCheckbox.addEventListener('change', toggleLiveCCFields);
+  lowLatencyCheckbox.addEventListener('change', updateLiveCCAvailability);
+  liveSourceSelect.addEventListener('change', toggleLiveSourceFields);
+
+  // Populate live sources
+  populateLiveSources();
 
   // Button listeners
   createEventBtn.addEventListener('click', onCreateEvent);
