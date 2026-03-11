@@ -17,65 +17,119 @@
       
       <!-- Create Live Event Form -->
       <div class="box">
-        <h3>Create Live Event</h3>
+        <h3>Live Event</h3>
         <form id="liveEventForm" class="form">
-          <!-- Basic Information -->
+          <!-- Use Existing Live Event -->
           <div class="form-group">
-            <label for="eventName">Event Name *</label>
-            <input type="text" id="eventName" placeholder="Enter a name for the event" required>
-          </div>
-
-          <div class="form-group">
-            <label for="eventDescription">Event Description</label>
-            <textarea id="eventDescription" placeholder="Enter a description for the event" maxlength="1000"></textarea>
-          </div>
-
-          <!-- Streaming Configuration -->
-          <div class="form-group">
-            <label for="encodingType">Encoding Type *</label>
-            <select id="encodingType" required>
-              <option value="PassthroughStandard">Standard Passthrough</option>
-              <option value="Standard">Standard 720p</option>
-              <option value="Premium1080P">Premium 1080p</option>
+            <label for="liveSource">Existing Live Event</label>
+            <select id="liveSource">
+              <option value="">(Create new)</option>
             </select>
           </div>
 
-          <div class="form-group">
-            <label for="ingestProtocol">Ingest Protocol *</label>
-            <select id="ingestProtocol" required>
-              <option value="RTMP">RTMP</option>
-              <option value="SRT">SRT</option>
-              <option value="RTSPPull">RTSP Pull</option>
-              <option value="RTSPPush">RTSP Push</option>
-            </select>
-          </div>
-
-          <!-- RTSP-specific fields -->
-          <div id="rtspFields" class="rtsp-fields">
+          <!-- New Event Configuration (hidden when existing event is selected) -->
+          <div id="newEventFields">
+            <!-- Basic Information -->
             <div class="form-group">
-              <label for="rtspPullUrl">RTSP Pull URL *</label>
-              <input type="url" id="rtspPullUrl" placeholder="rtsp://example.com/stream" maxlength="200">
+              <label for="eventName">Event Name *</label>
+              <input type="text" id="eventName" placeholder="Enter a name for the event" required>
             </div>
 
             <div class="form-group">
-              <label for="rtspMode">RTSP Mode *</label>
-              <select id="rtspMode">
-                <option value="tcp_udp">TCP Preferred</option>
-                <option value="rtsp_http">RTSP over HTTP</option>
-                <option value="tcp">TCP Only</option>
-                <option value="udp">UDP Only</option>
+              <label for="eventDescription">Event Description</label>
+              <textarea id="eventDescription" placeholder="Enter a description for the event" maxlength="1000"></textarea>
+            </div>
+
+            <!-- Streaming Configuration -->
+            <div class="form-group">
+              <label for="encodingType">Encoding Type *</label>
+              <select id="encodingType" required>
+                <option value="PassthroughStandard">Standard Passthrough</option>
+                <option value="Standard">Standard 720p</option>
+                <option value="Premium1080P">Premium 1080p</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="ingestProtocol">Ingest Protocol *</label>
+              <select id="ingestProtocol" required>
+                <option value="RTMP">RTMP</option>
+                <option value="SRT">SRT</option>
+                <option value="RTSPPull">RTSP Pull</option>
+                <option value="RTSPPush">RTSP Push</option>
+              </select>
+            </div>
+
+            <!-- RTSP-specific fields -->
+            <div id="rtspFields" class="rtsp-fields">
+              <div class="form-group">
+                <label for="rtspPullUrl">RTSP Pull URL *</label>
+                <input type="url" id="rtspPullUrl" placeholder="rtsp://example.com/stream" maxlength="200">
+              </div>
+
+              <div class="form-group">
+                <label for="rtspMode">RTSP Mode *</label>
+                <select id="rtspMode">
+                  <option value="tcp_udp">TCP Preferred</option>
+                  <option value="rtsp_http">RTSP over HTTP</option>
+                  <option value="tcp">TCP Only</option>
+                  <option value="udp">UDP Only</option>
+                </select>
+              </div>
+            </div>
+
+          <!-- Live Transcription (Closed Captions) -->
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="enableLiveCC">
+              <span class="checkmark"></span>
+              Enable Live Closed Captions
+            </label>
+          </div>
+
+          <div id="liveCCFields" class="rtsp-fields" style="display: none;">
+            <div class="form-group">
+              <label for="liveCCLanguage">Transcription Language *</label>
+              <select id="liveCCLanguage">
+                <option value="en-US">English (US)</option>
+                <option value="en-GB">English (UK)</option>
+                <option value="es-ES">Spanish (Spain)</option>
+                <option value="es-MX">Spanish (Mexico)</option>
+                <option value="fr-FR">French</option>
+                <option value="de-DE">German</option>
+                <option value="it-IT">Italian</option>
+                <option value="pt-BR">Portuguese (Brazil)</option>
+                <option value="pt-PT">Portuguese (Portugal)</option>
+                <option value="ja-JP">Japanese</option>
+                <option value="ko-KR">Korean</option>
+                <option value="zh-Hans">Chinese (Simplified)</option>
+                <option value="zh-Hant">Chinese (Traditional)</option>
+                <option value="ar-SA">Arabic</option>
+                <option value="hi-IN">Hindi</option>
+                <option value="ru-RU">Russian</option>
+                <option value="uk-UA">Ukrainian</option>
+                <option value="nl-NL">Dutch</option>
+                <option value="sv-SE">Swedish</option>
+                <option value="da-DK">Danish</option>
+                <option value="nb-NO">Norwegian</option>
+                <option value="fi-FI">Finnish</option>
+                <option value="pl-PL">Polish</option>
+                <option value="tr-TR">Turkish</option>
+                <option value="he-IL">Hebrew</option>
+                <option value="th-TH">Thai</option>
               </select>
             </div>
           </div>
 
-          <!-- Low Latency Option -->
-          <div class="form-group checkbox-group">
-            <label class="checkbox-label">
-              <input type="checkbox" id="enableLowLatency">
-              <span class="checkmark"></span>
-              Enable Low Latency
-            </label>
-          </div>
+            <!-- Low Latency Option -->
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="enableLowLatency">
+                <span class="checkmark"></span>
+                Enable Low Latency
+              </label>
+            </div>
+          </div><!-- end #newEventFields -->
 
           <button type="button" id="createEventBtn" class="btn btn-primary">Create live event and start streaming server</button>
           <button type="button" id="stopEventBtn" class="btn btn-danger" style="display: none;">Stop Live Event</button>
