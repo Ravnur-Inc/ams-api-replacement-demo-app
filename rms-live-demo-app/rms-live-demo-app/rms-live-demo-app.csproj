@@ -6,6 +6,7 @@
     <RootNamespace>rms_live_demo_app</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>97b5a080-64e0-47c4-8410-b5052f2cc2de</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
