@@ -21,6 +21,8 @@ namespace rms_live_demo_app
 
         public async Task RunLive(string inputFile)
         {
+            EnsureFfmpegIsAvailable();
+
             // Creating a unique suffix for this test run
             string unique = Guid.NewGuid().ToString()[..13];
 
@@ -57,6 +59,7 @@ namespace rms_live_demo_app
             
             if (liveEvent.HasData && liveEvent.Data.ResourceState != LiveEventResourceState.Stopped)
             {
+                Console.WriteLine($"Live Event '{liveEvent.Data.Name}' is already running, stopping it first...");
                 // Probably, the previous launch of the application ended incorrectly and the live event is still running, we need to stop it.
                 await liveEvent.StopAsync(WaitUntil.Completed, new LiveEventActionContent());
             }
@@ -286,9 +289,8 @@ namespace rms_live_demo_app
                 forwardCommand = "-f mpegts";
             }
 
-            string ffmpegPath = Path.Combine(Directory.GetCurrentDirectory(), "ffmpeg/ffmpeg.exe");
             string inputFilePath = Path.Combine(Directory.GetCurrentDirectory(), inputFile);
-            
+
             string ffmpegCommand = $"-re -stream_loop -1 -i {inputFilePath} -c:v libx264 -s 1280x720  -pix_fmt yuv420p -r 30 -profile high -b:v 5000k -maxrate:v 5000k -bufsize 10000k " +
                 $"-preset fast -tune zerolatency -g 60 -keyint_min 60 -c:a aac -b:a 128k -ar 44100 -ac 2 {forwardCommand} {ingestUrl}";
 
@@ -296,12 +298,37 @@ namespace rms_live_demo_app
             p.StartInfo.CreateNoWindow = false;
             p.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
             p.StartInfo.UseShellExecute = true;
-            p.StartInfo.FileName = ffmpegPath;
+            p.StartInfo.FileName = "ffmpeg";
             p.StartInfo.Arguments = ffmpegCommand;
 
             p.Start();
 
             return p;
+        }
+
+        // Fails fast with a clear message if ffmpeg is not installed / not on PATH,
+        // instead of letting Process.Start blow up later mid-workflow.
+        private static void EnsureFfmpegIsAvailable()
+        {
+            try
+            {
+                using var process = Process.Start(new ProcessStartInfo
+                {
+                    FileName = "ffmpeg",
+                    Arguments = "-version",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                });
+                process?.WaitForExit();
+            }
+            catch (Win32Exception)
+            {
+                throw new InvalidOperationException(
+                    "ffmpeg was not found on your PATH. Please install ffmpeg (https://ffmpeg.org/download.html) " +
+                    "and make sure the 'ffmpeg' command is available in your terminal, then run this app again.");
+            }
         }
     }
 }

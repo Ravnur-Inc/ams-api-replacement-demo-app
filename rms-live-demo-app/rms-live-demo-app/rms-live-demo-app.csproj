@@ -25,9 +25,6 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Ffmpeg\ffmpeg.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="InputFiles\Castilian.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -38,7 +35,6 @@
 
   <ItemGroup>
     <Folder Include="InputFiles\" />
-    <Folder Include="Ffmpeg\" />
   </ItemGroup>
 
 </Project>

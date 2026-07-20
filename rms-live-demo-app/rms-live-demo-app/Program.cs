@@ -23,8 +23,8 @@ try
 
     Console.WriteLine($"Starting demo Live session with {inputFile} as stream source");
 
-    var vodProvider = new LiveRunner(rmsOptions);
-    await vodProvider.RunLive(inputFile);
+    var liveRunner = new LiveRunner(rmsOptions);
+    await liveRunner.RunLive(inputFile);
 }
 catch (Exception ex)
 {
