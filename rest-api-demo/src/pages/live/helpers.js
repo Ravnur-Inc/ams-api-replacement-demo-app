@@ -39,6 +39,8 @@ export const SRTUtils = {
     params.set('mode', 'caller');
     
     if (latency) params.set('latency', String(latency));
+
+    if (maxBandwidth) params.set('maxbw', String(maxBandwidth));
     
     return `${baseUrl}?${params.toString()}`;
   },
@@ -52,7 +54,7 @@ export const SRTUtils = {
     const endpoints = eventDetails.properties?.input?.endpoints || [];
     return {
       baseUrl: endpoints[0]?.url || '',
-      streamId: eventDetails.properties?.input?.accessToken || '',
+      streamId: eventDetails.properties?.input?.srtStreamId || '',
       passphrase: eventDetails.properties?.input?.srtPassphrase || '',
       latency: eventDetails.properties?.input?.srtLatency || '',
       maxBandwidth: eventDetails.properties?.input?.srtMaxBW || ''
