@@ -82,7 +82,7 @@ async function onCreateEvent() {
 
     // #2 Prepare required resources
     // #2.1 Create asset
-    const assetName = `live-archive-${eventName}}`;
+    const assetName = `live-archive-${eventName}`;
     log(`Creating asset: ${assetName}`);
     const asset = await createAsset(assetName, token);
 
