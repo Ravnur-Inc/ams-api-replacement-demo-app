@@ -20,6 +20,14 @@ The RMS Live Streaming Demo App will enable you to:
 
 **NOTE**: You must have an active RMS account to run the application.
 
+**NOTE**: This app requires `ffmpeg` to be installed separately and available on your system PATH — it is not bundled with the repo. Install it with:
+
+- macOS: `brew install ffmpeg`
+- Windows: `choco install ffmpeg`, or download a build from [ffmpeg.org](https://ffmpeg.org/download.html) and add it to your PATH
+- Linux: `apt install ffmpeg` (Debian/Ubuntu) or your distro's package manager
+
+Verify with `ffmpeg -version` in a new terminal. If ffmpeg isn't found, the app fails immediately at startup with an error explaining how to install it.
+
 ## Installation instructions
 
 1. Open a command prompt in your working directory
