@@ -160,6 +160,8 @@ function toggleRtspFields() {
     encodingTypeSelect.value,
     { encodingTypeSelect, lowLatencyCheckbox }
   );
+}
+
 // Toggle new event fields based on live source selection
 function toggleLiveSourceFields() {
   const useExisting = !!liveSourceSelect.value;
