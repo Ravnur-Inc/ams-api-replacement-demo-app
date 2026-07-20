@@ -269,6 +269,49 @@ export async function stopLiveEvent(eventName, token) {
 }
 
 /**
+ * Deletes a live output if it exists
+ * @param {string} eventName - The name of the live event
+ * @param {string} liveOutputName - The name of the live output
+ * @param {string} token - Authentication token
+ * @returns {Promise<boolean>} True if deleted, false if not found
+ */
+export async function deleteLiveOutput(eventName, liveOutputName, token) {
+  const apiEndpoint = import.meta.env.VITE_RAVNUR_API_ENDPOINT;
+  const subscriptionId = import.meta.env.VITE_AZURE_SUBSCRIPTION_ID;
+  const resourceGroupName = import.meta.env.VITE_AZURE_RESOURCE_GROUP;
+  const accountName = import.meta.env.VITE_RAVNUR_MEDIA_SERVICES_ACCOUNT_NAME;
+  const apiVersion = '2022-08-01';
+
+  const url = `${apiEndpoint}subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Media/mediaServices/${accountName}/liveEvents/${eventName}/liveOutputs/${liveOutputName}?api-version=${apiVersion}`;
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers
+    });
+
+    if (response.status === 404) {
+      return false;
+    }
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete live output: ${response.status} ${response.statusText}`);
+    }
+
+    log(`Live output deleted: ${liveOutputName}`);
+    return true;
+  } catch (error) {
+    log(`Failed to delete live output: ${error.message}`);
+    throw error;
+  }
+}
+
+/**
  * Creates a live output
  * @param {string} eventName - The name of the live event
  * @param {string} assetName - The asset name to store the recording

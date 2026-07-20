@@ -4,6 +4,7 @@ import {
   getLiveEventStatus,
   startLiveEvent,
   createLiveOutput,
+  deleteLiveOutput,
   getLiveEvent,
   LiveEventIngestProtocol,
   LiveEventRtspMode,
@@ -81,6 +82,7 @@ async function onCreateEvent() {
 
     // #2.2 Create live output
     const liveOutputName = `live-output-${eventName}`;
+    await deleteLiveOutput(eventName, liveOutputName, token);
     log(`Creating live output: ${liveOutputName}`);
     await createLiveOutput(eventName, asset.name, liveOutputName, token);
 
