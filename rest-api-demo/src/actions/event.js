@@ -368,3 +368,39 @@ export async function createLiveOutput(eventName, assetName, liveOutputName, tok
     throw error;
   }
 }
+
+/**
+ * Lists all live events in the account
+ * @param {string} token - Authentication token
+ * @returns {Promise<Object>} The list of live events
+ */
+export async function listLiveEvents(token) {
+  const apiEndpoint = import.meta.env.VITE_RAVNUR_API_ENDPOINT;
+  const subscriptionId = import.meta.env.VITE_AZURE_SUBSCRIPTION_ID;
+  const resourceGroupName = import.meta.env.VITE_AZURE_RESOURCE_GROUP;
+  const accountName = import.meta.env.VITE_RAVNUR_MEDIA_SERVICES_ACCOUNT_NAME;
+  const apiVersion = '2023-01-01';
+
+  const url = `${apiEndpoint}subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Media/mediaServices/${accountName}/liveEvents?api-version=${apiVersion}`;
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to list live events: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    log(`Failed to list live events: ${error.message}`);
+    throw error;
+  }
+}
