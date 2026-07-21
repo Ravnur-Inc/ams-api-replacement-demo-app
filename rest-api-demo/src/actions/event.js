@@ -80,7 +80,14 @@ export async function createLiveEvent(eventName, config, token) {
       encoding: {
         encodingType: config.encodingType,
       },
-      streamOptions: isLowLatency ? [LiveEventStreamOptions.LowLatency] : []
+      streamOptions: isLowLatency ? [LiveEventStreamOptions.LowLatency] : [],
+      ...(config.enableLiveCC && {
+        transcriptions: [
+          {
+            language: config.liveCCLanguage,
+          }
+        ]
+      })
     }
   };
 

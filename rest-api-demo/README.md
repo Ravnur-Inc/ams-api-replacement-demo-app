@@ -17,6 +17,7 @@ This is a comprehensive JavaScript application demonstrating the capabilities of
 - Create live streaming events
 - Support for multiple ingest protocols (RTMP, SRT, RTSP)
 - Multiple encoding options (Passthrough, 720p, 1080p)
+- Live transcription / closed captions (RTMP/SRT ingest only, passthrough, multiple languages)
 - Real-time status monitoring
 - DVR (Digital Video Recording) support
 - Live playback with HLS player
