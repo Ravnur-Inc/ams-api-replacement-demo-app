@@ -3,6 +3,7 @@ using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Media;
 using Azure.ResourceManager.Media.Models;
+
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
@@ -54,8 +55,27 @@ namespace rms_live_demo_app
                 Console.WriteLine("Please select 1 or 2");
             }
 
+            // Live transcription (closed captions) is only supported for Passthrough-encoded events (RTMP or SRT ingest)
+            string? transcriptionLanguage = null;
+            if (liveOutputType == 1)
+            {
+                Console.WriteLine();
+                Console.Write("Enable live transcription (closed captions)? (y/N): ");
+                if (Console.ReadLine()?.Trim().Equals("y", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    Console.Write("Transcription language (e.g. en-US) [en-US]: ");
+                    string? languageInput = Console.ReadLine()?.Trim();
+                    transcriptionLanguage = string.IsNullOrEmpty(languageInput) ? "en-US" : languageInput;
+                }
+            }
+
             // Create Live Event or get it if it was created previously
-            var liveEvent = await GetOrCreateLiveEvent(mediaService, liveIngestType, liveOutputType);
+            var liveEvent = await GetOrCreateLiveEvent(mediaService, liveIngestType, liveOutputType, transcriptionLanguage);
+
+            if (transcriptionLanguage is not null)
+            {
+                Console.WriteLine($"Live transcription enabled: {transcriptionLanguage} (applies only when creating a new live event)");
+            }
             
             if (liveEvent.HasData && liveEvent.Data.ResourceState != LiveEventResourceState.Stopped)
             {
@@ -171,7 +191,8 @@ namespace rms_live_demo_app
         private static async Task<MediaLiveEventResource> GetOrCreateLiveEvent(
             MediaServicesAccountResource mediaService,
             byte liveIngestType,
-            byte liveOutputType)
+            byte liveOutputType,
+            string? transcriptionLanguage)
         {
             string liveEventName = $"liveevent-{(liveIngestType == 1 ? "rtmp" : "srt")}-{(liveOutputType == 1 ? "pstr" : "abr")}";
 
@@ -203,6 +224,14 @@ namespace rms_live_demo_app
 
             liveEventData.Input.IPAllowedIPs.Add(new IPRange { Name = "AllowAll", Address = IPAddress.Parse("0.0.0.0"), SubnetPrefixLength = 0 });
             liveEventData.Preview.IPAllowedIPs.Add(new IPRange { Name = "Allow All", Address = IPAddress.Parse("0.0.0.0"), SubnetPrefixLength = 0 });
+
+            if (transcriptionLanguage is not null)
+            {
+                liveEventData.Transcriptions.Add(new LiveEventTranscription
+                {
+                    Language = transcriptionLanguage,
+                });
+            }
 
             var liveEvent = await mediaService.GetMediaLiveEvents().CreateOrUpdateAsync(
                 waitUntil: WaitUntil.Completed,

@@ -17,6 +17,7 @@ The RMS Live Streaming Demo App will enable you to:
     Passthrough streaming (no encoding)
 
     Adaptive Bitrate (ABR) streaming (720p or 1080p)
+✅ Enable live transcription (closed captions), for Passthrough-encoded events (RTMP or SRT ingest)
 
 **NOTE**: You must have an active RMS account to run the application.
 
@@ -78,6 +79,19 @@ Check the description for the UI elements [here](https://github.com/Ravnur-Inc/a
 
     Press `2` to choose Adaptive Bitrate (720p) – dynamically adjusts quality based on network conditions.
 
+11. Enable live transcription (optional, Passthrough only):
+
+    When Passthrough output is selected, the app asks whether to enable live transcription (closed captions), regardless of whether the ingest is RTMP or SRT:
+
+    ```
+    Enable live transcription (closed captions)? (y/N):
+    Transcription language (e.g. en-US) [en-US]:
+    ```
+
+    Press `y` and enter a language code (e.g. `en-US`, `es-ES`, `fr-FR`) to add a transcription track to the live event, or leave it blank to use the default (`en-US`). Press Enter (or `n`) to skip transcription. This option is not available for Adaptive Bitrate (720p) output, since RMS only supports live transcription on Passthrough-encoded events.
+
+    > Transcription is configured when the live event is **created**. If an event with the same ingest/output configuration already exists from a previous run, it is reused as-is and the transcription setting you choose is ignored — delete the existing live event first if you need to change its transcription configuration.
+
     #### Streaming Workflow Overview
 
     After selecting the options, the application performs the following steps:
@@ -118,9 +132,21 @@ Check the description for the UI elements [here](https://github.com/Ravnur-Inc/a
       
     
     >  The SRT-specific parameters (`Passphrase`, `Latency`, `MaxBandwidth`) are stored in the RMS database and cannot be modified. If you need to update these parameters, please contact Ravnur support at support@ravnur.com.
-    
 
-11. Validation
+    - __Live transcription (closed captions)__
+
+    When Passthrough output is selected and transcription is enabled, the app adds a transcription entry to the live event before creating it:
+
+    ```csharp
+    liveEventData.Transcriptions.Add(new LiveEventTranscription
+    {
+        Language = transcriptionLanguage, // e.g. "en-US"
+    });
+    ```
+
+    RMS generates a WebVTT caption track for the selected language once the live event starts receiving a stream.
+
+12. Validation
     
     Test the HLS playback links using one of the following tools:
     
@@ -130,7 +156,7 @@ Check the description for the UI elements [here](https://github.com/Ravnur-Inc/a
    
     Test the DASH playback links using [Shaka Demo Player](https://v1-6-5-dot-shaka-player-demo.appspot.com/).
 
-12. Live archive
+13. Live archive
 
     After stopping the event, you can continue to watch the event recording from the live archive using the same playback links. The demo application automatically uses the RMS storage account created with your RMS instance. No additional configuration is required unless you prefer to use a custom storage account.
     
@@ -188,13 +214,14 @@ private MediaServicesAccountResource CreateRmsClient()
 | 1  | Input file                  | Displays the path of the video file to be streamed (e.g., `InputFiles/Castilian.mp4`).                   |
 | 2  | Live ingest type               | Prompts the user to select between **RTMP** or **SRT** for the live event.    |
 | 3  | Live output type            | Prompts the user to select between **Passthrough** or **Adaptive bitrate (720p)** for the live event.    |
-| 4  | Asset creation          | Displays the name of the created live archive asset (e.g., `livearchive-<unique-id>`).                  |
-| 5  | Storage account         | Displays the name of the Storage account for a created live archive asset (e.g., `storagelocalnew`).                  |
-| 6  | Live output creation     | Logs the creation of the live output (e.g., `liveoutput-<unique-id>`).                                   |
-| 7  | Streaming locator creation         | Displays the name of the streaming locator generated (e.g., `locator-<unique-id>`).                     |
-| 8  | Live event status           | Confirms when the live event starts and logs the running state (e.g., `Live Event <name> is running`).   |
-| 9  | FFmpeg streaming log        | Indicates that FFmpeg has started streaming and provides the input file path.                           |
-| 10  | Playback URLs               | Displays HLS and DASH playback URLs for real-time and live archive viewing.                            |
-| 11  | Stop live event prompt      | Instructs the user to press any key to stop the live event.                                              |
-| 12 | Live event stopping log     | Logs the stopping process and confirms when the live event is stopped.                                  |
-| 13 | Exit prompt           | Instructs the user to press any key to quit the application.                                    |
+| 4  | Live transcription          | For Passthrough output (RTMP or SRT ingest), prompts the user to optionally enable live transcription (closed captions) and choose a language (e.g., `en-US`).    |
+| 5  | Asset creation          | Displays the name of the created live archive asset (e.g., `livearchive-<unique-id>`).                  |
+| 6  | Storage account         | Displays the name of the Storage account for a created live archive asset (e.g., `storagelocalnew`).                  |
+| 7  | Live output creation     | Logs the creation of the live output (e.g., `liveoutput-<unique-id>`).                                   |
+| 8  | Streaming locator creation         | Displays the name of the streaming locator generated (e.g., `locator-<unique-id>`).                     |
+| 9  | Live event status           | Confirms when the live event starts and logs the running state (e.g., `Live Event <name> is running`).   |
+| 10  | FFmpeg streaming log        | Indicates that FFmpeg has started streaming and provides the input file path.                           |
+| 11  | Playback URLs               | Displays HLS and DASH playback URLs for real-time and live archive viewing.                            |
+| 12  | Stop live event prompt      | Instructs the user to press any key to stop the live event.                                              |
+| 13 | Live event stopping log     | Logs the stopping process and confirms when the live event is stopped.                                  |
+| 14 | Exit prompt           | Instructs the user to press any key to quit the application.                                    |
