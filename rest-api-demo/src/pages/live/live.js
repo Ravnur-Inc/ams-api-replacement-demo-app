@@ -147,10 +147,19 @@ async function onCreateEvent() {
 async function onStopEvent() {
   stopEventBtn.disabled = true;
   stopEventBtn.textContent = 'Stopping...';
-  await stopLiveEvent(eventName, token);
-  stopEventBtn.textContent = 'Event Stopped';
-  if (playerLatencyWarning) playerLatencyWarning.style.display = 'none';
-  stopStatusPolling();
+  try {
+    // Stop is a long-running operation, so this waits for the event to actually reach a stopped
+    // state rather than for the request to be accepted.
+    await stopLiveEvent(eventName, token);
+    stopEventBtn.textContent = 'Event Stopped';
+    if (playerLatencyWarning) playerLatencyWarning.style.display = 'none';
+    stopStatusPolling();
+  } catch (error) {
+    // Leave the button usable so a failed stop can be retried instead of stranding the UI.
+    log(`Error: ${error.message}`);
+    stopEventBtn.textContent = 'Stop Event';
+    stopEventBtn.disabled = false;
+  }
 }
 
 // Initialize the form
