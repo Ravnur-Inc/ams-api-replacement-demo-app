@@ -32,11 +32,10 @@ This page demonstrates how to create and manage live streaming events using the 
 
 ## Live Transcription (Closed Captions)
 
-The **Enable Live Closed Captions** checkbox adds a real-time transcription track to a newly created live event.
+The **Enable Live Closed Captions** checkbox adds a real-time transcription track to the live event.
 
 - **RTMP or SRT ingest, Passthrough encoding only, without low latency** — the checkbox is disabled automatically for RTSP ingest protocols, for Adaptive Bitrate (720p/1080p) encoding, and for events with low latency enabled, since RMS only supports live transcription on Passthrough-encoded RTMP or SRT events.
 - **Language selection** — pick the spoken language of the incoming stream (e.g. `en-US`, `es-ES`, `fr-FR`) from the dropdown that appears once the checkbox is checked.
-- **Only applies to new events** — transcription is set when the live event is created. Selecting an existing live event from the "Existing Live Event" dropdown reuses that event's current configuration; the closed captions checkbox has no effect in that case.
 
 Under the hood, `createLiveEvent` ([src/actions/event.js](../../actions/event.js)) adds a `transcriptions` entry to the live event's `properties` when `enableLiveCC` is checked:
 

@@ -90,8 +90,6 @@ Check the description for the UI elements [here](https://github.com/Ravnur-Inc/a
 
     Press `y` and enter a language code (e.g. `en-US`, `es-ES`, `fr-FR`) to add a transcription track to the live event, or leave it blank to use the default (`en-US`). Press Enter (or `n`) to skip transcription. This option is not available for Adaptive Bitrate (720p) output, since RMS only supports live transcription on Passthrough-encoded events.
 
-    > Transcription is configured when the live event is **created**. If an event with the same ingest/output configuration already exists from a previous run, it is reused as-is and the transcription setting you choose is ignored — delete the existing live event first if you need to change its transcription configuration.
-
     #### Streaming Workflow Overview
 
     After selecting the options, the application performs the following steps:

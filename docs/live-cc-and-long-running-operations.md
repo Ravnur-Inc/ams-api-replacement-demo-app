@@ -14,9 +14,8 @@ This document describes the changes made to the demo applications to support two
 
 ## 1. Live closed captions
 
-RMS generates a WebVTT caption track for a live event when the event is **created** with a `transcriptions` entry. Two constraints shape the implementation in both apps:
+RMS generates a WebVTT caption track for a live event configured with a `transcriptions` entry. One constraint shapes the implementation in both apps:
 
-- Transcription is configured at creation time. An existing live event cannot be switched to transcription — it has to be recreated.
 - RMS only supports live transcription on **Passthrough-encoded** events (RTMP or SRT ingest), and not together with low latency.
 
 ### `rest-api-demo`
@@ -66,8 +65,6 @@ if (transcriptionLanguage is not null)
     });
 }
 ```
-
-Because `GetOrCreateLiveEvent` reuses an event that already exists under the same generated name, the app prints a reminder that the setting only applies when a **new** event is created.
 
 ---
 

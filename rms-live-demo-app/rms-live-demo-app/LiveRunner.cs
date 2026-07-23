@@ -74,7 +74,7 @@ namespace rms_live_demo_app
 
             if (transcriptionLanguage is not null)
             {
-                Console.WriteLine($"Live transcription enabled: {transcriptionLanguage} (applies only when creating a new live event)");
+                Console.WriteLine($"Live transcription enabled: {transcriptionLanguage}");
             }
             
             if (liveEvent.HasData && liveEvent.Data.ResourceState != LiveEventResourceState.Stopped)
