@@ -70,11 +70,20 @@ namespace rms_live_demo_app
             }
 
             // Create Live Event or get it if it was created previously
-            var liveEvent = await GetOrCreateLiveEvent(mediaService, liveIngestType, liveOutputType, transcriptionLanguage);
+            var liveEvent = await GetOrCreateLiveEvent(mediaService, liveIngestType, liveOutputType);
 
-            if (transcriptionLanguage is not null)
+            if (liveEvent.Data.Transcriptions.FirstOrDefault()?.Language != transcriptionLanguage)
             {
-                Console.WriteLine($"Live transcription enabled: {transcriptionLanguage}");
+                liveEvent.Data.Transcriptions.Clear();
+                if (transcriptionLanguage is not null)
+                {
+                    liveEvent.Data.Transcriptions.Add(new LiveEventTranscription
+                    {
+                        Language = transcriptionLanguage,
+                    });
+                }
+                await liveEvent.UpdateAsync(WaitUntil.Completed, liveEvent.Data);
+                Console.WriteLine($"Live transcription settings updated: {transcriptionLanguage ?? "disabled"}");
             }
             
             if (liveEvent.HasData && liveEvent.Data.ResourceState != LiveEventResourceState.Stopped)
@@ -191,8 +200,7 @@ namespace rms_live_demo_app
         private static async Task<MediaLiveEventResource> GetOrCreateLiveEvent(
             MediaServicesAccountResource mediaService,
             byte liveIngestType,
-            byte liveOutputType,
-            string? transcriptionLanguage)
+            byte liveOutputType)
         {
             string liveEventName = $"liveevent-{(liveIngestType == 1 ? "rtmp" : "srt")}-{(liveOutputType == 1 ? "pstr" : "abr")}";
 
@@ -225,19 +233,11 @@ namespace rms_live_demo_app
             liveEventData.Input.IPAllowedIPs.Add(new IPRange { Name = "AllowAll", Address = IPAddress.Parse("0.0.0.0"), SubnetPrefixLength = 0 });
             liveEventData.Preview.IPAllowedIPs.Add(new IPRange { Name = "Allow All", Address = IPAddress.Parse("0.0.0.0"), SubnetPrefixLength = 0 });
 
-            if (transcriptionLanguage is not null)
-            {
-                liveEventData.Transcriptions.Add(new LiveEventTranscription
-                {
-                    Language = transcriptionLanguage,
-                });
-            }
-
             var liveEvent = await mediaService.GetMediaLiveEvents().CreateOrUpdateAsync(
                 waitUntil: WaitUntil.Completed,
                 liveEventName: liveEventName,
                 data: liveEventData,
-                autoStart: false);            
+                autoStart: false);
 
             return liveEvent.Value;
         }
