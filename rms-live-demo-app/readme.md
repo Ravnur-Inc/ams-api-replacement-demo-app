@@ -93,7 +93,7 @@ Check the description for the UI elements [here](https://github.com/Ravnur-Inc/a
     #### Streaming Workflow Overview
 
     After selecting the options, the application performs the following steps:
-    1. Starts a new Live Event for the stream (up to **3 minutes** to start a node if the node pool is in a cold state).
+    1. Starts a new Live Event for the stream (up to **5 minutes** to start a node if the node pool is in a cold state).
     2. Retrieves the ingest URL and access token (for RTMP or SRT) from the live event configuration.
     3. Runs FFmpeg as a separate process (a new window appears with the detailed event log) and streams the input file to the RMS ingest URL, looping media until stopped manually. 
     4. Generates playback URLs (HLS and DASH) for the live event.

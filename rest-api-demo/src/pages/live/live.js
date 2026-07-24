@@ -113,7 +113,7 @@ async function onCreateEvent() {
     createEventBtn.textContent = 'Starting...';
 
     // #3 Start the live event
-    // Provisioning blocks for minutes (up to ~3.5 with live CC), so warn up front
+    // Provisioning blocks for minutes (up to ~5 with live CC), so warn up front
     // rather than leaving the page looking hung.
     if (eventStartWarning) eventStartWarning.style.display = 'block';
     try {

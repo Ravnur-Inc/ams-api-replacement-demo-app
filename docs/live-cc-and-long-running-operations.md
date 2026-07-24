@@ -38,7 +38,7 @@ RMS generates a WebVTT caption track for a live event configured with a `transcr
 const canEnableCC = (isRTMP || isSRT) && !isABR && !isLowLatency;
 ```
 
-The page also warns up front that provisioning takes longer with live CC enabled (up to ~3.5 minutes to start, and up to ~72 seconds for the player to appear), so a normal wait does not look like a hang.
+The page also warns up front that provisioning takes longer with live CC enabled (up to ~5 minutes to start, and up to ~72 seconds for the player to appear), so a normal wait does not look like a hang.
 
 ### `rms-live-demo-app`
 
