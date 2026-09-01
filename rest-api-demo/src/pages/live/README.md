@@ -2,12 +2,11 @@
 
 This page demonstrates how to create and manage live streaming events using the RMS REST API.
 
-### 1. **Fill the form and click "Create Live Event"**
-- System creates the live event using your settings
-- Optionally enables **live transcription (closed captions)** — see below
-- If DVR is enabled (depends on encoding type), the system automatically:
+### 1. **Choose a live event, then click the button to start it**
+- **New event**: leave "Existing Live Event" on `(Create new)`, fill in the form, and the system creates the live event using your settings
+- **Existing event**: pick one from the "Existing Live Event" dropdown (populated from your account's live events) — the new-event fields are hidden and skipped, and the system reuses that event instead of creating one. Either way, the system then automatically:
   - Creates an asset for recording
-  - Creates a live output to connect the event to the asset
+  - Creates a live output to connect the event to the asset (clearing out any leftover output from a previous run first)
   - Creates a streaming locator for playback URLs
 
 ### 2. **System automatically starts the event**
