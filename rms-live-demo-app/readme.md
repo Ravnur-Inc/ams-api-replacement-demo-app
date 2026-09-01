@@ -54,7 +54,7 @@ Verify with `ffmpeg -version` in a new terminal. If ffmpeg isn't found, the app 
     >  
     >   The Managed Identity connection is not supported. 
     
-    For Linux/Mac use the "export" command. If it is more convenient for you, you can set the corresponding settings in the appsettings.json file. If you prefer using your IDE, then the launchSettings.json file will be more convenient for you.
+    For Linux/Mac use the "export" command. If it is more convenient for you, you can set the corresponding settings in the appsettings.json file. If you prefer using your IDE, then the launchSettings.json file will be more convenient for you.  You can also use [.NET user secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets), e.g. `dotnet user-secrets set "Ravnur:ApiKey" "<value>"` (run from the `rms-live-demo-app` project folder, one command per key) — this keeps real credentials out of `appsettings.json` and out of source control, so it's the safest option if you plan to commit any local changes.
 
 6. Build and run the application:
      ```console
