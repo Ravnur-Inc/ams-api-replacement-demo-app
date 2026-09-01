@@ -230,16 +230,28 @@ export const FormUtils = {
   updateFormFieldStates: (protocol, encodingType, formElements) => {
     const isRtsp = ProtocolUtils.isRTSP(protocol);
     const isABR = FormUtils.isABREncoding(encodingType);
-    
+
+    // RMS only transcribes RTMP/SRT passthrough streams, so while live CC is on we grey
+    // out every option that would invalidate it instead of letting the user pick it and
+    // silently lose captions.
+    const isLiveCCEnabled = formElements.liveCCCheckbox?.checked === true;
+
     // Update encoding type options
     const standardOption = formElements.encodingTypeSelect?.querySelector('option[value="Standard"]');
     const premiumOption = formElements.encodingTypeSelect?.querySelector('option[value="Premium1080P"]');
-    
-    if (standardOption) standardOption.disabled = isRtsp;
-    if (premiumOption) premiumOption.disabled = isRtsp;
-    
+
+    if (standardOption) standardOption.disabled = isRtsp || isLiveCCEnabled;
+    if (premiumOption) premiumOption.disabled = isRtsp || isLiveCCEnabled;
+
+    // Update ingest protocol options
+    const rtspPullOption = formElements.ingestProtocolSelect?.querySelector('option[value="RTSPPull"]');
+    const rtspPushOption = formElements.ingestProtocolSelect?.querySelector('option[value="RTSPPush"]');
+
+    if (rtspPullOption) rtspPullOption.disabled = isLiveCCEnabled;
+    if (rtspPushOption) rtspPushOption.disabled = isLiveCCEnabled;
+
     // Update low latency availability
-    const shouldDisableLowLatency = isRtsp || isABR;
+    const shouldDisableLowLatency = isRtsp || isABR || isLiveCCEnabled;
     if (formElements.lowLatencyCheckbox) {
       formElements.lowLatencyCheckbox.disabled = shouldDisableLowLatency;
       if (shouldDisableLowLatency) {

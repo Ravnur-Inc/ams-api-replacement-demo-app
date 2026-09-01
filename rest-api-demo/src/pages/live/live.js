@@ -32,10 +32,15 @@ const rtspPullUrlInput = document.getElementById('rtspPullUrl');
 const rtspModeSelect = document.getElementById('rtspMode');
 const lowLatencyCheckbox = document.getElementById('enableLowLatency');
 const liveSourceSelect = document.getElementById('liveSource');
+const liveCCCheckbox = document.getElementById('enableLiveCC');
+const liveCCLanguageSelect = document.getElementById('liveCCLanguage');
+const liveCCFieldsContainer = document.getElementById('liveCCFields');
 const createEventBtn = document.getElementById('createEventBtn')
 const stopEventBtn = document.getElementById('stopEventBtn');
 const rtspFieldsContainer = document.getElementById('rtspFields');
 const newEventFieldsContainer = document.getElementById('newEventFields');
+const playerLatencyWarning = document.getElementById('playerLatencyWarning');
+const eventStartWarning = document.getElementById('eventStartWarning');
 
 // Global variables
 let statusPollingInterval = null;
@@ -71,6 +76,8 @@ async function onCreateEvent() {
         rtspPullUrl: rtspPullUrlInput.value.trim(),
         rtspMode: rtspModeSelect.value,
         enableLowLatency: lowLatencyCheckbox.checked,
+        enableLiveCC: liveCCCheckbox.checked,
+        liveCCLanguage: liveCCLanguageSelect.value,
       };
 
       // #1 Create the live event
@@ -106,7 +113,14 @@ async function onCreateEvent() {
     createEventBtn.textContent = 'Starting...';
 
     // #3 Start the live event
-    await startLiveEvent(eventName, token);
+    // Provisioning blocks for minutes (up to ~5 with live CC), so warn up front
+    // rather than leaving the page looking hung.
+    if (eventStartWarning) eventStartWarning.style.display = 'block';
+    try {
+      await startLiveEvent(eventName, token);
+    } finally {
+      if (eventStartWarning) eventStartWarning.style.display = 'none';
+    }
 
     // #4 Get live event details
     log('Fetching live event details...');
@@ -118,6 +132,9 @@ async function onCreateEvent() {
     // #6 Start status polling and wait for streaming to start
     log('Starting status polling...');
     log('Please start streaming now using contribution feed encoder settings above.');
+    // Warn that the player can take a while to appear (up to ~72s with live CC),
+    // so users don't start troubleshooting a normal wait.
+    if (playerLatencyWarning) playerLatencyWarning.style.display = 'block';
     startStatusPolling(eventName, token);
     
     createEventBtn.style.display = 'none';
@@ -130,9 +147,19 @@ async function onCreateEvent() {
 async function onStopEvent() {
   stopEventBtn.disabled = true;
   stopEventBtn.textContent = 'Stopping...';
-  await stopLiveEvent(eventName, token);
-  stopEventBtn.textContent = 'Event Stopped';
-  stopStatusPolling();
+  try {
+    // Stop is a long-running operation, so this waits for the event to actually reach a stopped
+    // state rather than for the request to be accepted.
+    await stopLiveEvent(eventName, token);
+    stopEventBtn.textContent = 'Event Stopped';
+    if (playerLatencyWarning) playerLatencyWarning.style.display = 'none';
+    stopStatusPolling();
+  } catch (error) {
+    // Leave the button usable so a failed stop can be retried instead of stranding the UI.
+    log(`Error: ${error.message}`);
+    stopEventBtn.textContent = 'Stop Event';
+    stopEventBtn.disabled = false;
+  }
 }
 
 // Initialize the form
@@ -149,17 +176,53 @@ function initializeForm() {
   toggleLiveSourceFields();
 }
 
+// Recompute every dependent control from the current selections. The live CC constraints
+// are mutual — CC limits protocol/encoding/low latency and they limit CC — so all the
+// change listeners funnel through here, otherwise the resulting state would depend on
+// which control the user happened to touch.
+function syncFormState() {
+  // CC availability is resolved first because updateFormFieldStates reads the CC
+  // checkbox: this way a selection that invalidates CC clears it before the option
+  // states are derived from it.
+  updateLiveCCAvailability();
+
+  FormUtils.updateFormFieldStates(
+    ingestProtocolSelect.value,
+    encodingTypeSelect.value,
+    { encodingTypeSelect, ingestProtocolSelect, lowLatencyCheckbox, liveCCCheckbox }
+  );
+}
+
 // Toggle RTSP-specific fields based on ingest protocol
 function toggleRtspFields() {
   const isRtspPull = ProtocolUtils.isRTSPPull(ingestProtocolSelect.value);
   rtspFieldsContainer.style.display = isRtspPull ? 'block' : 'none';
 
-  // Update form field states based on protocol
-  FormUtils.updateFormFieldStates(
-    ingestProtocolSelect.value,
-    encodingTypeSelect.value,
-    { encodingTypeSelect, lowLatencyCheckbox }
-  );
+  syncFormState();
+}
+
+// Live CC is only available for RTMP/SRT passthrough without low latency
+function updateLiveCCAvailability() {
+  const isRTMP = ingestProtocolSelect.value === LiveEventIngestProtocol.RTMP;
+  const isSRT = ingestProtocolSelect.value === LiveEventIngestProtocol.SRT;
+  const isABR = FormUtils.isABREncoding(encodingTypeSelect.value);
+  const isLowLatency = lowLatencyCheckbox.checked;
+  const canEnableCC = (isRTMP || isSRT) && !isABR && !isLowLatency;
+
+  if (!canEnableCC) {
+    liveCCCheckbox.checked = false;
+    liveCCFieldsContainer.style.display = 'none';
+  }
+  liveCCCheckbox.disabled = !canEnableCC;
+}
+
+// Toggle Live CC language fields
+function toggleLiveCCFields() {
+  liveCCFieldsContainer.style.display = liveCCCheckbox.checked ? 'block' : 'none';
+
+  // Checking CC restricts protocol/encoding/low latency; unchecking restores whatever
+  // the current selections allow.
+  syncFormState();
 }
 
 // Toggle new event fields based on live source selection
@@ -169,15 +232,6 @@ function toggleLiveSourceFields() {
   createEventBtn.textContent = useExisting
     ? 'Use existing live event and start streaming'
     : 'Create live event and start streaming server';
-}
-
-// Update encoding type options and low latency availability
-function updateLowLatencyAvailability() {
-  FormUtils.updateFormFieldStates(
-    ingestProtocolSelect.value,
-    encodingTypeSelect.value,
-    { encodingTypeSelect, lowLatencyCheckbox }
-  );
 }
 
 // Start status polling
@@ -270,6 +324,9 @@ function showUrlsAndLoadPlayer(liveStreamUrl) {
 
   // Initialize player with the live stream URL
   if (liveStreamUrl) {
+    // Stream is available — the wait is over, so hide the latency warning.
+    if (playerLatencyWarning) playerLatencyWarning.style.display = 'none';
+
     const player = new Player();
     player.initialize(liveStreamUrl, { isProgressLiveStream: true, useHLSJSPlayer: true });
   }
@@ -306,7 +363,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Form change listeners
   ingestProtocolSelect.addEventListener('change', toggleRtspFields);
-  encodingTypeSelect.addEventListener('change', updateLowLatencyAvailability);
+  encodingTypeSelect.addEventListener('change', syncFormState);
+  liveCCCheckbox.addEventListener('change', toggleLiveCCFields);
+  lowLatencyCheckbox.addEventListener('change', syncFormState);
   liveSourceSelect.addEventListener('change', toggleLiveSourceFields);
 
   // Populate live sources

@@ -178,6 +178,27 @@
   }
 }
 
+/* Latency Warning Banner */
+.warning-banner {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-left: 4px solid #f5a623;
+  border-radius: var(--border-radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  color: #6b4e00;
+}
+
+.warning-banner strong {
+  color: #6b4e00;
+}
+
+.warning-banner p {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 /* Player Styles */
 .player {
   width: 100%;

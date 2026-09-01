@@ -1,4 +1,5 @@
 import { log } from "../utils.js";
+import { sendLongRunningRequest } from "./longRunningOperation.js";
 
 export const LiveEventIngestProtocol = {
   RTMP: 'RTMP',
@@ -80,7 +81,14 @@ export async function createLiveEvent(eventName, config, token) {
       encoding: {
         encodingType: config.encodingType,
       },
-      streamOptions: isLowLatency ? [LiveEventStreamOptions.LowLatency] : []
+      streamOptions: isLowLatency ? [LiveEventStreamOptions.LowLatency] : [],
+      ...(config.enableLiveCC && {
+        transcriptions: [
+          {
+            language: config.liveCCLanguage,
+          }
+        ]
+      })
     }
   };
 
@@ -188,7 +196,12 @@ export async function getLiveEventStatus(eventName, token) {
 }
 
 /**
- * Starts a live event
+ * Starts a live event and waits for the operation to actually complete.
+ *
+ * Start is a long-running operation: the API answers 202 Accepted and provisioning continues
+ * server side, so the request returning is not the same as the event being started. See
+ * longRunningOperation.js for the polling contract.
+ *
  * @param {string} eventName - The name of the live event
  * @param {string} token - Authentication token
  * @returns {Promise<void>}
@@ -210,14 +223,11 @@ export async function startLiveEvent(eventName, token) {
   try {
     log(`Starting live event: ${eventName}`);
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to start live event: ${response.status} ${response.statusText}`);
-    }
+    await sendLongRunningRequest(
+      url,
+      { method: 'POST', headers },
+      { token, description: `Start of live event '${eventName}'` }
+    );
 
     log(`Live event started successfully: ${eventName}`);
   } catch (error) {
@@ -227,7 +237,10 @@ export async function startLiveEvent(eventName, token) {
 }
 
 /**
- * Stops a live event
+ * Stops a live event and waits for the operation to actually complete.
+ *
+ * Like start, stop is a long-running operation — see longRunningOperation.js.
+ *
  * @param {string} eventName - The name of the live event
  * @param {string} token - Authentication token
  * @returns {Promise<void>}
@@ -249,17 +262,15 @@ export async function stopLiveEvent(eventName, token) {
   try {
     log(`Stopping live event: ${eventName}`);
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        removeOutputsOnStop: true
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to stop live event: ${response.status} ${response.statusText}`);
-    }
+    await sendLongRunningRequest(
+      url,
+      {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ removeOutputsOnStop: true })
+      },
+      { token, description: `Stop of live event '${eventName}'` }
+    );
 
     log(`Live event stopped successfully: ${eventName}`);
   } catch (error) {

@@ -3,6 +3,7 @@ using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Media;
 using Azure.ResourceManager.Media.Models;
+
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
@@ -54,8 +55,36 @@ namespace rms_live_demo_app
                 Console.WriteLine("Please select 1 or 2");
             }
 
+            // Live transcription (closed captions) is only supported for Passthrough-encoded events (RTMP or SRT ingest)
+            string? transcriptionLanguage = null;
+            if (liveOutputType == 1)
+            {
+                Console.WriteLine();
+                Console.Write("Enable live transcription (closed captions)? (y/N): ");
+                if (Console.ReadLine()?.Trim().Equals("y", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    Console.Write("Transcription language (e.g. en-US) [en-US]: ");
+                    string? languageInput = Console.ReadLine()?.Trim();
+                    transcriptionLanguage = string.IsNullOrEmpty(languageInput) ? "en-US" : languageInput;
+                }
+            }
+
             // Create Live Event or get it if it was created previously
             var liveEvent = await GetOrCreateLiveEvent(mediaService, liveIngestType, liveOutputType);
+
+            if (liveEvent.Data.Transcriptions.FirstOrDefault()?.Language != transcriptionLanguage)
+            {
+                liveEvent.Data.Transcriptions.Clear();
+                if (transcriptionLanguage is not null)
+                {
+                    liveEvent.Data.Transcriptions.Add(new LiveEventTranscription
+                    {
+                        Language = transcriptionLanguage,
+                    });
+                }
+                await liveEvent.UpdateAsync(WaitUntil.Completed, liveEvent.Data);
+                Console.WriteLine($"Live transcription settings updated: {transcriptionLanguage ?? "disabled"}");
+            }
             
             if (liveEvent.HasData && liveEvent.Data.ResourceState != LiveEventResourceState.Stopped)
             {
@@ -208,7 +237,7 @@ namespace rms_live_demo_app
                 waitUntil: WaitUntil.Completed,
                 liveEventName: liveEventName,
                 data: liveEventData,
-                autoStart: false);            
+                autoStart: false);
 
             return liveEvent.Value;
         }
