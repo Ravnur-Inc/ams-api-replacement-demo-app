@@ -14,7 +14,7 @@ This is a comprehensive JavaScript application demonstrating the capabilities of
 - Built-in HLS video player
 
 ### 📡 **Live Streaming**
-- Create live streaming events
+- Create live streaming events, or reuse an existing one
 - Support for multiple ingest protocols (RTMP, SRT, RTSP)
 - Multiple encoding options (Passthrough, 720p, 1080p)
 - Real-time status monitoring
@@ -84,5 +84,4 @@ The application provides two main sections accessible from the home page:
 ## Documentation Links
 
 - [RMS API Documentation](https://docs.ravnur.com/)
-- [Live Streaming Implementation Details](src/pages/live/README.md)
-
+- [Live Streaming Implementation Details](src/pages/live/README.md) - a step-by-step walkthrough of what happens after you click "Create" or pick an existing event (resource setup, encoder connection, status polling, playback, cleanup). Worth a read before your first live test, so you know what to expect at each stage instead of guessing from the UI.
