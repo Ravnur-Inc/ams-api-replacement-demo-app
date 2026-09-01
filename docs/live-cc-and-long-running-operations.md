@@ -71,6 +71,7 @@ if (liveEvent.Data.Transcriptions.FirstOrDefault()?.Language != transcriptionLan
 }
 ```
 Without this, a reused live event would keep whatever transcription language (or lack of one) it was first created with, ignoring what you answer on later runs.
+
 ---
 
 ## 2. Long-running operations
