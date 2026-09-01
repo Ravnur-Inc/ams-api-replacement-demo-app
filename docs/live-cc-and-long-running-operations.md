@@ -54,18 +54,23 @@ if (liveOutputType == 1)
 }
 ```
 
-The chosen language flows into `GetOrCreateLiveEvent`, which adds it to the live event data before the create call:
+The chosen language flows into `GetOrCreateLiveEvent` names events deterministically from the ingest/output combo, so a live event from a previous run is often reused rather than freshly created — and that event may already carry different transcription settings than what was just requested. So after `GetOrCreateLiveEvent` returns, the app compares the event's current transcription language against `transcriptionLanguage` and, only when they differ, clears any existing entry and updates the event
 
 ```csharp
-if (transcriptionLanguage is not null)
+if (liveEvent.Data.Transcriptions.FirstOrDefault()?.Language != transcriptionLanguage)
 {
-    liveEventData.Transcriptions.Add(new LiveEventTranscription
+    liveEvent.Data.Transcriptions.Clear();
+    if (transcriptionLanguage is not null)
     {
-        Language = transcriptionLanguage,
-    });
+        liveEvent.Data.Transcriptions.Add(new LiveEventTranscription
+        {
+            Language = transcriptionLanguage,
+        });
+    }
+    await liveEvent.UpdateAsync(WaitUntil.Completed, liveEvent.Data);
 }
 ```
-
+Without this, a reused live event would keep whatever transcription language (or lack of one) it was first created with, ignoring what you answer on later runs.
 ---
 
 ## 2. Long-running operations
